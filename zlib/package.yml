@@ -1,0 +1,17 @@
+name: zlib
+version: 1.2.11
+
+
+scheme:
+  shared:
+    options:
+      shared: true
+
+  static:
+    options:
+      shared: false
+
+sandbox:
+  test_package: test_package/bin/test
+
+#1.2

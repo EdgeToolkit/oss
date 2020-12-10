@@ -1,0 +1,21 @@
+name: pthreads4w
+version: 3.0.0
+
+
+scheme:
+    shared:
+      options:
+        shared: true
+    static:
+      options:
+        shared: false
+  
+  
+  
+sandbox:
+    test_package: test_package/bin/test_package
+  
+build-tools:
+    msys2: 20190524
+
+

@@ -1,0 +1,10 @@
+name: libtool
+version: 2.4.6
+
+build-tools:
+    msys2:
+        version: 20190524
+        if: os == Windows
+
+dependencies:
+    automake: 1.16.2

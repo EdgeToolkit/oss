@@ -1,0 +1,73 @@
+.settings:
+  profile:
+  - vs2019{d|-x86|-x86d}
+  - gcc5{d|-x86|-x86d}
+  - gcc8{d|-x86|-x86d}
+
+
+toolset:
+  - profile:
+    - vs2019
+    - gcc5{-x86}
+    - gcc8{-x86}
+    tool: true
+
+  - name: msys2
+    profile: vs2019
+    redist: true
+
+  - name: strawberryperl
+    profile: vs2019
+    redist: true
+
+  - name: 7zip
+    profile: vs2019
+
+  - name: winflexbison
+    profile: vs2019
+
+  - name: pkgconf
+    profile: vs2019
+
+  - m4
+  - autoconf
+  - automake
+  
+  - name: bison
+    profile: [gcc5, gcc8]
+  - name: flex
+    profile: [gcc5, gcc8]
+
+  - libtool
+  - re2c
+  - ninja
+  - meson
+  - nasm
+
+base:
+  - zlib
+  - brotli
+  - bzip2
+  - expat
+  - openssl
+  - pcre
+  - protobuf
+  - name: protoc
+    tool: true
+    profile:
+    - vs2019
+    - gcc5
+    - gcc8
+  - name: pthreads4w
+    profile: 
+    - vs2019{d|-x86|-x86d}
+  - sqlite3
+  - gtest
+  - libcurl
+  - libiconv
+  - libwebsockets
+  - xz_utils
+
+IoT:
+  - poco
+  - mosqitto

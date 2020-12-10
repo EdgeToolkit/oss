@@ -1,0 +1,11 @@
+name: pkgconf
+version: 1.7.3
+
+
+build-tools:
+  meson: 0.55.3
+  automake: 1.16.2 # for test only
+
+sandbox:
+  test_package: test_package/bin/test_package
+  

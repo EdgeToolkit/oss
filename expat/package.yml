@@ -1,0 +1,15 @@
+name: expat
+version: 2.2.9
+
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+sandbox:
+   test_package: test_package/bin/test_package
+#

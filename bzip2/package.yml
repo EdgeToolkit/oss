@@ -1,0 +1,14 @@
+name: bzip2
+version: 1.0.8
+
+scheme:
+  shared:
+    options:
+      shared: true
+
+  static:
+    options:
+      shared: false
+
+sandbox:
+   test_package: test_package/bin/test_package

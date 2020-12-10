@@ -1,0 +1,7 @@
+name: nasm
+version: 2.14
+
+build-tools:
+  strawberryperl: 
+    version: 5.30.0.1
+    if: compiler == 'Visual Studio'

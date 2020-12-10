@@ -1,0 +1,10 @@
+name: automake
+version: 1.16.2
+
+build-tools:
+  msys2:
+    version: 20190524
+    if: os == Windows
+
+dependencies:
+  autoconf:  2.69

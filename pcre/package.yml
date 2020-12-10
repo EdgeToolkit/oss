@@ -1,0 +1,21 @@
+name: pcre
+version: 8.44
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+sandbox:
+   test_package: test_package/bin/test_package
+
+dependencies:
+  zlib: 
+    version: 1.2.11
+    if: options.with_zlib
+  bzip2: 
+    version: 1.0.8
+    if: options.with_bzip2  
