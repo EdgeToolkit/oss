@@ -1,0 +1,77 @@
+stages:
+{%- set pkg_layout = bundle.layout() -%}
+{%- set tool_layout = bundle.layout(True) -%}
+{%- set Ln = pkg_layout|length %}
+{%- set Bn = tool_layout|length %}
+{%- for i in range(0, Ln) %}
+  - L{{i+1}}
+{%- endfor %}
+{%- for i in range(0, Bn) %}
+  - T{{i+1}}
+{%- endfor %}
+
+#=============================================================================#
+#            Packges                                                          #
+#=============================================================================#
+
+
+{%- for i in range(0, Ln) %}
+{%- set layer = pkg_layout[i] %}
+
+    #------------------------------------------#
+    #            L{{ "%-2d" | format(i+1)}}                           #
+    #------------------------------------------#
+{%- for name in layer %}
+{{name}}:
+  stage: L{{i+1}}
+  trigger:
+    include:
+      - local: .gitlab-ci/{{name}}.yml
+    strategy: depend
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+        - {{name}}/**/*
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET == "{{bundle.name}}"'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET == "{{name}}"'  
+{% endfor %}
+{%- endfor %}
+
+
+
+#=============================================================================#
+#            Bootstrap                                                        #
+#=============================================================================#
+{%- for i in range(0, Bn) %}
+{%- set layer = tool_layout[i] %}
+    #------------------------------------------#
+    #            T{{ "%-2d" | format(i+1)}}                           #
+    #------------------------------------------#
+{%- for name in layer %}
+{%- if name in bundle.package %}
+{{name}}@bootstrap:
+  stage: T{{i+1}}
+  trigger:
+    include:
+      - local: .gitlab-ci/bootstrap/{{name}}.yml
+    strategy: depend
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET == "bootstrap"'  
+{%- else %}
+{{name}}:
+  stage: T{{i+1}}
+  trigger:
+    include:
+      - local: .gitlab-ci/{{name}}.yml
+    strategy: depend
+{% endif %}
+
+{%- if name in bundle.tool %}
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET == "{{name}}"'
+{%- if not bundle.tool[name].settings.redist %}  
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET == "bootstrap"'
+{%- endif %}
+{% endif %}
+{%- endfor %}
+{%- endfor %}

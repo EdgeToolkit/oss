@@ -19,3 +19,4 @@ excludes.yml
 /.gitlab-ci/main.yml
 .idea
 /built.yml
+.workbench

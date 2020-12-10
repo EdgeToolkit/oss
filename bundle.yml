@@ -3,6 +3,12 @@
   - vs2019{d|-x86|-x86d}
   - gcc5{d|-x86|-x86d}
   - gcc8{d|-x86|-x86d}
+  - gcc5{-aarch64|-aarch64d}
+  - gcc8{-aarch64|-aarch64d}
+  - gcc5{-arm7|-arm7d}
+  - gcc8{-arm7|-arm7d}
+  - hisiv300{d}
+  - hisiv400{d}
 
 
 toolset:
@@ -56,8 +62,8 @@ base:
     tool: true
     profile:
     - vs2019
-    - gcc5
-    - gcc8
+    - gcc5{-x86}
+    - gcc8{-x86}
   - name: pthreads4w
     profile: 
     - vs2019{d|-x86|-x86d}
