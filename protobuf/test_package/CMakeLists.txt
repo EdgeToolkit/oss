@@ -21,6 +21,7 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME} protobuf::libprotoc)
-
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS TARGET ${PROJECT_NAME})
-protobuf_generate(LANGUAGE cpp TARGET ${PROJECT_NAME} PROTOS addressbook.proto)
+message("-------------------------------------------------------")
+message("protobuf ${protobuf_INCLUDE_DIRS} <${protobuf_DIR}> ${CONAN_INCLUDE_DIRS_PROTOBUF}")
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS TARGET ${PROJECT_NAME} )
+protobuf_generate(LANGUAGE cpp TARGET ${PROJECT_NAME} PROTOS addressbook.proto )

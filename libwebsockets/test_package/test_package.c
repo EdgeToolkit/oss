@@ -87,7 +87,6 @@ int main( int argc, char *argv[] )
 	lws_service( context, /* timeout_ms = */ 250 );
 
 	lws_context_destroy( context );
-    printf("libwebsockets test_package done!");
 
 	return 0;
 }
