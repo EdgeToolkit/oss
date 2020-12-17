@@ -28,7 +28,7 @@ class IperfConan(ConanFile):
     def _configure_autotools(self):
         if self._autotools:
             return self._autotools
-        conf_args = ['--enable-shared=no']
+        conf_args = ['--enable-shared=no'] if self.options.shared else ['--enable-static=no']
         self._autotools = AutoToolsBuildEnvironment(self)
         self._autotools.configure(args=conf_args, configure_dir=self._source_subfolder)
         return self._autotools

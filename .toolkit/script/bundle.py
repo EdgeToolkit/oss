@@ -429,7 +429,7 @@ class _Builder(object):
             yaml.safe_dump(self._build_record, f)
         return n-i
 
-    def _run(self):
+    def _run(self, scheme=None):
         layouts = self.bundle.layout(self._args.tool)
         packages = []
         for layout in layouts:
@@ -445,6 +445,10 @@ class _Builder(object):
                 if self._args.profile not in pkg.settings.profile:
                     self.out.info(f"Skip {pkg.name}, because of unsupported profile.")
                     continue
+                if scheme and scheme not in pkg.scheme:
+                    self.out.info(f"Skip {pkg.name}, because of unsupported scheme <{scheme}>.")
+                    continue
+
 
                 packages.append(name)
         self.out.highlight("-- {} packages to build".format(len(packages)))
@@ -453,8 +457,8 @@ class _Builder(object):
 
 
     @staticmethod
-    def run(args, out):
-        return _Builder(args, out)._run()
+    def run(args, out, scheme=None):
+        return _Builder(args, out)._run(scheme=args.scheme)
 
 _WORKBENCH="""
 workbench:
