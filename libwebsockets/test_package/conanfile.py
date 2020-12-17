@@ -5,18 +5,14 @@ ConanFile = MetaClass(ConanFile, test_package=True)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = "cmake", "cmake_find_package_multi"
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["LIBWEBSOCKETS_SHARED"] = self.options["libwebsockets"].shared
         cmake.configure()
         cmake.build()
         
     def test(self):
-        with tools.environment_append(RunEnvironment(self).vars):
-            if self.settings.os == "Windows":
-                self.run(os.path.join("bin","test_package"))
-            elif self.settings.os == "Macos":
-                self.run("DYLD_LIBRARY_PATH=%s %s"%(os.environ.get('DYLD_LIBRARY_PATH', ''),os.path.join("bin","test_package")))
-            else:
-                self.run("LD_LIBRARY_PATH=%s %s"%(os.environ.get('LD_LIBRARY_PATH', ''),os.path.join("bin","test_package")))
+        if not tools.cross_building(self.settings):
+            self.run(os.path.join("bin", "test_package"), run_environment=True)
