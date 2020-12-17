@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import sys
 import re
@@ -396,17 +397,31 @@ class _Builder(object):
         command = ['epm', '-p', self._args.profile]
         if self._args.scheme:
             command += ['-s', self._args.scheme]
-        command += ['create']
+        create_cmd= command + ['create']
+        upload_cmd= command + ['upload']
         n = len(packages)
         i = 0
         for name in packages:
-            print(f"[{i+1}/{n}  {name} ]", " ".join(command))
-            if not self._args.dry_run:
+            
+            def _run(cmd):
+                print(f"[{i+1}/{n}  {name} ]", " ".join(cmd))
+                if self._args.dry_run:
+                    return True
                 wd = os.path.join(_ROOTDIR, name)
-                proc = subprocess.run(command, cwd=wd)
+                proc = subprocess.run(cmd, cwd=wd)
                 if proc.returncode:
                     self.out.error("Build package {name} failed.")
-                    break
+                    return False                
+                return True
+
+            print(f"[{i+1}/{n}  {name} ]", " ".join(create_cmd))
+            if not _run(command + ['create']):
+                break
+            if self._args.remote:
+               if not _run(command + ['upload', '--remote', self._args.remote]):
+                   break
+                   
+            if not self._args.dry_run:
                 self._build_record.append(name)
             i += 1
         mkdir(os.path.dirname(self._build_record_filename))

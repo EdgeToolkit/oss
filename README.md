@@ -1,8 +1,64 @@
 # oss
 
 
+Generate bundle workbench config files, if not sepcified bundle name, all bundle will be generated.
+You must insure ~/config/gitlab-ci/config.yml exist or use --config to set your path.
+```sh
+cd oss
+pip install networkx
+python .toolkit/script/bundle.py workbench toolset dev
+```
+```yaml
+name: OSS
+version: 1
 
 
+
+bundle:
+  - name: toolset
+    remote: http://<IP>/artifactory/api/conan/OSS.toolset
+
+  - name: base
+    remote: http://<IP>/artifactory/api/conan/OSS.base
+
+  - name: microservice
+    remote: http://172.16.0.119:8060/artifactory/api/conan/OSS.microservice
+    
+
+tags:
+  Windows:
+    builder:
+    - Windows
+    - MSVC
+    - builder
+    runner:
+    - Windows
+    - runner
+  Linux:
+    deployer:
+    - conan
+    - deployer
+    runner:
+    - Linux
+    - docker
+    - runner
+    builder:
+    - Windows
+    - MSVC
+    - builder
+
+gitlab:
+  url: http://<HOSTNAME>
+  token: g9fSbEEaqxJ57bZzkcNs
+
+environment:
+  EPM_MIRROR_MSYS2: http://<HOSTNAME>/mirrors/msys2
+
+conan:
+  username: XXXXX
+  password: xxxxxxx
+
+```
 
 ## GitLab-CI
 
