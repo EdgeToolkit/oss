@@ -1,0 +1,16 @@
+name: iperf
+version: '3.9'
+
+scheme:
+  shared:
+    options:
+      shared: true
+
+  static:
+    options:
+      shared: false
+
+dependencies:
+  openssl: 
+    version: 1.1.1g
+
