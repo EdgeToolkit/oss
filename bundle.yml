@@ -36,12 +36,8 @@ toolset:
   - m4
   - autoconf
   - automake
-  
-  - name: bison
-    profile: [gcc5, gcc8]
-  - name: flex
-    profile: [gcc5, gcc8]
-
+  - bison
+  - flex
   - libtool
   - re2c
   - ninja
@@ -72,6 +68,9 @@ base:
   - libwebsockets
   - xz_utils
 
-IoT:
+netutils:
+  - iperf
+
+microservice:
   - poco
   - mosqitto
