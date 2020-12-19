@@ -1,0 +1,91 @@
+#------------------------------------
+#    Settings
+#------------------------------------
+.meta-info:
+  version: 1.0
+  profile:
+  - vs2019{d|-x86|-x86d}
+  - gcc5{d|-x86|-x86d}
+  - gcc8{d|-x86|-x86d}
+  - gcc5{-armv8|-armv8d}
+  - gcc8{-armv8|-armv8d}
+  - gcc5{-armv7|-armv7d}
+  - gcc8{-armv7|-armv7d}
+  - hisiv300{d}
+  - hisiv400{d}
+
+#------------------------------------
+#    Bundles
+#------------------------------------
+base-devel:
+- version: 1.0
+  profile:
+  - vs2019
+  - gcc5{-x86}
+  - gcc8{-x86}
+  tool: true
+  
+- name: msys2
+  profile: vs2019
+  redist: true
+
+- name: strawberryperl
+  profile: vs2019
+  redist: true
+
+- name: 7zip
+  profile: vs2019
+
+- name: winflexbison
+  profile: vs2019
+  
+- name: bison
+  profile: [gcc5, gcc8]
+- name: flex
+  profile: [gcc5, gcc8]
+- pkgconf
+- m4
+- autoconf
+- automake
+- libtool
+- re2c
+- ninja
+- meson
+- nasm
+  
+base:
+- version: 1.0
+- zlib
+- brotli
+- bzip2
+- expat
+- openssl
+- pcre
+- name: pthreads4w
+  profile: 
+  - vs2019{d|-x86|-x86d}
+- sqlite3
+- gtest
+- libiconv
+- xz_utils
+  
+data:
+- version: 1.0
+- protobuf
+- name: protoc
+  tool: true
+  profile:
+  - vs2019
+  - gcc5
+  - gcc8{-x86}
+
+network:
+- version: 1.0
+- libcurl
+- libwebsockets
+- mosquitto
+- iperf
+  
+app-devel:
+- version: 1.0
+- poco
