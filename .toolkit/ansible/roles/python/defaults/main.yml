@@ -1,0 +1,6 @@
+version: 13.6.3
+http_port: 8200
+ssh_port: 8222
+#gitlab_version: 13.6.3
+#docker_image: 'gitlab/gitlab-ce:13.6.3-ce.0'
+
