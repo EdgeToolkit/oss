@@ -21,7 +21,7 @@
 ##! For more details on configuring external_url see:
 ##! https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
 # external_url 'GENERATED_EXTERNAL_URL'
-{% if gitlab.get('http_port', 80) == 80 %}
+{% if GITLAB_HTTP_PORT == 80 %}
 external_url 'http://{{inventory_hostname}}'
 {% else %}
 external_url 'http://{{inventory_hostname}}:{{GITLAB_HTTP_PORT}}'

@@ -23,10 +23,10 @@
 - name: Generate config file of gitlab
   become: yes
   template:
-    src: gitlab/v{{GITLAB_VERSION}}/{{ item }}.j2
-    dest: /etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/{{ item }}
+    src: gitlab/v{{GITLAB_VERSION}}/{{item}}.j2
+    dest: /etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/{{item}}
     mode: 0644
-
+    #mode: "u=rw,g=r,o=r"
     # "src=gitlab/v{{GITLAB_VERSION}}/{{ item }}.j2 dest=/etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/{{ item }}"
   with_items:
     - gitlab.rb

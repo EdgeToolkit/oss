@@ -1,0 +1,6 @@
+---
+- hosts: gitlab
+#  remote_user: root
+  roles: 
+    - { role: python }
+    - { role: gitlab }
