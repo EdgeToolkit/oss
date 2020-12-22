@@ -19,6 +19,7 @@ class GitlabRunnerDB(object):
     def __init__(self, path):
         self.path = os.path.abspath(path)
         self._data = None
+
     @property
     def data(self):
         if self._data is None:
@@ -52,7 +53,6 @@ class GitlabRunnerDB(object):
 
     def get(self, id):
         return self.data.get(id)
-
 
 
 class GitlabRunner(object):
