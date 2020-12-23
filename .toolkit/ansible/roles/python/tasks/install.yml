@@ -26,14 +26,13 @@
     name: pip
     link: /usr/bin/pip
     path: /usr/bin/pip3    
-#    priority: -10
+
 
 - name: Config pip index url
-  become: yes
-  command: pip config set global.index-url {{PIP_INDEX_URL}}
+  command: python3 -m pip config set global.index-url {{PIP_INDEX_URL}}
   when: PIP_INDEX_URL
 
 - name: Config pip index trust honst
-  become: yes
-  command: pip config set install.trusted-host {{PIP_TRUSTED_HOST}}
-  when: PIP_INDEX_URL
+
+  command: python3 -m pip config set install.trusted-host {{PIP_TRUSTED_HOST}}
+  when: PIP_TRUSTED_HOST

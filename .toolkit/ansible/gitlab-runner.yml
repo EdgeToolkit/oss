@@ -1,0 +1,6 @@
+
+---
+- hosts: builder,runner,deployer
+#  remote_user: root
+  roles: 
+    - {role: gitlab-runner}

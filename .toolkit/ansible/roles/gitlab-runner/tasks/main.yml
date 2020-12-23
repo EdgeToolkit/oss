@@ -1,0 +1,20 @@
+- name: Install local python package
+#  become: yes
+  pip:
+    name: python-gitlab
+#    executable: pip3
+  delegate_to: localhost
+  run_once: true
+
+- name: Register Gitlab-runner
+  include: delete.yml
+  when: ACTION == 'delete'
+
+- name: Register Gitlab-runner
+  include: register.yml
+  when: ACTION == 'register'
+
+- name: Register Gitlab-runner
+  include: deploy.yml
+  when: ACTION == 'deploy'
+    
