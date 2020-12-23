@@ -1,3 +1,5 @@
+- debug:
+    msg: "ansible_system:{{ansible_system}} ansible_architecture:{{ansible_architecture}} ansible_os_family:{{ansible_os_family}} ansible_distribution:{{ansible_distribution}} "
 - name: Install local python package
 #  become: yes
   pip:

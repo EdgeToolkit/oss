@@ -73,22 +73,20 @@ class GitlabRunnerDB(object):
             del self._runner[token]
             self._flush()
 
-    def set(self, id, token=None, hash=None):
-        self._runner[id] = {'token': token, 'hash': hash }
+    def add(self, id, token=None, name=None):
+        self._runner[id] = {'token': token, 'name': hash }
         self._flush()
         
     def token(self, id):
         return self._runner.get(id, None) or None
 
     def _flush(self):
-        print(self._path, '<<<<<-----------------------------------')
         if not self._path:
             return
         folder = os.path.dirname(self._path)
         if not os.path.exists(folder):
             os.makedirs(folder)
         with open(self._path, 'w') as f:
-            print('***', self._runner, self._path)
             yaml.safe_dump(self._runner, f, default_flow_style=False)
 
 def find_by_name(data, name):
@@ -131,6 +129,22 @@ def gitlab_runner_hash(hostname, type, workbench, tag=[]):
     tag.sort()
     return f"{hostname}/{type}/{workbench}/" + "[{}]".format(",".join(tag))
 
+
+
+class _GitlabRunner(object):
+
+    def __init__(self, hostname, type, workbench, device_hostname=None):
+        self.hostname = hostname
+        self.type = type
+        self.workbench = workbench
+        self.device_hostname = device_hostname
+        
+    @property
+    def name(self):
+        name = f"{self.hostname}/{self.type}/{self.workbench}" 
+        return f"{name}/{self.device_hostname}" if self.device_hostname else name
+
+
 class GitlabRunner(object):
     # Type
     BUILDER = 'builder'
@@ -164,10 +178,12 @@ class GitlabRunner(object):
                                       'tag_list': tag,
                                       'info': {'name': hash}
                                       })
-            self.db.set(runner.id, token=runner.token, hash=hash)
+            self.db.add(runner.id, token=runner.token, hash=hash)
 
     def register_host(self, hostname, platform, type):        
         common_tags = self.config.tag[platform][type]
+        print(common_tags,'###########################', platform, type)
+        print(self.config.tag[platform])
         for workbench in self.config.workbench:
             tags = [f"{workbench.name}@workbench"]
             self.register(hostname, type, workbench.name, tags+common_tags)
@@ -189,6 +205,12 @@ class GitlabRunner(object):
             if hash ==  runner.name:
                 return runner
         return None
+
+    def generate(self, filename, hostname, type, platform):
+        context = {'hostname': hostname, 'platform': platform}
+        for workbench in self.db.workbench:
+            runner = self.get(hostname, type, workbench)
+
 
     def update(self, tags):
         pass
@@ -215,7 +237,9 @@ def main():
     config = load_config(args.config)
     db = GitlabRunnerDB(args.db) if args.db else None
     gitlab_runner = GitlabRunner(config, db)
+    
     if args.cmd == 'register':
+        print('platform==============', args.platform)
         for type in args.type:
             gitlab_runner.register_host(args.hostname, args.platform, type)
     if args.cmd == 'delete':
