@@ -5,7 +5,10 @@ import fnmatch
 import gitlab
 import platform
 import argparse
+from jinja2 import Environment, FileSystemLoader
+
 PLATFORM = platform.system()
+
 
 def load_config(path):
     path = os.path.abspath(os.path.expanduser(path))
@@ -144,6 +147,18 @@ class GitlabRunner(object):
             result.append(runner)
         return result
     
+    def mkconfig(self, hostname, type):
+        assert self._gitlab and self._db
+        runner = self.runner
+        if runner is None:
+         
+            runner = self._gitlab.runners.create({'token': register_token,
+                                      'description': self.name,
+                                      'tag_list': tag,
+                                      'info': {'name': self.name}
+                                      })
+            self._db.add(runner.id, token=runner.token, comment=self.name)            
+        return runner
 
     @property
     def runner(self):
@@ -219,6 +234,7 @@ class GitlabRunnerManager(object):
                 result.append(runner)
         return result
 
+
     def unregister(self, hostname):
         result = []
         for runner in self.gitlab.runners.list():
@@ -233,6 +249,30 @@ class GitlabRunnerManager(object):
                     self.db.remove_by_id(runner.id)
                 result.append(runner)
         return result
+
+    def mkconfig(self, hostname, type, platform):
+        types = [type] if isinstance(type, str) else type
+        register_token = self.config['gitlab']['register_token']
+        platform = platform or PLATFORM
+        result = []
+        content =  ""
+        for workbench in self.config['workbench']:
+            for runner_type in types:
+                tags = self.config['tag'][platform][runner_type]
+
+                cli = GitlabRunner(hostname, type, workbench=workbench,gitlab=self.gitlab, db=self.db)
+                content += cli.mkconf(hostname, runner_type, platform)
+                
+        return result
+
+    @staticmethod
+    def _template(filename):
+        DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+        path = os.path.join(DATA_DIR, 'gitlab-runner')
+        env = Environment(loader=FileSystemLoader(path))
+        env.trim_blocks = True
+        template_file = os.path.basename(filename)
+        return env.get_template(template_file)
 
 # gitlab_runner.py register|unregister --hostname --type xx
 def main():
@@ -249,6 +289,9 @@ def main():
     subcmd = subs.add_parser('unregister', help='Register gitlab runner')
     subcmd.add_argument('--hostname')
     
+    subcmd = subs.add_parser('mkconfig', help='Generate gitlab runner config')
+    subcmd.add_argument('--hostname')
+
     args = parser.parse_args()
     manager = GitlabRunnerManager(args.config, args.db)
     if args.cmd == 'register':
