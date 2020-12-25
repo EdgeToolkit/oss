@@ -8,7 +8,7 @@
   delegate_to: localhost
   run_once: true
 
-- name: Register Gitlab-runner
+- name: Remove Gitlab-runner
   include: delete.yml
   when: ACTION == 'delete'
 
@@ -16,7 +16,7 @@
   include: register.yml
   when: ACTION == 'register'
 
-- name: Register Gitlab-runner
+- name: Deploy Gitlab-runner
   include: deploy.yml
   when: ACTION == 'deploy'
     

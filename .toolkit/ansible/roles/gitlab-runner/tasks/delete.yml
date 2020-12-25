@@ -1,8 +1,0 @@
-- name: Remove gitlab-runner
-  script: |
-    gitlab-runner.py delete \
-    --config {{GITLAB_RUNNER_CONFIG_FILE}} \
-    --hostname {{ansible_ssh_host}} 
-  args:
-    executable: python3
-  delegate_to: localhost

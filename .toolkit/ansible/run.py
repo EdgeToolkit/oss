@@ -8,7 +8,7 @@ def main():
     parser = argparse.ArgumentParser(prog='EdgeToolkit auto deployment ansible-playbook wrapper.')
     subs = parser.add_subparsers(dest='cmd')
     def _global_options(subc):        
-        subc.add_argument('--host', default='~/.edgetoolkit/config/hosts',help='config file path.')
+        subc.add_argument('-i', '--host', default='~/.edgetoolkit/config/hosts',help='config file path.')
         subc.add_argument('--verbose', default=0, type=int)
 
     # ======================================== #
@@ -26,6 +26,7 @@ def main():
     ansible = ['ansible-playbook', '-i', args.host]
     if args.verbose:
         ansible.append('-{}'.format("v"*args.verbose))
+    os.environ['PYTHONPATH'] = os.path.join(WD, 'library','module_utils')
 
     if args.cmd == 'gitlab':
         if args.install:

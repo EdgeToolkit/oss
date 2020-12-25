@@ -1,11 +1,9 @@
 - name: Register gitlab-runner
-  script: |
-    gitlab-runner.py register \
-    --config {{GITLAB_RUNNER_CONFIG_FILE}} \
-    --db {{GITLAB_RUNNER_REGISTER_DB}} \
-    --hostname {{ansible_ssh_host}} \
-    --type {{group_names | join(" --type ")}} \
-    --platform {{'Windows' if ansible_connection == "winrm" else 'Linux'}}
-  args:
-    executable: python3
+  gitlab_runner_register:
+    hostname: "{{ansible_ssh_host}}"
+    type: "{{item}}"
+    config: "{{GITLAB_RUNNER_CONFIG_FILE}}"
+    db: "{{GITLAB_RUNNER_REGISTER_DB}}"
+  with_list: group_names
+
   delegate_to: localhost
