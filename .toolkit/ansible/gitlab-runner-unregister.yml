@@ -10,7 +10,7 @@
 ---
 - hosts: builder,runner,deployer
   tasks:
-  - name: 'Unregister gitlab-runner'
+  - name: Unregister gitlab-runner
     gitlab_runner_unregister:
       hostname: "{{ansible_ssh_host}}"
       type: "{{item}}"

@@ -1,8 +1,11 @@
+#!/bin/bash env python3
 import os
 import yaml
 import fnmatch
 import gitlab
-
+import platform
+import argparse
+PLATFORM = platform.system()
 
 def load_config(path):
     path = os.path.abspath(os.path.expanduser(path))
@@ -182,4 +185,78 @@ class GitlabRunner(object):
         return result
 
 
+class GitlabRunnerManager(object):
 
+    def __init__(self, config, db=None):
+        self.config = config
+        if isinstance(self.config, str):
+            self.config = load_config(self.config)
+        self.db = db
+        if isinstance(self.db, str):
+            self.db = GitlabRunnerDB(self.db)
+        self._gitlab = None
+
+    @property
+    def gitlab(self):
+        if self._gitlab is None:
+            url = self.config['gitlab']['url']
+            private_token = self.config['gitlab']['private_token']
+            self._gitlab = gitlab.Gitlab(url, private_token=private_token)
+        return self._gitlab
+
+
+    def register(self, hostname, type, platform=None):
+        types = [type] if isinstance(type, str) else type
+        register_token = self.config['gitlab']['register_token']
+        platform = platform or PLATFORM
+        result = []
+        for workbench in self.config['workbench']:
+            for runner_type in types:
+                tags = self.config['tag'][platform][runner_type]
+
+                cli = GitlabRunner(hostname, type, workbench=workbench,gitlab=self.gitlab, db=self.db)
+                runner = cli.register(register_token, tags)
+                result.append(runner)
+        return result
+
+    def unregister(self, hostname):
+        result = []
+        for runner in self.gitlab.runners.list():
+            if runner.name and isinstance(runner.name, str):
+                r = GitlabRunner.load(runner.name)
+                if r.hostname != hostname:
+                    continue
+                # TODO: more confition
+                
+                runner.delete() 
+                if self.db:
+                    self.db.remove_by_id(runner.id)
+                result.append(runner)
+        return result
+
+# gitlab_runner.py register|unregister --hostname --type xx
+def main():
+    parser = argparse.ArgumentParser(prog='Open source softare bundle GitLab CI tools')
+    parser.add_argument('--config', help='config file path.')
+    parser.add_argument('--db', default=None, help='Gitlab register record file.')
+
+    subs = parser.add_subparsers(dest='cmd')
+    subcmd = subs.add_parser('register', help='Register gitlab runner')
+    subcmd.add_argument('--type', action="append")
+    subcmd.add_argument('--hostname')
+    subcmd.add_argument('--platform', default=PLATFORM)
+
+    subcmd = subs.add_parser('unregister', help='Register gitlab runner')
+    subcmd.add_argument('--hostname')
+    
+    args = parser.parse_args()
+    manager = GitlabRunnerManager(args.config, args.db)
+    if args.cmd == 'register':
+        result = manager.register(args.hostname, args.type, args.platform)
+    elif args.cmd == 'unregister':
+        result = manager.unregister(args.hostname)
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
