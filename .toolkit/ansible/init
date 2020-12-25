@@ -1,0 +1,5 @@
+#!/bin/bash
+__dir__=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
+__top__=$(cd "$__dir__/.."; pwd)
+
+python3 -m pip install -e $__top__/oss_utils/oss_utils
