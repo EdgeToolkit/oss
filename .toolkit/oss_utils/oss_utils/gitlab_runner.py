@@ -5,6 +5,8 @@ import fnmatch
 import gitlab
 import platform
 import argparse
+import shutil
+
 from jinja2 import Environment, FileSystemLoader
 
 PLATFORM = platform.system()
@@ -19,7 +21,8 @@ def load_config(path):
     conan = config.pop('conan', None) or {}    
     username = conan.pop('username', None)
     password = conan.pop('password', None)
-    for name, conf in conan.items():
+    for name, conf in conan['remote'].items():
+        conf['name'] = name
         conf['username'] = conf.get('username') or username
         conf['password'] = conf.get('password') or password
     
@@ -78,7 +81,8 @@ class GitlabRunnerDB(object):
         return None
 
     def get_token(self, id):
-        return self.item.get(id, None) or None
+        item = self.item.get(id, None)
+        return item['token'] if item else None
 
     def get_id(self, token):
         for id, runner in self.item.items():
@@ -147,19 +151,6 @@ class GitlabRunner(object):
             result.append(runner)
         return result
     
-    def mkconfig(self, hostname, type):
-        assert self._gitlab and self._db
-        runner = self.runner
-        if runner is None:
-         
-            runner = self._gitlab.runners.create({'token': register_token,
-                                      'description': self.name,
-                                      'tag_list': tag,
-                                      'info': {'name': self.name}
-                                      })
-            self._db.add(runner.id, token=runner.token, comment=self.name)            
-        return runner
-
     @property
     def runner(self):
         for runner in self._gitlab.runners.list():
@@ -174,30 +165,6 @@ class GitlabRunner(object):
         device = section[1] if len(section) > 1 else None
         return GitlabRunner(hostname, type, workbench, device, gitlab=gitlab, db=db)
 
-    @staticmethod
-    def do_unregister(hostname, type=None, workbench=None, device=None, gitlab=None, db=None):
-        result = []
-        for runner in gitlab.runners.list():
-            if runner.name and isinstance(runner.name, str):
-                r = GitlabRunner.load(runner.name)
-                if r.hostname != hostname:
-                    continue
-                # TODO: more confition
-                #type_match = type is None or fnmatch.fnmatch(r.type, type)
-                #if not type_match:
-                #    continue
-                #workbench_match = type is None or fnmatch.fnmatch(r.workbench, workbench)
-                #if not workbench_match:
-                #    continue
-                #device_match = device is None or fnmatch.fnmatch(r.device, device)
-                #if not device_match:
-                #    continue
-                result.append((runner.id, runner.name))
-                runner.delete() 
-                if db:
-                    db.remove_by_id(runner.id)
-                
-        return result
 
 
 class GitlabRunnerManager(object):
@@ -250,20 +217,48 @@ class GitlabRunnerManager(object):
                 result.append(runner)
         return result
 
-    def mkconfig(self, hostname, type, platform):
+    def mkconfig(self, hostname, type, platform, home):
         types = [type] if isinstance(type, str) else type
         register_token = self.config['gitlab']['register_token']
         platform = platform or PLATFORM
         result = []
         content =  ""
         for workbench in self.config['workbench']:
-            for runner_type in types:
-                tags = self.config['tag'][platform][runner_type]
+            for rtype in types:                
+                cli = GitlabRunner(hostname, rtype, workbench=workbench, gitlab=self.gitlab, db=self.db)
+                id = cli.runner.id
+                token = self.db.get_token(id)
+                url = self.config['gitlab']['url']
+                template = self._template(f"{rtype}.toml.j2")
+                content += template.render(platform=platform, token=token, id=id, url=url, HOME=home, workbench=workbench)
+        rootd = f".gitlab-runner-config/{hostname}"
+        rootd = os.path.expanduser(f"/tmp/gitlab-runner-config/{hostname}")
 
-                cli = GitlabRunner(hostname, type, workbench=workbench,gitlab=self.gitlab, db=self.db)
-                content += cli.mkconf(hostname, runner_type, platform)
-                
-        return result
+        if os.path.exists(rootd):
+            shutil.rmtree(rootd)
+        os.makedirs(rootd)
+        with open(os.path.join(rootd, 'config.toml'), 'w') as f:
+            f.write(content)
+
+        TWD = os.path.join(os.path.dirname(__file__), 'data', 'gitlab-runner', 'workbench')
+
+        for workbench in self.config['workbench']:
+            for rtype in types:
+                folder = f"{rootd}/{workbench}/{rtype}"
+                os.makedirs(os.path.join(folder))
+                shutil.copytree(os.path.join(TWD, 'conan'), os.path.join(folder, '.conan'))
+                shutil.copytree(os.path.join(TWD, 'script'), os.path.join(folder, 'script'))                
+                # generate conan files
+                import subprocess
+                os.environ['CONAN_USER_HOME'] = os.path.abspath(folder)
+                subprocess.run(['conan', 'remote', 'clean'], check=True)
+                for remote in self.config['workbench'][workbench]['conan'] or []:
+                    # conan remote add remote url False
+                    subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
+                if rtype == 'deployer':
+                    # conan user -p password -r remote remote
+                    pass
+        
 
     @staticmethod
     def _template(filename):
@@ -290,7 +285,10 @@ def main():
     subcmd.add_argument('--hostname')
     
     subcmd = subs.add_parser('mkconfig', help='Generate gitlab runner config')
+    subcmd.add_argument('--type', action="append")
     subcmd.add_argument('--hostname')
+    subcmd.add_argument('--platform', default=PLATFORM)
+    subcmd.add_argument('--home', default='/home/edgetoolkit')
 
     args = parser.parse_args()
     manager = GitlabRunnerManager(args.config, args.db)
@@ -298,8 +296,9 @@ def main():
         result = manager.register(args.hostname, args.type, args.platform)
     elif args.cmd == 'unregister':
         result = manager.unregister(args.hostname)
-    print(result)
-
+    elif args.cmd == 'mkconfig':
+        result = manager.mkconfig(args.hostname, args.type, args.platform, args.home)
+    
 
 if __name__ == '__main__':
     main()

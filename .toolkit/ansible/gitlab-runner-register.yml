@@ -1,0 +1,15 @@
+---
+- hosts: builder,runner,deployer
+  tasks:
+  - name: Register gitlab-runner
+    gitlab_runner_register:
+      config: "{{GITLAB_RUNNER_CONFIG_FILE}}"
+      db: "{{GITLAB_RUNNER_REGISTER_DB}}"
+      hostname: "{{ansible_ssh_host}}"
+      type: "{{item}}"
+      platform: "{{'Windows' if ansible_connection=='winrm' else 'Linux'}}"
+    delegate_to: localhost
+    with_list: "{{group_names}}"
+
+#  - debug: msg="hostname {{ansible_ssh_host}}  {{item}}"
+#    with_list: "{{group_names}}"
