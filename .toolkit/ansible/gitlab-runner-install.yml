@@ -1,0 +1,17 @@
+---
+- hosts: builder,runner,deployer
+  tasks:
+  - name: Create a directory if it does not exist
+    file:
+      path: ~/.gitlab-runner
+      state: directory
+      mode: '0755'
+      recurse: yes
+  - name: Download gitlab-runner
+    get_url:
+      url: "{{GITLAB_RUNNER_BINARY_REPO}}/gitlab-runner-linux-amd64"
+      dest: ~/.gitlab-runner/gitlab-runner
+      #mode: 0440
+      mode: '0755'
+
+

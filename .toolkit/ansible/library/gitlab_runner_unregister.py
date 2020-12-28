@@ -1,26 +1,40 @@
 #!/usr/bin/env python3
 
 from ansible.module_utils.basic import AnsibleModule
-
-def unregister(param):
+from oss_utils.gitlab_runner import GitlabRunnerManager #noqa
+def _unregister(param):
     from oss_utils.gitlab_runner import GitlabRunner, GitlabRunnerDB, load_config #noqa
     import gitlab
     db = GitlabRunnerDB(param['db'])
     config = load_config(param['config'])
-    gl = gitlab.Gitlab(config['gitlab']['url'], config['gitlab']['private_token'])
     
-    runners = GitlabRunner.do_unregister(hostname=param['hostname'],  type=param['type'], gitlab=gl, db=db)
-    result = {'changed': True if runners else False, 'runner': []}
+    gl = gitlab.Gitlab(config['gitlab']['url'], config['gitlab']['private_token'])
+    hostname=param['hostname']
+    result = {'changed': False, 'runner': []}
+    for workbench in config['workbench']:
+        for type in param['type']:
+            runner = GitlabRunner(hostname, type=type, workbench=workbench, gitlab=gl, db=db)
+            r = runner.unregister()
+            if r:
+                result['changed'] = True
+                result['runner'].append({'id': r.id, 'name': r.name})
+    return result
 
-    for id, name in runners:
-        result['runner'] = {'id': id, 'name': name}
+def unregister(param):
+    manager = GitlabRunnerManager(param['config'], param['db'])
+    result = {'changed': False, 'runner': []}
+    for type in param['type']:
+        runners = manager.unregister(hostname=param['hostname'],  type=type)
+        for runner in runners:
+            result['runner'].append({'id': runner.id, 'name': runner.name})
+
     return result
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         hostname=dict(required=True, type='str'),
-        type=dict(default=None, type='str'),
+        type=dict(default=[], type='list'),
         db=dict(required=True, type='str'),
         config=dict(required=True, type='str'),
     )

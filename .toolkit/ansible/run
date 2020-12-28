@@ -4,4 +4,4 @@ __top__=$(cd "$__dir__/.."; pwd)
 
 cd $__dir__
 
-ansible-playbook -i ~/.edgetoolkit/config/hosts $*
+ansible-playbook -i ~/.edgetoolkit/config/hosts -e ansible_python_interpreter=/usr/bin/python3 $*

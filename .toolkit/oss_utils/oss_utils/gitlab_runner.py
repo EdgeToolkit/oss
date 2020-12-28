@@ -1,4 +1,4 @@
-#!/bin/bash env python3
+#!/usr/bin/env python3
 import os
 import yaml
 import fnmatch
@@ -6,11 +6,15 @@ import gitlab
 import platform
 import argparse
 import shutil
+import subprocess
 
 from jinja2 import Environment, FileSystemLoader
 
 PLATFORM = platform.system()
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
+def abspath(path):
+    return os.path.abspath(os.path.expanduser(path))
 
 def load_config(path):
     path = os.path.abspath(os.path.expanduser(path))
@@ -143,13 +147,11 @@ class GitlabRunner(object):
         return runner
 
     def unregister(self):
-        result = []
         runner = self.runner
         if runner:
             runner.delete()
             self._db.remove_by_id(runner.id)
-            result.append(runner)
-        return result
+        return runner
     
     @property
     def runner(self):
@@ -168,6 +170,7 @@ class GitlabRunner(object):
 
 
 class GitlabRunnerManager(object):
+    
 
     def __init__(self, config, db=None):
         self.config = config
@@ -202,7 +205,7 @@ class GitlabRunnerManager(object):
         return result
 
 
-    def unregister(self, hostname):
+    def unregister(self, hostname, type=None):
         result = []
         for runner in self.gitlab.runners.list():
             if runner.name and isinstance(runner.name, str):
@@ -217,7 +220,9 @@ class GitlabRunnerManager(object):
                 result.append(runner)
         return result
 
-    def mkconfig(self, hostname, type, platform, home):
+    def generate(self, hostname, type, platform, home, out_dir=None):
+
+        out_dir = abspath(out_dir or f"./tmp/gitlab-runner/{hostname}")
         types = [type] if isinstance(type, str) else type
         register_token = self.config['gitlab']['register_token']
         platform = platform or PLATFORM
@@ -230,39 +235,50 @@ class GitlabRunnerManager(object):
                 token = self.db.get_token(id)
                 url = self.config['gitlab']['url']
                 template = self._template(f"{rtype}.toml.j2")
-                content += template.render(platform=platform, token=token, id=id, url=url, HOME=home, workbench=workbench)
-        rootd = f".gitlab-runner-config/{hostname}"
-        rootd = os.path.expanduser(f"/tmp/gitlab-runner-config/{hostname}")
-
-        if os.path.exists(rootd):
-            shutil.rmtree(rootd)
-        os.makedirs(rootd)
-        with open(os.path.join(rootd, 'config.toml'), 'w') as f:
+                content += template.render(platform=platform, token=token, id=id, url=url, HOME=home, workbench=workbench,
+                hostname=hostname)
+        if os.path.exists(out_dir):
+            shutil.rmtree(out_dir)
+        os.makedirs(out_dir)
+        with open(os.path.join(out_dir, 'config.toml'), 'w') as f:
             f.write(content)
 
-        TWD = os.path.join(os.path.dirname(__file__), 'data', 'gitlab-runner', 'workbench')
+        template_dir = os.path.join(DATA_DIR, 'gitlab-runner', 'workbench')
 
         for workbench in self.config['workbench']:
             for rtype in types:
-                folder = f"{rootd}/{workbench}/{rtype}"
-                os.makedirs(os.path.join(folder))
-                shutil.copytree(os.path.join(TWD, 'conan'), os.path.join(folder, '.conan'))
-                shutil.copytree(os.path.join(TWD, 'script'), os.path.join(folder, 'script'))                
+                dst_dir = f"{out_dir}/workbench/{workbench}/{rtype}"
+                os.makedirs(os.path.join(dst_dir))
+                shutil.copytree(os.path.join(template_dir, 'script'), os.path.join(dst_dir, 'script'))
+
+                hooks_dir = f"{dst_dir}/.conan/hooks"
+                os.makedirs(hooks_dir)
+                shutil.copy(os.path.join(template_dir, f'conan/hooks/{rtype}.py'), 
+                    os.path.join(f'{hooks_dir}/{rtype}.py'))
                 # generate conan files
-                import subprocess
-                os.environ['CONAN_USER_HOME'] = os.path.abspath(folder)
+                os.environ['CONAN_USER_HOME'] = os.path.abspath(dst_dir)
                 subprocess.run(['conan', 'remote', 'clean'], check=True)
-                for remote in self.config['workbench'][workbench]['conan'] or []:
-                    # conan remote add remote url False
-                    subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
                 if rtype == 'deployer':
-                    # conan user -p password -r remote remote
-                    pass
+                    os.environ['CONAN_REVISIONS_ENABLED'] = '1'
+                    for remote in self.config['workbench'][workbench]['conan'] or []:
+                        if remote['name'] != workbench:
+                            continue
+                        # conan remote add remote url False
+                        subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
+
+                        # conan user -p password -r remote remote username
+                        subprocess.run(['conan', 'user', '-r', remote['name'], '-p', remote['password'], remote['username']], 
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                        check=True)
+                        break
+                else:
+                    for remote in self.config['workbench'][workbench]['conan'] or []:
+                        # conan remote add remote url False
+                        subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
         
 
     @staticmethod
     def _template(filename):
-        DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
         path = os.path.join(DATA_DIR, 'gitlab-runner')
         env = Environment(loader=FileSystemLoader(path))
         env.trim_blocks = True
@@ -284,11 +300,12 @@ def main():
     subcmd = subs.add_parser('unregister', help='Register gitlab runner')
     subcmd.add_argument('--hostname')
     
-    subcmd = subs.add_parser('mkconfig', help='Generate gitlab runner config')
+    subcmd = subs.add_parser('generate', help='Generate gitlab runner config')
     subcmd.add_argument('--type', action="append")
     subcmd.add_argument('--hostname')
     subcmd.add_argument('--platform', default=PLATFORM)
     subcmd.add_argument('--home', default='/home/edgetoolkit')
+    subcmd.add_argument('--out', default='./tmp/gitlab-runner')
 
     args = parser.parse_args()
     manager = GitlabRunnerManager(args.config, args.db)
@@ -296,8 +313,8 @@ def main():
         result = manager.register(args.hostname, args.type, args.platform)
     elif args.cmd == 'unregister':
         result = manager.unregister(args.hostname)
-    elif args.cmd == 'mkconfig':
-        result = manager.mkconfig(args.hostname, args.type, args.platform, args.home)
+    elif args.cmd == 'generate':
+        result = manager.generate(args.hostname, args.type, args.platform, args.home, args.out)
     
 
 if __name__ == '__main__':
