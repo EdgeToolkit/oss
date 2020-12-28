@@ -7,7 +7,8 @@ from oss_utils.gitlab_runner import GitlabRunnerManager #noqa
 def generate_config(param):
     manager = GitlabRunnerManager(param['config'], param['db'])
     result = []
-    runners = manager.mkconfig(hostname=param['hostname'],  type=param['type'], platform=param['platform'], home=param['home'])
+    runners = manager.generate(hostname=param['hostname'],  type=param['type'], platform=param['platform'], 
+        home=param['home'], out_dir=param['out'])
 
     return result
 
@@ -20,6 +21,7 @@ def run_module():
         home=dict(required=True, type='str'),
         db=dict(required=True, type='str'),
         config=dict(required=True, type='str'),
+        out=dict(required=True, type='str'),
     )
 
     result = dict(

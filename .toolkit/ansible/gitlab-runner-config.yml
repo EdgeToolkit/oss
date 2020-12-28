@@ -9,8 +9,53 @@
       type: "{{group_names}}"
       platform: "{{'Windows' if ansible_connection=='winrm' else 'Linux'}}"
       home: "/home/{{ansible_ssh_user}}"
+      out: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}"
     delegate_to: localhost
-#    with_list: "{{group_names}}"
 
-#  - debug: msg="hostname {{ansible_ssh_host}}  {{item}}"
-#    with_list: "{{group_names}}"
+  - name: Stop edgetoolkit-gitlab-runner, if started
+    become: yes
+    shell: |
+      /home/{{ansible_ssh_user}}/.gitlab-runner/gitlab-runner stop --service edgetoolkit-gitlab-runner ; echo $?
+
+
+  - name: Remove workbench directories
+    file:
+      path: ~/.gitlab-runner/workbench
+      state: absent
+
+
+  - name: Copy gitlab-runner workbench into config folder
+    copy: 
+      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/workbench"
+      dest: ~/.gitlab-runner
+      mode: 0644
+
+  - name: Copy gitlab-runner config file
+    copy: 
+      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/config.toml"
+      dest: ~/.gitlab-runner/config.toml
+      mode: 0644
+
+  - name: Create gitlab-runner data directory
+    file:
+      path: ~/.gitlab-runner/data
+      state: directory
+      mode: 0755
+
+  - name: Restart service
+    become: yes
+    shell: |
+      home=/home/{{ansible_ssh_user}}
+      service edgetoolkit-gitlab-runner status
+      if [ $? -ne 0 ]; then
+        $home/.gitlab-runner/gitlab-runner install \
+          --user={{ansible_ssh_user}} \
+          --service edgetoolkit-gitlab-runner \
+          --working-directory $home/.gitlab-runner/data \
+          --config $home/.gitlab-runner/config.toml
+      fi
+      $home/.gitlab-runner/gitlab-runner start --service edgetoolkit-gitlab-runner
+
+
+# sudo $HOME/.gitlab-runner/gitlab-runner install --user=edgetoolkit --service edgetoolkit-gitlab-runner --working-directory $HOME/.gitlab-runner/data --config $HOME/.gitlab-runner/config.toml
+# Runtime platform                                    arch=amd64 os=linux pid=12665 revision=8fa89735 version=13.6.0

@@ -1,0 +1,32 @@
+stages:
+  - build
+  - test
+  - deploy
+
+zlib#gcc8@shared#build:
+  stage: build
+  image: edgetoolkit/gcc8
+  tags:
+    - Linux
+    - docker
+    - builder
+    - base@workbench
+  artifacts:
+    paths:
+      - zlib/.epm
+      - zlib/.conan
+  script:
+    - cd zlib
+    - epm --runner shell --profile gcc8 --scheme shared create --archive .conan --clear
+
+zlib#gcc8@shared#deploy:
+  stage: deploy
+  tags:
+    - conan
+    - deployer
+    - base@workbench
+  dependencies:
+    - zlib#gcc8@shared#build
+  script:
+    - cd zlib
+    - epm --runner shell --profile gcc8 --scheme shared upload --storage .conan

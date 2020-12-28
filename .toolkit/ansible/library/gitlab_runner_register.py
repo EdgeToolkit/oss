@@ -2,14 +2,15 @@
 from ansible.module_utils.basic import AnsibleModule
 
 import gitlab
-from oss_utils.gitlab_runner import GitlabRunnerManager #noqa
+from oss_utils.gitlab_runner import GitlabRunnerManager
 
 def register(param):
     manager = GitlabRunnerManager(param['config'], param['db'])
     result = []
-    runners = manager.register(hostname=param['hostname'],  type=param['type'], platform=param['platform'])
-    for runner in runners:
-        result.append({'id': runner.id})
+    for type in param['type']:
+        runners = manager.register(hostname=param['hostname'],  type=type, platform=param['platform'])
+        for runner in runners:
+            result.append({'id': runner.id})
 
     return result
 
@@ -17,7 +18,7 @@ def register(param):
 def run_module():
     module_args = dict(
         hostname=dict(required=True, type='str'),
-        type=dict(required=True, type='str'),
+        type=dict(default=[], type='list'),
         platform=dict(required=True, type='str'),
         db=dict(required=True, type='str'),
         config=dict(required=True, type='str'),

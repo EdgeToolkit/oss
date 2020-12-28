@@ -1,5 +1,6 @@
 .epm
 .conan
+tmp
 source_subfolder
 .conan
 .vscode
