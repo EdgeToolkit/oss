@@ -71,3 +71,44 @@
 
 
 Runner功能类型:
+
+
+
+
+
+
+
+## 部署工具
+
+```bash
+epm@epm:~$ sudo adduser
+adduser: Only one or two names allowed.
+epm@epm:~$ sudo adduser edgetoolkit
+Adding user `edgetoolkit' ...
+Adding new group `edgetoolkit' (1001) ...
+Adding new user `edgetoolkit' (1001) with group `edgetoolkit' ...
+Creating home directory `/home/edgetoolkit' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+Changing the user information for edgetoolkit
+Enter the new value, or press ENTER for the default
+        Full Name []: EdgeToolKit
+        Room Number []:
+        Work Phone []:
+        Home Phone []:
+        Other []:
+Is the information correct? [Y/n] y
+epm@epm:~$ sudo adduser edgetoolkit adm
+Adding user `edgetoolkit' to group `adm' ...
+Adding user edgetoolkit to group adm
+Done.
+epm@epm:~$ sudo adduser edgetoolkit sudo
+Adding user `edgetoolkit' to group `sudo' ...
+Adding user edgetoolkit to group sudo
+Done.
+```
+
+
+

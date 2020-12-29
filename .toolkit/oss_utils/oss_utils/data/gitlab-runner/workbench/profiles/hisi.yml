@@ -1,0 +1,55 @@
+.common:
+  profile_build: gcc/8/x86-release
+
+        ######################################
+        #                                    #
+        #    HUAWEI HiSilicon GCC            #
+        #                                    #
+        ######################################
+
+# -----------------------------------------------------------
+#  HiSi v300
+# -----------------------------------------------------------
+hisiv300:
+  docker:
+    builder:
+      image: epmkit/hisiv300
+      shell: /bin/bash
+      home: /home/conan
+  description: |
+    GNU GCC 4.8 build profile for HUAWEI HiSilicon ARM Linux uCLib.
+  profile_host: hisi/v300/release
+  cross_file: hisi/v300/cross.ini
+
+hisiv300d:
+  docker:
+    builder:
+      image: epmkit/hisiv300
+      shell: /bin/bash
+      home: /home/conan
+  description: |
+    GNU GCC 4.8 build profile for HUAWEI HiSilicon ARM Linux (Debug) uCLib.
+  profile_host: hisi/v300/debug
+  cross_file: hisi/v300/cross.ini
+
+hisiv400:
+  docker:
+    builder:
+      image: epmkit/hisiv400
+      shell: /bin/bash
+      home: /home/conan
+  description: |
+    GNU GCC 4.8 build profile for HUAWEI HiSilicon ARM Linux.
+  profile_host: hisi/v400/release
+  cross_file: hisi/v400/cross.ini
+
+hisiv400d:
+  docker:
+    builder:
+      image: epmkit/hisiv400
+      shell: /bin/bash
+      home: /home/conan
+  description: |
+    GNU GCC 4.8 build profile for HUAWEI HiSilicon ARM Linux (Debug).
+  profile_host: hisi/v400/debug
+  cross_file: hisi/v400/cross.ini

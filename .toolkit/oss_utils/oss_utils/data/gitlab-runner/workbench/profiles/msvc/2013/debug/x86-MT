@@ -1,0 +1,10 @@
+[settings]
+os=Windows
+arch=x86
+compiler=Visual Studio
+compiler.version=12
+compiler.runtime=MTd
+build_type=Debug
+[options]
+[build_requires]
+[env]

@@ -1,0 +1,132 @@
+# 
+# Microsoft Visual Studio 2019 profile.
+# Regarding run-time details check for MD, MDd, MT, MTd on
+# https://docs.microsoft.com/en-us/cpp/build/reference/md-mt-ld-use-run-time-library?view=vs-2019 
+#
+###############################################################################################
+.common:
+  profile_build: msvc/2019/x86_64
+
+
+        ######################################
+        #                                    #
+        #    MICROSOFT VISUAL STUDIO 2019    #
+        #                                    #
+        ######################################
+
+# -----------------------------------------------------------
+#  Visual Studio 2019 x86_64 
+# -----------------------------------------------------------
+vs2019:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86_64.
+    use the multithread-specific and DLL-specific version of the run-time library.
+  profile_host: msvc/2019/x86_64
+
+vs2019d:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86_64 (DEBUG).
+    use the debug multithread-specific and DLL-specific version of the run-time library
+  profile_host: msvc/2019/debug/x86_64
+
+vs2019MT:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86_64.
+    use the multithread, static version of the run-time library.
+  profile_host: msvc/2019/x86_64-MT
+
+vs2019MTd:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86_64 (DEBUG).
+    use the debug multithread, static version of the run-time library.
+  profile_host: msvc/2019/debug/x86_64-MT
+
+# -----------------------------------------------------------
+#  Visual Studio 2019 x86 
+# -----------------------------------------------------------
+vs2019-x86:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86.
+    use the multithread-specific and DLL-specific version of the run-time library.
+  profile_host: msvc/2019/x86
+
+vs2019-x86d:
+  aliase: vs2019-x86d
+  description: |
+    Microsoft Visual Studio 2019 profile for x86 (DEBUG).
+    use the debug multithread-specific and DLL-specific version of the run-time library
+  profile_host: msvc/2019/debug/x86
+
+vs2019MT-x86:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86.
+    use the multithread, static version of the run-time library.
+  profile_host: msvc/2019/x86-MT
+
+vs2019MTd-x86:
+  description: |
+    Microsoft Visual Studio 2019 profile for x86 (DEBUG).
+    use the debug multithread, static version of the run-time library.
+  profile_host: msvc/2019/debug/x86-MT
+
+
+        ######################################
+        #                                    #
+        #    MICROSOFT VISUAL STUDIO 2013    #
+        #                                    #
+        ######################################
+
+# -----------------------------------------------------------
+#  Visual Studio 2013 x86_64 
+# -----------------------------------------------------------
+vs2013:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86_64.
+    use the multithread-specific and DLL-specific version of the run-time library.
+  profile_host: msvc/2013/x86_64
+
+vs2013d:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86_64 (DEBUG).
+    use the debug multithread-specific and DLL-specific version of the run-time library
+  profile_host: msvc/2013/debug/x86_64
+
+vs2013MT:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86_64.
+    use the multithread, static version of the run-time library.
+  profile_host: msvc/2013/MT
+
+vs2013MTd:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86_64 (DEBUG).
+    use the debug multithread, static version of the run-time library.
+  profile_host: msvc/2013/debug/MT
+
+# -----------------------------------------------------------
+#  Visual Studio 2013 x86 
+# -----------------------------------------------------------
+vs2013-x86:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86.
+    use the multithread-specific and DLL-specific version of the run-time library.
+  profile_host: msvc/2013/x86
+
+vs2013-x86d:
+  aliase: vs2013-x86d
+  description: |
+    Microsoft Visual Studio 2013 profile for x86 (DEBUG).
+    use the debug multithread-specific and DLL-specific version of the run-time library
+  profile_host: msvc/2013/debug/x86
+
+vs2013MT-x86:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86.
+    use the multithread, static version of the run-time library.
+  profile_host: msvc/2013/x86-MT
+
+vs2013MTd-x86:
+  description: |
+    Microsoft Visual Studio 2013 profile for x86 (DEBUG).
+    use the debug multithread, static version of the run-time library.
+  profile_host: msvc/2013/debug/x86-MT
