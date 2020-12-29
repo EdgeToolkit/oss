@@ -23,12 +23,18 @@
       path: ~/.gitlab-runner/workbench
       state: absent
 
-
-  - name: Copy gitlab-runner workbench into config folder
-    copy: 
-      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/workbench"
+  - name: Copy gitlab-runner workbench
+    unarchive:
+      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/workbench.tar.gz"
       dest: ~/.gitlab-runner
-      mode: 0644
+#      extra_opts:
+#      - --transform
+#      - s/^xxx/yyy/
+#  - name: Copy gitlab-runner workbench into config folder
+#    copy: 
+#      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/workbench"
+#      dest: ~/.gitlab-runner
+#      mode: 0644
 
   - name: Copy gitlab-runner config file
     copy: 

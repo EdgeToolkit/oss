@@ -6,11 +6,11 @@ from oss_utils.gitlab_runner import GitlabRunnerManager #noqa
 
 def generate_config(param):
     manager = GitlabRunnerManager(param['config'], param['db'])
-    result = []
-    runners = manager.generate(hostname=param['hostname'],  type=param['type'], platform=param['platform'], 
+    
+    log = manager.generate(hostname=param['hostname'],  type=param['type'], platform=param['platform'], 
         home=param['home'], out_dir=param['out'])
 
-    return result
+    return log
 
 
 def run_module():
@@ -26,7 +26,7 @@ def run_module():
 
     result = dict(
         changed=False,
-        runner=[],
+        log={},
     )    
 
     module = AnsibleModule(
@@ -37,7 +37,7 @@ def run_module():
     if module.check_mode:
         module.exit_json(**result)
 
-    result['runner'] = generate_config(module.params)
+    result['log'] = generate_config(module.params)
     module.exit_json(**result)
 
 

@@ -7,10 +7,6 @@ import platform
 import argparse
 import shutil
 import subprocess
-<<<<<<< HEAD
-import sqlite3
-=======
->>>>>>> e475437314df87f08d8d5a19db470aa228b15b4d
 
 from jinja2 import Environment, FileSystemLoader
 from .lockfile import FileLock
@@ -117,7 +113,6 @@ class GitlabRunner(object):
 
     def register(self, register_token, tag=[]):
         assert self._gitlab and self._db
-        print('================>>', self.name)
         runner = self.runner
         if runner is None:
          
@@ -134,11 +129,7 @@ class GitlabRunner(object):
         if runner:
             self._db.remove(runner.id)
             runner.delete()
-<<<<<<< HEAD
             
-=======
-            self._db.remove_by_id(runner.id)
->>>>>>> e475437314df87f08d8d5a19db470aa228b15b4d
         return runner
     
     @property
@@ -156,6 +147,117 @@ class GitlabRunner(object):
         return GitlabRunner(hostname, type, workbench, device, gitlab=gitlab, db=db)
 
 
+class Generater(object):
+
+    def __init__(self, config, hostname, type,  home, platform=None, out_dir=None):
+        self._config = config
+        self._hostname = hostname
+        self._type = [type] if isinstance(type, str) else type
+        self._platform = platform or PLATFORM
+        self._home = home
+        self._out_dir = abspath(out_dir or f"./tmp/gitlab-runner/{hostname}")
+        self._workbench = self._config['workbench']
+        self.log = {}
+
+    def run(self, gitlab, db):
+        if os.path.exists(self._out_dir):
+            shutil.rmtree(self._out_dir)
+        os.makedirs(self._out_dir)
+        self._runner_config(gitlab, db)
+        self._gen_workbench()
+        #tar zxvf FileName.tar.gz
+        subprocess.run(['tar', 'zcvf', f"{self._out_dir}/workbench.tar.gz", "workbench"], cwd=self._out_dir)
+
+
+
+    def _runner_config(self, gitlab, db):
+        content =  ""
+        self.log['config.toml'] ={}
+        for workbench in self._workbench:
+            for type in self._type:                
+                cli = GitlabRunner(self._hostname, type, workbench=workbench, gitlab=gitlab, db=db)
+                runner = cli.runner
+                if not runner:
+                    raise Exception(f'can not get {cli.name} runner')
+                id = runner.id
+                item = db.get(id)
+                if not item:
+                    raise Exception(f'{id} not found in hash table')
+                context = {'platform': self._platform, 'token': item['token'], 
+                           'id': id, 'url': self._config['gitlab']['url'],
+                           'HOME': self._home, 'workbench': workbench, 'hostname': self._hostname
+                           }
+                content += self._render(f"{type}.toml.j2", context)
+                self.log['config.toml'][f"{workbench}/{type}"] = {'context': context, 'offset': len(content)}
+
+        with open(f"{self._out_dir}/config.toml", 'w') as f:
+            f.write(content)
+        self.log['config.toml'][f"{self._out_dir}/config.toml"] = len(content)
+
+    def _gen_workbench(self):
+        template_dir = os.path.join(DATA_DIR, 'gitlab-runner', 'workbench')
+
+        for workbench in self._workbench:
+            for type in self._type:
+                dst_dir = f"{self._out_dir}/workbench/{workbench}/{type}"
+                for i in ['', '.conan/hooks']:
+                    if not os.path.exists(f"{dst_dir}/{i}"):
+                        os.makedirs(f"{dst_dir}/{i}")
+                for i in ['script', 'profiles']:
+                    shutil.copytree(f"{template_dir}/{i}", f"{dst_dir}/{i}")
+
+                shutil.copy(f"{template_dir}/conan/hooks/{type}.py", f'{dst_dir}/.conan/hooks/{type}.py')
+                self._workbench_remote(workbench, type)
+                self._workbench_config(workbench, type)
+
+    def _workbench_remote(self, workbench, type):
+        dst_dir = f"{self._out_dir}/workbench/{workbench}/{type}"
+        os.environ['CONAN_USER_HOME'] = os.path.abspath(dst_dir)
+        subprocess.run(['conan', 'remote', 'clean'], check=True)
+        if type == 'deployer':
+            os.environ['CONAN_REVISIONS_ENABLED'] = '1'
+            for remote in self._workbench[workbench]['conan'] or []:
+                if remote['name'] != workbench:
+                    continue
+                # conan remote add remote url False
+                subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
+
+                # conan user -p password -r remote remote username
+                subprocess.run(['conan', 'user', '-r', remote['name'], '-p', remote['password'], remote['username']],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,           check=True)
+                break
+        else:
+            for remote in self._config['workbench'][workbench]['conan'] or []:
+                # conan remote add remote url False
+                subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
+
+    def _workbench_config(self, workbench, type):
+        path = f"{self._out_dir}/workbench/{workbench}/{type}"
+        remote = self._workbench[workbench]['conan'] or []
+        enviroment = self._config.get('environment') or {}
+        context = {'workbench': workbench, 'remote': remote, 'enviroment': enviroment}
+        self._render("workbench/config.yml.j2", context, f"{path}/config.yml")
+
+
+    @staticmethod
+    def _template(filename):
+        path = os.path.join(DATA_DIR, 'gitlab-runner')
+        env = Environment(loader=FileSystemLoader(path))
+        env.trim_blocks = True
+        #template_file = os.path.basename(filename)
+        return env.get_template(filename)
+
+    @staticmethod
+    def _render(template_file, context, outfile=None):
+        template = Generater._template(template_file)
+        txt = template.render(context)
+        if outfile:
+            folder = os.path.dirname(outfile)
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            with open(outfile, 'w') as f:
+                f.write(txt)
+        return txt
 
 class GitlabRunnerManager(object):
     
@@ -211,75 +313,11 @@ class GitlabRunnerManager(object):
         return result
 
     def generate(self, hostname, type, platform, home, out_dir=None):
-
         out_dir = abspath(out_dir or f"./tmp/gitlab-runner/{hostname}")
-        types = [type] if isinstance(type, str) else type
-        register_token = self.config['gitlab']['register_token']
-        platform = platform or PLATFORM
-        result = []
-        content =  ""
-        for workbench in self.config['workbench']:
-            for rtype in types:                
-                cli = GitlabRunner(hostname, rtype, workbench=workbench, gitlab=self.gitlab, db=self.db)
-                runner = cli.runner
-                if not runner:
-                    raise Exception(f'can not get {cli.name} runner')
-                id = runner.id
-                item = self.db.get(id)
-                if not item:
-                    raise Exception(f'{id} not found in hash table')
-                token = item['token']
-                url = self.config['gitlab']['url']
-                template = self._template(f"{rtype}.toml.j2")
-                content += template.render(platform=platform, token=token, id=id, url=url, HOME=home, workbench=workbench,
-                hostname=hostname)
-        if os.path.exists(out_dir):
-            shutil.rmtree(out_dir)
-        os.makedirs(out_dir)
-        with open(os.path.join(out_dir, 'config.toml'), 'w') as f:
-            f.write(content)
+        gen = Generater(self.config, hostname, type, platform, home, out_dir)
+        gen.run(self.gitlab, self.db)
+        return gen.log
 
-        template_dir = os.path.join(DATA_DIR, 'gitlab-runner', 'workbench')
-
-        for workbench in self.config['workbench']:
-            for rtype in types:
-                dst_dir = f"{out_dir}/workbench/{workbench}/{rtype}"
-                os.makedirs(os.path.join(dst_dir))
-                shutil.copytree(os.path.join(template_dir, 'script'), os.path.join(dst_dir, 'script'))
-
-                hooks_dir = f"{dst_dir}/.conan/hooks"
-                os.makedirs(hooks_dir)
-                shutil.copy(os.path.join(template_dir, f'conan/hooks/{rtype}.py'), 
-                    os.path.join(f'{hooks_dir}/{rtype}.py'))
-                # generate conan files
-                os.environ['CONAN_USER_HOME'] = os.path.abspath(dst_dir)
-                subprocess.run(['conan', 'remote', 'clean'], check=True)
-                if rtype == 'deployer':
-                    os.environ['CONAN_REVISIONS_ENABLED'] = '1'
-                    for remote in self.config['workbench'][workbench]['conan'] or []:
-                        if remote['name'] != workbench:
-                            continue
-                        # conan remote add remote url False
-                        subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
-
-                        # conan user -p password -r remote remote username
-                        subprocess.run(['conan', 'user', '-r', remote['name'], '-p', remote['password'], remote['username']], 
-                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                        check=True)
-                        break
-                else:
-                    for remote in self.config['workbench'][workbench]['conan'] or []:
-                        # conan remote add remote url False
-                        subprocess.run(['conan', 'remote', 'add', remote['name'], remote['url'], 'False'], check=True)
-        
-
-    @staticmethod
-    def _template(filename):
-        path = os.path.join(DATA_DIR, 'gitlab-runner')
-        env = Environment(loader=FileSystemLoader(path))
-        env.trim_blocks = True
-        template_file = os.path.basename(filename)
-        return env.get_template(template_file)
 
 # gitlab_runner.py register|unregister --hostname --type xx
 def main():
