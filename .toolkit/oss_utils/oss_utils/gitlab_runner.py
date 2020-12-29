@@ -7,7 +7,10 @@ import platform
 import argparse
 import shutil
 import subprocess
+<<<<<<< HEAD
 import sqlite3
+=======
+>>>>>>> e475437314df87f08d8d5a19db470aa228b15b4d
 
 from jinja2 import Environment, FileSystemLoader
 from .lockfile import FileLock
@@ -131,7 +134,11 @@ class GitlabRunner(object):
         if runner:
             self._db.remove(runner.id)
             runner.delete()
+<<<<<<< HEAD
             
+=======
+            self._db.remove_by_id(runner.id)
+>>>>>>> e475437314df87f08d8d5a19db470aa228b15b4d
         return runner
     
     @property

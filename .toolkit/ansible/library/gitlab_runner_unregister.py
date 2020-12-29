@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 from ansible.module_utils.basic import AnsibleModule
+<<<<<<< HEAD
 from oss_utils.gitlab_runner import GitlabRunnerManager, HashTable
+=======
+from oss_utils.gitlab_runner import GitlabRunnerManager #noqa
+>>>>>>> e475437314df87f08d8d5a19db470aa228b15b4d
 def _unregister(param):
     from oss_utils.gitlab_runner import GitlabRunner, GitlabRunnerDB, load_config #noqa
     import gitlab
