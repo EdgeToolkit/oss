@@ -3,7 +3,6 @@ import yaml
 import shutil
 import glob
 from utils import Workbench
-from conans.model.info import ConanInfo
 from conans.util.files import load
 
 def Main():

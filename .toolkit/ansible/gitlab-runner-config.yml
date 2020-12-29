@@ -19,8 +19,9 @@
 
 
   - name: Remove workbench directories
+    become: yes
     file:
-      path: ~/.gitlab-runner/workbench
+      path: /home/{{ansible_ssh_user}}/.gitlab-runner/workbench
       state: absent
 
   - name: Copy gitlab-runner workbench
@@ -30,11 +31,6 @@
 #      extra_opts:
 #      - --transform
 #      - s/^xxx/yyy/
-#  - name: Copy gitlab-runner workbench into config folder
-#    copy: 
-#      src: "~/.ansible/tmp/gitlab-runner/{{ansible_ssh_host}}/workbench"
-#      dest: ~/.gitlab-runner
-#      mode: 0644
 
   - name: Copy gitlab-runner config file
     copy: 

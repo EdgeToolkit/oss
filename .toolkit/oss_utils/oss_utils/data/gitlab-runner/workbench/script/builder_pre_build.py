@@ -1,8 +1,8 @@
+#!/user/bin/env python3
 import os
 import yaml
 import shutil
 import utils
-
     
 def Main():
     EPM_WORKBENCH = os.getenv('EPM_WORKBENCH')
