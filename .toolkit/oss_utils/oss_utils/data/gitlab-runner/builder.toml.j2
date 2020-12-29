@@ -4,8 +4,14 @@
   url = "{{url}}"
   token = "{{token}}"
   executor = "docker"
-  pre_clone_script = "sudo chown -R $(id -u):$(id -g) /workbench && ln -s /workbench $HOME/.epm"
-  pre_build_script = "chmod +x $HOME/.epm/script/builder_pre_build.py && $HOME/.epm/script/builder_pre_build.py"
+  pre_build_script = """set -e
+  sudo chown -R $(id -u):$(id -g) /workbench
+  mkdir -p $HOME/.epm/.workbench
+  WD=$HOME/.epm/.workbench/{{workbench}}
+  ln -s /workbench $WD  
+  chmod +x $WD/script/builder_pre_build.py
+  $WD/script/builder_pre_build.py
+  """
   environment = ["LC_ALL=en_US.UTF-8"]
   [runners.docker]
     tls_verify = false
