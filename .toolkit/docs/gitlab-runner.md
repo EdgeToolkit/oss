@@ -54,11 +54,11 @@
 
 标签
 
-|                          | runner | Winodows | Linux | docker | `bundle` | `device` |      |
-| ------------------------ | ------ | -------- | ----- | ------ | -------- | -------- | ---- |
-| `Windows` win32/w64      | Y      | Y        |       |        | *        |          |      |
-| `Linux` 通用             | Y      |          | Y     | Y      | *        |          |      |
-| `device` 嵌入式linux系统 | Y      |          | Y     |        | *        | *        |      |
+|                          | runner | Winodows | Linux | docker | `bundle` | `device` | `remote device` |
+| ------------------------ | ------ | -------- | ----- | ------ | -------- | -------- | --------------- |
+| `Windows` win32/w64      | Y      | Y        |       |        | *        |          |                 |
+| `Linux` 通用             | Y      |          | Y     | Y      | *        |          |                 |
+| `device` 嵌入式linux系统 | Y      |          | Y     |        | *        | *        | *               |
 
 
 
