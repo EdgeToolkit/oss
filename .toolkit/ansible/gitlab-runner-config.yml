@@ -1,7 +1,7 @@
 ---
 - hosts: builder,runner,deployer
   tasks:
-  - name: Generate gitlab-runner config
+  - name: Generate gitlab-runner config files
     gitlab_runner_config:
       config: "{{GITLAB_RUNNER_CONFIG_FILE}}"
       db: "{{GITLAB_RUNNER_REGISTER_DB}}"

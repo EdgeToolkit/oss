@@ -314,7 +314,8 @@ class GitlabRunnerManager(object):
 
     def generate(self, hostname, type, platform, home, out_dir=None):
         out_dir = abspath(out_dir or f"./tmp/gitlab-runner/{hostname}")
-        gen = Generater(self.config, hostname, type, platform, home, out_dir)
+        gen = Generater(self.config, hostname=hostname, type=type, 
+                        home=home, platform=platform, out_dir=out_dir)
         gen.run(self.gitlab, self.db)
         return gen.log
 
