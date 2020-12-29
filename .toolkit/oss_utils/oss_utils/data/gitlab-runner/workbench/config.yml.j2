@@ -4,10 +4,10 @@ workbench:
 conan:
   storage: ${workbench}/data
   remotes:
-  {% for r in remote %}
+{% for r in remote %}
   - name: {{r['name']}}
     url: {{r['url']}}
-  {% endfor %}
+{% endfor %}
 {% if environment %}
 environment:
 {% for name, value in environment.items() %}

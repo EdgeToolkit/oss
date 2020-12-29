@@ -1,9 +1,9 @@
-#!/user/bin/env python3
+#!/usr/bin/env python3
 import os
 import yaml
 import shutil
 import utils
-    
+   
 def Main():
     EPM_WORKBENCH = os.getenv('EPM_WORKBENCH')
     WORKBENCH_DIR = os.path.expanduser(f"~/.epm/.workbench/{EPM_WORKBENCH}")

@@ -243,7 +243,7 @@ class Generater(object):
     def _template(filename):
         path = os.path.join(DATA_DIR, 'gitlab-runner')
         env = Environment(loader=FileSystemLoader(path))
-        env.trim_blocks = True
+        #env.trim_blocks = True
         #template_file = os.path.basename(filename)
         return env.get_template(filename)
 
@@ -288,8 +288,7 @@ class GitlabRunnerManager(object):
         for workbench in self.config['workbench']:
             for runner_type in types:
                 tags = [f"{workbench}@workbench"]
-                tags += self.config['tag'][platform][runner_type] 
-                
+                tags += self.config['tag'][platform][runner_type]
 
                 cli = GitlabRunner(hostname, type, workbench=workbench,gitlab=self.gitlab, db=self.db)
                 runner = cli.register(register_token, tags)
