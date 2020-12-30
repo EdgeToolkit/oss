@@ -1,0 +1,14 @@
+name: c-ares
+version: 1.15.0
+
+scheme:
+  shared:
+    options:
+      shared: true
+
+  static:
+    options:
+      shared: false
+
+sandbox:
+   test_package: test_package/bin/example
