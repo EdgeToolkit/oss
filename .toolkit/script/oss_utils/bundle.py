@@ -25,7 +25,7 @@ from utils import ObjectView
 
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-_ROOTDIR = os.path.normpath(f"{_DIR}/../..")
+_ROOTDIR = os.path.normpath(f"{_DIR}/../../..")
 
 
 def _set(x):

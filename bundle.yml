@@ -1,4 +1,8 @@
-.settings:
+#------------------------------------
+#    Settings
+#------------------------------------
+.meta-info:
+  version: 1.0
   profile:
   - vs2019{d|-x86|-x86d}
   - gcc5{d|-x86|-x86d}
@@ -10,67 +14,78 @@
   - hisiv300{d}
   - hisiv400{d}
 
+#------------------------------------
+#    Bundles
+#------------------------------------
+base-devel:
+- version: 1.0
+  profile:
+  - vs2019
+  - gcc5{-x86}
+  - gcc8{-x86}
+  tool: true
+  
+- name: msys2
+  profile: vs2019
+  redist: true
 
-toolset:
-  - profile:
-    - vs2019
-    - gcc5{-x86}
-    - gcc8{-x86}
-    tool: true
+- name: strawberryperl
+  profile: vs2019
+  redist: true
 
-  - name: msys2
-    profile: vs2019
-    redist: true
+- name: 7zip
+  profile: vs2019
 
-  - name: strawberryperl
-    profile: vs2019
-    redist: true
-
-  - name: 7zip
-    profile: vs2019
-
-  - name: winflexbison
-    profile: vs2019
-
-  - pkgconf
-  - m4
-  - autoconf
-  - automake
-  - bison
-  - flex
-  - libtool
-  - re2c
-  - ninja
-  - meson
-  - nasm
-
+- name: winflexbison
+  profile: vs2019
+  
+- name: bison
+  profile: [gcc5, gcc8]
+- name: flex
+  profile: [gcc5, gcc8]
+- pkgconf
+- m4
+- autoconf
+- automake
+- libtool
+- re2c
+- ninja
+- meson
+- nasm
+  
 base:
-  - zlib
-  - brotli
-  - bzip2
-  - expat
-  - openssl
-  - pcre
-  - protobuf
-  - name: protoc
-    tool: true
-    profile:
-    - vs2019
-    - gcc5
-    - gcc8{-x86}
-  - name: pthreads4w
-    profile: 
-    - vs2019{d|-x86|-x86d}
-  - sqlite3
-  - gtest
-  - libcurl
-  - libiconv
-  - libwebsockets
-  - xz_utils
+- version: 1.0
+- zlib
+- brotli
+- bzip2
+- expat
+- openssl
+- pcre
+- name: pthreads4w
+  profile: 
+  - vs2019{d|-x86|-x86d}
+- sqlite3
+- gtest
+- libiconv
+- xz_utils
+  
+data:
+- version: 1.0
+- protobuf
+- name: protoc
+  tool: true
+  profile:
+  - vs2019
+  - gcc5
+  - gcc8{-x86}
 
-netutils:
-  - iperf
-
-microservice:
-  - poco
-  - mosqitto
+network:
+- version: 1.0
+- libcurl
+- libwebsockets
+- mosquitto
+- iperf
+  
+app-devel:
+- version: 1.0
+- poco
