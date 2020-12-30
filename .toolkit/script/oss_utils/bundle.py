@@ -70,13 +70,12 @@ class _Base(object):
             self._metainfo = self._metainfo or {}
         return self._metainfo
 
-
-class BundleSettings(_Base):
+class MetaInfo(_Base):
     MANIFEST = 'bundle.yml'
 
     def __init__(self, dir, out=None):
         super().__init__(dir, out)
-        self._settings = self.metainfo.pop('.settings', {})
+        self._settings = self.metainfo.pop('.meta-info', {})
         profile = _parse_profile_expr(self._settings.get('profile'))
         self._settings['profile'] = profile
         self._bundle = None
@@ -95,13 +94,13 @@ class BundleSettings(_Base):
 
     def _parse(self):
         bundles = {}
-        PackageSettings = namedtuple('PackageSettings', ['name', 'profile', 'tool', 'redist'])
+        PackageMetaInfo = namedtuple('PackageMetaInfo', ['name', 'profile', 'tool', 'redist'])
         for bundle_name, packages in self.metainfo.items():            
             bundle = {}
             settings, packages = self._bundle_preprocess(packages)
             for config in packages:
                 name, this = self._parse_bundle_package(config, settings)
-                bundle[name] = PackageSettings(name, this['profile'],
+                bundle[name] = PackageMetaInfo(name, this['profile'],
                 this.get('tool') or False, this.get('redist') or False, )
             bundles[bundle_name] = bundle
         return bundles
@@ -142,6 +141,7 @@ class BundleSettings(_Base):
         settings = self.merge_settings(bundle_settings, self._settings)
         settings = self.merge_settings(pkg_settings, settings)
         return name, settings
+
 
 
 class Package(_Base):
@@ -188,7 +188,7 @@ class Holograph(_Base):
 
     def __init__(self,dir=_ROOTDIR, out=None):
         super().__init__(dir, out)
-        self.settings = BundleSettings(dir, out)
+        self.settings = MetaInfo(dir, out)
         self._package = None
         self._bundle = None
 

@@ -83,8 +83,8 @@ network:
 - version: 1.0
 - libcurl
 - libwebsockets
-- mosquitto
-- iperf
+#- mosquitto
+#- iperf
   
 app-devel:
 - version: 1.0
