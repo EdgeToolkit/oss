@@ -1,0 +1,22 @@
+{% if platform == 'Linux' %}
+[[runners]]
+  name = "Linux runner {{hostname}}/{{workbench}}"
+  url = "{{url}}"
+  token = "{{token}}"
+  executor = "docker"
+  pre_clone_script = "sudo chown -R $(id -u):$(id -g) /workbench && ln -s /workbench $HOME/.epm"
+  pre_build_script = "chmod +x $HOME/.epm/script/runner_pre_build.py && $HOME/.epm/script/runner_pre_build.py"
+  environment = ["LC_ALL=en_US.UTF-8"]
+  [runners.docker]
+    tls_verify = false
+    image = "None"
+    privileged = false
+    disable_cache = false
+    volumes = ["/cache", "{{HOME}}/.gitlab-runner/workbench/{{workbench}}/runner:/workbench"]
+    pull_policy = "if-not-present"
+    shm_size = 0
+  [runners.cache]
+{% endif %}
+
+{% if platform == 'Windows' %}
+{% endif%}

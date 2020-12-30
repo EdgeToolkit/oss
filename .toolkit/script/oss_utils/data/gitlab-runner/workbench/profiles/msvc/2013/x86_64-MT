@@ -1,0 +1,10 @@
+[settings]
+os=Windows
+arch=x86_64
+compiler=Visual Studio
+compiler.version=12
+compiler.runtime=MT
+build_type=Release
+[options]
+[build_requires]
+[env]
