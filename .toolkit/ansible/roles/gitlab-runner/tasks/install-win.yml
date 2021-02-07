@@ -4,7 +4,6 @@
   win_file:
     path: "C:\Users\{{ansible_ssh_user}}\.epm"
     state: directory
-
 - name: Download gitlab-runner program to specified path
   win_get_url:
     url: "{{GITLAB_RUNNER_BINARY_REPO}}/binaries/gitlab-runner-windows-amd64.exe"
