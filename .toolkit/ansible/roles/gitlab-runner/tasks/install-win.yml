@@ -7,10 +7,10 @@
 
 - name: Download gitlab-runner program to specified path
   win_get_url:
-    url: "http://172.16.0.119/archive/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
+    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
     dest: C:\Users\{{ansible_ssh_user}}\.epm\gitlab-runner.exe
 
 - name: Download mirror.yml
   win_get_url:
-    url: "{{ARCHIVE_REPO_URL}}/mirrors.yml"
-    dest: C:\Users\{{ansible_ssh_user}}\.epm\mirrors.yml
+    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
+    dest: C:\Users\{{ansible_ssh_user}}\.epm\mirror.yml
