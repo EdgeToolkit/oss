@@ -2,7 +2,7 @@
 # https://blog.51cto.com/7424593/2174156
 - name: Create epm home folder
   win_file:
-    path: "C:\Users\{{ansible_ssh_user}}\.epm"
+    path: C:\Users\{{ansible_ssh_user}}\.epm
     state: directory
 - name: Download gitlab-runner program to specified path
   win_get_url:
