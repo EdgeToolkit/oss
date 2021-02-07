@@ -46,6 +46,16 @@ def gitlab_runner_register(args):
     gitlab_runner.register(args.count)
 
 
+def gitlab_runner_reset(args):
+    gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
+    gitlab_runner.reset()
+
+
+def gitlab_runner_add(args):
+    gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
+    gitlab_runner.add(args.hostname, args.kind, args.workbench, args.platform)
+
+
 def main():
     parser = argparse.ArgumentParser(prog='Open source software gitlab command tools')
     subs = parser.add_subparsers(dest='sub_command')
@@ -63,6 +73,23 @@ def main():
     cmd.add_argument('--count', default=1, type=int, help='')
     cmd.set_defaults(func=gitlab_runner_register)
 
+    # Generate gitlab-ci reset.
+    cmd = subs.add_parser('runner.reset', help='Register gitlab-runner')
+    cmd.add_argument('--url', required=True, help='Gitlab url')
+    cmd.add_argument('--token', required=True, help='Gitlab access private token')
+    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
+    cmd.set_defaults(func=gitlab_runner_reset)
+
+    # Generate gitlab-ci reset. kypLygrDSZ-92NewWx4R
+    cmd = subs.add_parser('runner.add', help='Register gitlab-runner')
+    cmd.add_argument('--url', required=True, help='Gitlab url')
+    cmd.add_argument('--token', required=True, help='Gitlab access private token')
+    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
+    cmd.add_argument('--hostname', required=True,  help='')
+    cmd.add_argument('--kind', required=True, help='')
+    cmd.add_argument('--platform', required=True, help='')
+    cmd.add_argument('--workbench', default=None, help='')
+    cmd.set_defaults(func=gitlab_runner_add)
 
     args = parser.parse_args()
     return args.func(args)

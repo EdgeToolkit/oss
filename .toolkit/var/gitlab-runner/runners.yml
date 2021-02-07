@@ -1,0 +1,12 @@
+1:
+  active: true
+  description: 172.16.192.240/Windows builder @oss:0.1
+  hostname: 172.16.192.240
+  kind: builder
+  platform: Windows
+  tag_list:
+  - builder
+  - workbench=oss:0.1
+  - Windows
+  - MSVC
+  workbench: oss:0.1

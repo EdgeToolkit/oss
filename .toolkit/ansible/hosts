@@ -3,6 +3,7 @@ ansible_ssh_port=22
 ansible_ssh_user=edgetoolkit
 ansible_ssh_pass=edgetoolkit 
 ansible_sudo_pass=edgetoolkit
+ansible_winrm_server_cert_validation=ignore
 #ansible_ssh_private_key_file=/root/.ssh/id_rsa
 ansible_python_interpreter=/usr/bin/python3
 
@@ -52,9 +53,9 @@ gitlab_host ansible_ssh_host=172.16.0.121
 #################################################
 [gitlab_runner:vars]
 GITLAB_RUNNER_VERSION=13.8.0
-GITLAB_RUNNER_SUPPORTED=builder,runner,publisher
+GITLAB_RUNNER_KINDS=builder,runner
 
 [gitlab_runner]
-pc241  ansible_ssh_host=172.16.192.241
-pc240  ansible_ssh_host=172.16.193.230  GITLAB_RUNNER_SUPPORTED=builder,runner
-pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_SUPPORTED=publisher,ci-config-generator
+#pc241  ansible_ssh_host=172.16.192.241  GITLAB_RUNNER_KINDS=builder,runner,
+pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
+#pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_KINDS=deployer,gitlab-ci.config.generator

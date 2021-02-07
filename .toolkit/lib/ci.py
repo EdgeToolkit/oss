@@ -72,6 +72,7 @@ class GitlabRunner(object):
                 del token[id]
 
     def add(self, hostname, kind, workbench=None, platform='Linux'):
+        assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
         context = {'hostname': hostname, 'workbench': workbench, 'kind': kind, 'platform': platform,
                    }
 
@@ -86,12 +87,15 @@ class GitlabRunner(object):
                 if kind == 'builder':
                     tags += [platform]
                     tags += [] if platform == 'Linux' else ['MSVC']
-                elif kind in ['publisher', 'ci-config-generator']:
+                if kind == 'tester':
+                    tags += [platform]
+                    tags += ['docker'] if platform == 'Linux' else []
+                elif kind in ['deployer', 'gitlab-ci.config.generator']:
                     tags += ['docker']
                 description = f"{hostname}/{platform} {kind}"
                 if workbench:
-                    description += f"@{workbench}"
-                value = {'tag_list': tags, 'description': description}
+                    description += f" @{workbench}"
+                value = {'tag_list': tags, 'description': description, 'active': True}
                 self.gitlab.runners.update(id, value)
                 value.update(context)
                 runners[id] = value
