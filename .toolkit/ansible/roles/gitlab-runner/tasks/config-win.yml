@@ -1,0 +1,6 @@
+
+---
+# generate all gitlab-runner config in local
+
+
+- name: generate gitlab config

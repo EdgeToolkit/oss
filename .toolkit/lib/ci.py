@@ -71,6 +71,13 @@ class GitlabRunner(object):
             if id in token:
                 del token[id]
 
+    def config(self, hostname, builder=0, tester=0, trigger=0, deployer=0,
+               workbench=None, platform='Linux'):
+        kinds = {'builder': builder, 'tester': tester, 'trigger': trigger, 'deployer': deployer}
+        for kind, n in kinds.items():
+            for i in range(n):
+                self.add(hostname, kind, workbench, platform)
+
     def add(self, hostname, kind, workbench=None, platform='Linux'):
         assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
         context = {'hostname': hostname, 'workbench': workbench, 'kind': kind, 'platform': platform,

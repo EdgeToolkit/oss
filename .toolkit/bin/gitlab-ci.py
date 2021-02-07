@@ -81,12 +81,15 @@ def main():
     cmd.set_defaults(func=gitlab_runner_reset)
 
     # Generate gitlab-ci reset. kypLygrDSZ-92NewWx4R
-    cmd = subs.add_parser('runner.add', help='Register gitlab-runner')
+    cmd = subs.add_parser('runner.config', help='Register gitlab-runner')
     cmd.add_argument('--url', required=True, help='Gitlab url')
     cmd.add_argument('--token', required=True, help='Gitlab access private token')
     cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
     cmd.add_argument('--hostname', required=True,  help='')
-    cmd.add_argument('--kind', required=True, help='')
+    cmd.add_argument('--builder', type=int, default=0, help='')
+    cmd.add_argument('--tester', type=int, default=0, help='')
+    cmd.add_argument('--deployer', type=int, default=0, help='')
+    cmd.add_argument('--trigger', type=int, default=0, help='')
     cmd.add_argument('--platform', required=True, help='')
     cmd.add_argument('--workbench', default=None, help='')
     cmd.set_defaults(func=gitlab_runner_add)

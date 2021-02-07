@@ -1,0 +1,17 @@
+---
+
+- name: update config in gitlab
+  shell: |
+    /oss/.toolkit/bin/gitlab-ci runner.reset
+    /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
+      --token {{GITLAB_TOKEN}} \
+      --dir /oss/.toolkit/var/gitlab-runner
+      --hostname {{inventory_hostname}}
+      --builder {{GITLAB_RUNNER_BUILDER}}  \
+      --tester {{GITLAB_RUNNER_TESTER}} \
+      --deployer {{GITLAB_RUNNER_DEPLOYER}} \
+      --trigger {{GITLAB_RUNNER_TRIGGER}}   \
+      --platform {{ansible_os_family}}      \
+      --workbench workbench=oss:0.1         \
+
+  delegate_to: localhost
