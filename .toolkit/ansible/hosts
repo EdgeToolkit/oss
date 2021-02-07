@@ -15,7 +15,7 @@ PIP_TRUSTED_HOST='172.16.0.121'
 GITLAB_RUNNER_CONFIG_FILE='~/.edgetoolkit/config/gitlab-runner/oss.yml'
 GITLAB_RUNNER_REGISTER_DB='~/.edgetoolkit/config/gitlab-runner/gitlab-runner-db.yml'
 GITLAB_RUNNER_BINARY_REPO='http://172.16.0.119/archive/gitlab-runner/v13.8.0'
-
+ARCHIVE_REPO_URL='http://172.16.0.119/archive
 ###
 device_ssh_port=1022
 device_ssh_user=admin
