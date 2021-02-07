@@ -1,0 +1,13 @@
+name: flex
+version: 2.6.4
+
+build-tools:
+  m4: 1.4.18
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package
+  build-tools:
+    flex: ${__version__}
+

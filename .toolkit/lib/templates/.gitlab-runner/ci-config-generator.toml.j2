@@ -1,0 +1,14 @@
+
+[[runners]]
+{% if platform == 'Windows' %}
+  name = "{{ hostname }}"
+  url = "{{ conf.url }}"
+  token = "{{ token }}
+  executor = "shell"
+  shell = "powershell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+{% endif %}

@@ -1,0 +1,18 @@
+- hosts: artifactory
+  vars:
+    - COMMAND: install
+  roles:
+  - role: artifactory
+    when:
+    - target == "artifactory"
+#    - inventory_hostname in groups['artifactory']
+
+- hosts: gitlab
+  vars:
+    - COMMAND: install
+  roles:
+  - role: gitlab
+    when:
+    - target == "gitlab"
+#    - inventory_hostname in groups['gitlab']
+

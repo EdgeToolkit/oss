@@ -1,0 +1,7 @@
+#!/bin/bash
+_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
+_TOP=$(cd "$__dir__/../.."; pwd)
+echo -- starting ansible docker
+docker run -it --rm --name ansible-playbook -v $_DIR:/home/conan/ansible -w /home/conan/ansible \
+       edgetoolkit/ansible /bin/bash -c "ansible-playbook -i hosts $*"
+

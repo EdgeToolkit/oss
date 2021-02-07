@@ -1,0 +1,79 @@
+stages:
+- build
+{% if not package.config.tool and not FOR_TOOL -%}
+- test
+{% endif -%}
+- publish
+{#  #}
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+{%  set suffix = '.tool' if FOR_TOOL else ''  %}
+{%- set MSVC = package.c_matrix('^vs20\d\d\w*$', tool=FOR_TOOL)  %}
+{%- if MSVC  %}
+{{ package.name }}{{ suffix }}.build@windows:
+    stage: build
+    tags:
+    - workbench=oss:{{ synthesis.version }}
+    - builder
+    - Windows
+    - MSVC
+    script: echo epm --profile $PROFILE --scheme $SCHEME create
+    parallel:
+      matrix:
+{%- for profiles, schemes in MSVC %}
+      - SCHEME: {{ schemes | list }}
+        PROFILE: {{ profiles | list }}
+{% endfor -%}
+{%- endif  %}
+
+{%  set suffix = '.tool' if FOR_TOOL else ''  %}
+{%- set Linux = package.c_matrix('^gcc\d+(\-x86)?\w?$', tool=FOR_TOOL)  %}
+{%- set arm8Linux = package.c_matrix( '^gcc\d+\-armv7\w*$', tool=FOR_TOOL)  %}
+{%- set arm7Linux = package.c_matrix( '^gcc\d+\-armv8\w*$', tool=FOR_TOOL)  %}
+{%- set hisiLinux = package.c_matrix( '^hisiv|himix', tool=FOR_TOOL)  %}
+{%- if Linux + arm7Linux + arm8Linux + hisiLinux %}
+{{ package.name }}{{ suffix }}.build@linux:
+    stage: build
+    tags:
+    - workbench=oss:{{ synthesis.version }}
+    - builder
+    - Windows
+    - MSVC
+    script: echo epm --profile $PROFILE --scheme $SCHEME create
+    parallel:
+      matrix:
+{%- for m in [Linux, arm7Linux, arm8Linux, hisiLinux] -%}
+{%- if m  -%}
+{%- for profiles, schemes in m %}
+      - SCHEME: {{ schemes | list }}
+        PROFILE: {{ profiles | list }}
+{% endfor -%}
+{%- endif  -%}
+{%- endfor  -%}
+{%- endif  %}
+
+
+
+
+
+    # ---------------------------------
+    #     Publish
+    # ---------------------------------
+{{ package.name }}{{ suffix }}.publish@linux:
+    stage: publish
+    tags:
+    - workbench=oss:{{ synthesis.version }}
+    - publisher
+    script: echo epm --profile $PROFILE --scheme $SCHEME upload -r oss
+    parallel:
+      matrix:
+{%- for m in [MSVC, Linux, arm7Linux, arm8Linux, hisiLinux] -%}
+{%- if m  -%}
+{%- for profiles, schemes in m %}
+      - SCHEME: {{ schemes | list }}
+        PROFILE: {{ profiles | list }}
+{% endfor -%}
+{%- endif  -%}
+{%- endfor  -%}
