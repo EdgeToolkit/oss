@@ -3,7 +3,7 @@
 - name: Create epm home folder
   become: yes
   file:
-    path: "C:\Users\{{ansible_ssh_user}}\.epm"
+    path: "C:/Users/{{ansible_ssh_user}}/.epm"
     state: directory
     mode: 0755
     recurse: yes

@@ -2,7 +2,7 @@
   include: install.yml
   when:
   - COMMAND == 'install'
-  - ansible_connection != 'winrm'
+  - ansible_connection == 'ssh'
 
 - name: Install GitLab-runner for Windows
   include: install-win.yml
