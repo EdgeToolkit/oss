@@ -9,6 +9,7 @@ RUN sudo apt-get update \
     && sudo apt install -y sshpass \
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
     && pip config set install.trusted-host mirrors.aliyun.com \
-    && pip install ansible docker networkx python-gitlab
+    && pip install ansible docker networkx python-gitlab winrm
+
     
 
