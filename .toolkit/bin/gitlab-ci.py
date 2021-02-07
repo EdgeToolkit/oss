@@ -8,6 +8,7 @@ _DIR = os.path.dirname(abspath(__file__))
 _LIBD = abspath(f"{_DIR}/../lib")
 sys.path.insert(0, _LIBD)
 from configure import Synthesis
+from ci import GitlabRunner
 
 
 def gitlab_ci_generate(args):
@@ -39,14 +40,29 @@ def gitlab_ci_generate(args):
             print(" done.")
     return None
 
+
+def gitlab_runner_register(args):
+    gitlab_runner = GitlabRunner(args.url, args.dir, registration=args.token)
+    gitlab_runner.register(args.count)
+
+
 def main():
     parser = argparse.ArgumentParser(prog='Open source software gitlab command tools')
-    subs = parser.add_subparsers()
+    subs = parser.add_subparsers(dest='sub_command')
 
-    # gitlab
+    # Generate gitlab-ci config files.
     cmd = subs.add_parser('generate', help='Generate gitlab runner config')
     cmd.add_argument('--target', default=None, action='append', help='Generate config for bundle')
     cmd.set_defaults(func=gitlab_ci_generate)
+
+    # Generate gitlab-ci config files.
+    cmd = subs.add_parser('runner.register', help='Register gitlab-runner')
+    cmd.add_argument('--url', required=True, help='Gitlab url')
+    cmd.add_argument('--token', required=True, help='Gitlab runner registration token')
+    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
+    cmd.add_argument('--count', default=1, type=int, help='')
+    cmd.set_defaults(func=gitlab_runner_register)
+
 
     args = parser.parse_args()
     return args.func(args)
