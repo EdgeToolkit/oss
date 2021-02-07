@@ -14,5 +14,13 @@
   - role: gitlab
     when:
     - target == "gitlab"
+
+- hosts: gitlab_runner
+  vars:
+    - COMMAND: install
+  roles:
+  - role: gitlab-runner
+    when:
+    - target == "gitlab-runner"
 #    - inventory_hostname in groups['gitlab']
 
