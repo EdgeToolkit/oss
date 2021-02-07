@@ -1,0 +1,8 @@
+# more option see /opt/gitlab/etc/gitlab.rb.template
+{% if GITLAB_HTTP_PORT == 80 %}
+external_url 'http://{{ansible_ssh_host}}'
+{% else %}
+external_url 'http://{{ansible_ssh_host}}:{{GITLAB_HTTP_PORT}}'
+{% endif %}
+gitlab_rails['gitlab_shell_ssh_port'] = {{GITLAB_SSH_PORT | default(22)}}
+nginx['listen_port'] = {{ GITLAB_HTTP_PORT | default(80) }}
