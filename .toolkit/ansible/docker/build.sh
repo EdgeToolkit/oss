@@ -1,1 +1,1 @@
-sudo docker build . -t edgetoolkit/ansible
+sudo docker build -t edgetoolkit/ansible .
