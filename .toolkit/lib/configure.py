@@ -175,7 +175,6 @@ class Package(object):
             matrix[c.profile].add(c.scheme)
         S = []
         result = []
-        print('------------------------', self.name)
         for pr, schemes in matrix.items():
             for p, s in result:
                 if s == schemes:
@@ -183,7 +182,6 @@ class Package(object):
                     break
             else:
                 result.append(({pr}, schemes))
-            print('*', result)
         return result
 
 
