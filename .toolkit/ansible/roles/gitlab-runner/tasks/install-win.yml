@@ -14,9 +14,9 @@
   win_shell: echo .\gitlab-runner.exe stop
 #    .\gitlab-runner.exe uninstall
 #    .\gitlab-runner.exe install -c config.toml
-    args:
-      chdir: "C:\Users\{{ansible_ssh_user}}\.gitlab-runner"
-      executable: cmd
+  args:
+    chdir: "C:\Users\{{ansible_ssh_user}}\.gitlab-runner"
+    executable: cmd
 
 - name: Download mirror.yml
   win_get_url:
