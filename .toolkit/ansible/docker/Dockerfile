@@ -1,4 +1,4 @@
-FROM conanio/gcc5:1.33.0
+FROM edgetoolkit/gcc5
 
 LABEL maintainer="Mingyi Zhang <mingyi.z@outlook.com>"
 
