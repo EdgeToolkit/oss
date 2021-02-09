@@ -2,14 +2,17 @@
 [[runners]]
   name = "{{ hostname }}/{{ platform }}:{{ kind }}"
   url = "{{ url }}"
-  token = "{{ token }}
+  token = "{{ token }}"
   executor = "docker"
-  image = edgetoolkit/gcc5
+  limit = {{ limit | default(1) }}
+  image = "{{ docker_repository_url  }}edgetoolkit/gcc5"
+{#
   pre_build_script = """set -e
   WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}
   chmod +x $WD/script/builder_pre_build.py
   $WD/script/builder_pre_build.py
   """
+#}
   environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{kind }}"]
   [runners.custom_build_dir]
   [runners.cache]

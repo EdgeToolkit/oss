@@ -2,13 +2,23 @@
 # https://blog.51cto.com/7424593/2174156
 - name: Create epm home folder
   win_file:
-    path: C:\Users\{{ansible_ssh_user}}\.epm
+    path: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
     state: directory
 
 - name: Download gitlab-runner program to specified path
   win_get_url:
     url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
-    dest: C:\Users\{{ansible_ssh_user}}\.epm\gitlab-runner.exe
+    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
+
+- name: Install gitlab service
+  win_shell: |
+    gitlab-runner stop
+    gitlab-runner uninstall
+    gitlab-runner install -c config.toml
+    args:
+      chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
+      executable: cmd
+  become: yes
 
 - name: Download mirror.yml
   win_get_url:

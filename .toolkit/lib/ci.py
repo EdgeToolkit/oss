@@ -119,7 +119,6 @@ class GitlabRunner(object):
 
     def make(self, out_dir):
         config = self._load_config()
-        print(config)
         self._render_config(config, out_dir)
 
     def _gen_workbench(self, config, out_dir):
@@ -131,7 +130,8 @@ class GitlabRunner(object):
 
     def _render_config(self, config, out_dir, concurrency=1):
         for hostname, runners in config.items():
-            content = "\n"
+            content = "concurrent = 1\n"\
+                      "timeout=1800\n"
             save(f"{out_dir}/{hostname}/config.toml", content)
             for runner in runners:
                 context = {}
