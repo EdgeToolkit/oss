@@ -11,9 +11,10 @@
 #    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
 
 - name: Install gitlab service
-  win_shell: echo .\gitlab-runner.exe stop
-#    .\gitlab-runner.exe uninstall
-#    .\gitlab-runner.exe install -c config.toml
+  win_shell: |
+    .\gitlab-runner.exe stop
+    .\gitlab-runner.exe uninstall
+    .\gitlab-runner.exe install -c config.toml
   args:
     chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
     executable: cmd
