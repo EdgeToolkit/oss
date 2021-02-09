@@ -10,7 +10,7 @@
     image: sonatype/nexus3:{{NEXUS3_VERSION}}
     restart_policy: always
     ports:
-    - "{{ NEXUS3_WEB_PORT     }}:8081"
+    - "{{ NEXUS3_WEB_PORT  }}:8081"
     - "{{ NEXUS3_WEB_PORT + 1 }}:8082"
     - "{{ NEXUS3_WEB_PORT + 2 }}:8083"
     - "{{ NEXUS3_WEB_PORT + 3 }}:8084"
