@@ -4,19 +4,18 @@
   win_file:
     path: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
     state: directory
-
-- name: Download gitlab-runner program to specified path
-  win_get_url:
-    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
-    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
+#
+#- name: Download gitlab-runner program to specified path
+#  win_get_url:
+#    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
+#    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
 
 - name: Install gitlab service
-  win_shell: |
-    .\gitlab-runner.exe stop
-    .\gitlab-runner.exe uninstall
-    .\gitlab-runner.exe install -c config.toml
+  win_shell: echo .\gitlab-runner.exe stop
+#    .\gitlab-runner.exe uninstall
+#    .\gitlab-runner.exe install -c config.toml
     args:
-      chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
+      chdir: "C:\Users\{{ansible_ssh_user}}\.gitlab-runner"
       executable: cmd
 
 - name: Download mirror.yml
