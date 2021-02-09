@@ -6,7 +6,7 @@
 
 - name: create nexus3 container
   docker_container:
-    name: "nexus3-{{NEXUS3_VERSION}]"
+    name: "nexus3-{{NEXUS3_VERSION}}"
     image: sonatype/nexus3:{{NEXUS3_VERSION}}
     restart_policy: always
     ports:
