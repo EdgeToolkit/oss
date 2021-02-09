@@ -14,4 +14,4 @@
   include: config.yml
   when:
   - COMMAND == 'config'
-ansible_architecture
+#ansible_architecture
