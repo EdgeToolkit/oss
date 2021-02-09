@@ -18,7 +18,6 @@
     args:
       chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
       executable: cmd
-  become: yes
 
 - name: Download mirror.yml
   win_get_url:
