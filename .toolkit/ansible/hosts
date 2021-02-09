@@ -33,6 +33,14 @@ ARTIFACTORY_API_PORT=8061
 [artifactory]
 artifactory_host ansible_ssh_host=172.16.0.119
 
+[nexus3:vars]
+NEXUS3_VERSION=3.29.2
+NEXUS3_WEB_PORT=8040
+
+[nexus3]
+nexus3_host ansible_ssh_host=172.16.0.119
+
+
 [gitlab:vars]
 GITLAB_VERSION=13.8.0
 GITLAB_DOCKER_IMAGE=gitlab/gitlab-ce:13.8.3-ce.0
@@ -56,11 +64,14 @@ GITLAB_RUNNER_DEPLOYER=0
 GITLAB_RUNNER_CI_GENERATOR=0
 
 GITLAB_URL=http://192.16.0.121:8200
-GITLAB_TOKEN=kypLygrDSZ-92NewWx4R
+#GITLAB_TOKEN=kypLygrDSZ-92NewWx4R
+GITLAB_PRIVATE_TOKEN=kypLygrDSZ-92NewWx4R
+GITLAB_RUNNER_REGISTRATION_TOKEN=vHPLmVXgNBrLyB8VC9Te
 
+OSS_VERSIONS= 0.1, 0.2
 
 [gitlab_runner]
-#pc241  ansible_ssh_host=172.16.192.241  GITLAB_RUNNER_KINDS=builder,runner,
+#pc241  ansible_ssh_host=172.16.192.241
 pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
 #pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
-#pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_KINDS=deployer,gitlab-ci.config.generator
+#pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_CONCURRENCY=6 GITLAB_RUNNER_DEPLOYER=5 GITLAB_RUNNER_CI_GENERATOR=1

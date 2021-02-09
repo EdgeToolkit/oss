@@ -9,3 +9,9 @@
   when:
   - COMMAND == 'install'
   - ansible_connection == 'winrm'
+
+- name: Config GitLab-Runner
+  include: config.yml
+  when:
+  - COMMAND == 'config'
+ansible_architecture
