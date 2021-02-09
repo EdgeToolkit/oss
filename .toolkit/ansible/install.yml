@@ -6,6 +6,13 @@
     when:
     - target == "artifactory"
 #    - inventory_hostname in groups['artifactory']
+- hosts: nexus3
+  vars:
+    - COMMAND: install
+  roles:
+  - role: nexus3
+    when:
+    - target == "nexus3"
 
 - hosts: gitlab
   vars:
