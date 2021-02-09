@@ -10,7 +10,7 @@
 #    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
 #    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
 
-- name: Install gitlab service
+- name: Uninstall gitlab service
   win_shell: |
     .\gitlab-runner.exe uninstall
   args:
@@ -23,7 +23,7 @@
     .\gitlab-runner.exe install -c config.toml
   args:
     chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
-    executable: cmd
+    executable: powershell
 
 - name: Download mirror.yml
   win_get_url:
