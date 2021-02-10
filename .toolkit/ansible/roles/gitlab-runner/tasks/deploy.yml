@@ -20,7 +20,6 @@
       --deployer {{GITLAB_RUNNER_DEPLOYER}} \
       --trigger {{GITLAB_RUNNER_CI_GENERATOR}}   \
       --platform {{ansible_os_family}}      \
-      --workbench workbench=oss:{{item}}         \
-  with_items: OSS_VERSIONS
-  #"{{ OSS_VERSIONS.split(',')}}"
+      --workbench workbench=oss/{{OSS_VERSION}}
+#  with_items: "{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost
