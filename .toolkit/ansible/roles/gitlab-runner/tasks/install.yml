@@ -1,4 +1,26 @@
 ---
-# https://blog.51cto.com/7424593/2174156
-- win_ping:
+- name: Create gitlab-runner home folder
+  file:
+    path: /home/{{ansible_ssh_user}}/.gitlab-runner
+    state: directory
 
+- name: Download gitlab-runner program ~/.gitlab-runner
+  get_url:
+    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
+    dest: /home//{{ansible_ssh_user}}/.gitlab-runner/gitlab-runner
+    mode: 644
+
+- name: Install gitlab service
+  shell: |
+    .\gitlab-runner.exe stop
+    .\gitlab-runner.exe uninstall
+
+    .\gitlab-runner.exe install -c config.toml
+  args:
+    chdir: /home/{{ansible_ssh_user}}/.gitlab-runner
+  become: yes
+
+- name: Download mirror.yml
+  get_url:
+    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
+    dest: /home/{{ansible_ssh_user}}/.epm/mirror.yml
