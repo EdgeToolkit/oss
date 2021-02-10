@@ -13,8 +13,8 @@
 
     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner
-      --hostname {{ansible_ssh_host}}
+      --dir /oss/.toolkit/var/gitlab-runner \
+      --hostname {{ansible_ssh_host}} \
       --builder {{GITLAB_RUNNER_BUILDER}}  \
       --tester {{GITLAB_RUNNER_TESTER}} \
       --deployer {{GITLAB_RUNNER_DEPLOYER}} \
