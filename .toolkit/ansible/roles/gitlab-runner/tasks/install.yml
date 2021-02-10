@@ -21,7 +21,7 @@
   args:
     chdir: /home/{{ansible_ssh_user}}/.gitlab-runner
   become: yes
-  become_user: {{ansible_ssh_user}}
+  become_user: "{{ansible_ssh_user}}"
   become_method: sudo
 
 - name: Download mirror.yml
