@@ -22,5 +22,6 @@
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
       --workbench workbench=oss/{{OSS_VERSION}}
+      --out /home/{{ansible_ssh_user}}/.gitlab-runner/tmp/config
 #  with_items: "{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost
