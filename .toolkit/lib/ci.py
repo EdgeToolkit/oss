@@ -62,6 +62,7 @@ class GitlabRunner(object):
 
     def reset(self, hostname='*'):
         """disable all runners"""
+        return
         for runner in self.runners(hostname):
             print('-*-')
             return
