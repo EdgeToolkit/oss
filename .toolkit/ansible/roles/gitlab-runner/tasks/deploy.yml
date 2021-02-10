@@ -30,7 +30,7 @@
 - name: generate runner config and workbench files
   shell: |
     rm -rf /oss/.tmp/gitlab-runner
-    /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
+    /oss/.toolkit/bin/gitlab-ci runner.make --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{ansible_ssh_host}} \
