@@ -67,7 +67,7 @@ def gitlab_runner_active(args):
 
 def gitlab_runner_make(args):
     gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
-    gitlab_runner.make(args.out)
+    gitlab_runner.make(args.hostname, args.out)
 
 
 def main():
