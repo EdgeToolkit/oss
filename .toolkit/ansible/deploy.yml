@@ -1,6 +1,6 @@
 - hosts: gitlab_runner
   vars:
-    - COMMAND: config
+    - COMMAND: deploy
   roles:
   - role: gitlab-runner
     when:

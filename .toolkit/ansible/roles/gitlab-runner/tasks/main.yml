@@ -11,7 +11,7 @@
   - ansible_connection == 'winrm'
 
 - name: Config GitLab-Runner
-  include: config.yml
+  include: deploy.yml
   when:
-  - COMMAND == 'config'
+  - COMMAND == 'deploy'
 #ansible_architecture
