@@ -20,6 +20,9 @@
 
 - name: Install gitlab service
   win_shell: |
+    Try { .\gitlab-runner.exe stop } Catch {}
+    Try { .\gitlab-runner.exe uninstall } Catch {}
+
     .\gitlab-runner.exe install -c config.toml
   args:
     chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
