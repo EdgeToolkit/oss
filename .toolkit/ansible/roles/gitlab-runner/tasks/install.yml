@@ -24,6 +24,12 @@
 #  become_user: "{{ansible_ssh_user}}"
 #  become_method: sudo
 
+- name: Create gitlab-runner home folder
+  file:
+    path: /home/{{ansible_ssh_user}}/.epm
+    state: directory
+    mode: '0755'
+
 - name: Download mirror.yml
   get_url:
     url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
