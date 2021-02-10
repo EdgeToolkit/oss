@@ -150,8 +150,6 @@ class GitlabRunner(object):
         content = "concurrent = 1\n" \
                   "timeout=1800\n"
         save(filename, content)
-        print(filename, '<---------------------')
-
         for runner in self.runners(hostname):
             m = self.parse_description(runner.description)
             assert hostname == m.hostname
@@ -159,10 +157,8 @@ class GitlabRunner(object):
                        'kind': m.kind, 'workbench': m.workbench, 'tags': runner.tag_list}
             kind = context['kind']
             j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
-            content += j2.render(f"{kind}.toml.j2")
-            print(content)
+            content = j2.render(f"{kind}.toml.j2")
             save(filename, content, append=True)
-            content = "\n"
 #
 #    def _render_config(self, config, out_dir, concurrency=1):
 #        for hostname, runners in config.items():
