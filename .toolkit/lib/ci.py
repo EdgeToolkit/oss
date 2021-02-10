@@ -117,10 +117,10 @@ class GitlabRunner(object):
             kind = 'gitlab-ci.config.generator'
             workbench = None
         assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
-        return
+
 
         filename = f"{self.conf.dir}/tokens.yml"
-        with FileLock(filename, timeout=6):
+        with FileLock(filename, timeout=60):
             runner = self.runners()[0]
             tags = [kind]
             if workbench:

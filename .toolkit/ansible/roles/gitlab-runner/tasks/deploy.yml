@@ -4,15 +4,18 @@
 # 2. generate gitlab config for each hostname
 # 3. deploy configs
 
-- name: update config in gitlab
+- name: reset config in gitlab
   shell: |
     /oss/.toolkit/bin/gitlab-ci runner.reset --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{ansible_ssh_host}}
+#  with_items: "{{ OSS_VERSIONS.split(',')}}"
+  delegate_to: localhost
 
-
-    /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
+- name: config in gitlab
+  shell: |
+     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{ansible_ssh_host}} \
@@ -23,6 +26,4 @@
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
       --workbench workbench=oss/{{OSS_VERSION}}
-
-#  with_items: "{{ OSS_VERSIONS.split(',')}}"
-  delegate_to: localhost
+ delegate_to: localhost
