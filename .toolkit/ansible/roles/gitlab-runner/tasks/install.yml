@@ -3,13 +3,13 @@
   file:
     path: /home/{{ansible_ssh_user}}/.gitlab-runner
     state: directory
-    mode: 744
+    mode: 740
 
 - name: Download gitlab-runner program ~/.gitlab-runner
   get_url:
     url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-linux-amd64"
     dest: /home/{{ansible_ssh_user}}/.gitlab-runner/gitlab-runner
-    mode: 644
+    mode: 775
 
 - name: Install gitlab service
   shell: |
