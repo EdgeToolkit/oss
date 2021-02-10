@@ -86,6 +86,8 @@ class GitlabRunner(object):
 
     def runners(self, hostname=None):
         runners = []
+        print(self.tokens)
+        return
         for id in self.tokens:
             runner = self.gitlab.runners.get(id)
             m = self.parse_description(runner.description)
