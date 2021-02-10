@@ -22,7 +22,7 @@
       --trigger {{GITLAB_RUNNER_CI_GENERATOR}}   \
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
-      --workbench workbench=oss/{{OSS_VERSION}}
+      --workbench workbench=oss/{{OSS_VERSION}} \
       --out /oss/tmp/config
 #  with_items: "{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost

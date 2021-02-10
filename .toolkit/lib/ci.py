@@ -2,7 +2,7 @@ import os
 import re
 import yaml
 from collections import namedtuple
-from epm.tools import FileLock
+from epm.tools.lockfile import FileLock
 from epm.utils import Jinja2, abspath, ObjectView
 from conans.tools import mkdir, save
 import gitlab
