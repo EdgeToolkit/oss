@@ -12,10 +12,10 @@
 
 - name: Install gitlab service
   shell: |
-    .\gitlab-runner.exe stop
-    .\gitlab-runner.exe uninstall
+    sudo .\gitlab-runner.exe stop
+    sudo .\gitlab-runner.exe uninstall
 
-    .\gitlab-runner.exe install -c config.toml
+    sudo .\gitlab-runner.exe install -c config.toml
   args:
     chdir: /home/{{ansible_ssh_user}}/.gitlab-runner
   become: yes
