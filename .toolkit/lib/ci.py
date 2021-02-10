@@ -87,9 +87,11 @@ class GitlabRunner(object):
     def runners(self, hostname=None):
         runners = []
         print(self.tokens)
-        return
+
         for id in self.tokens:
             runner = self.gitlab.runners.get(id)
+            print('-----------------------', runner)
+            return
             m = self.parse_description(runner.description)
             if hostname is None:
                 if not m:
