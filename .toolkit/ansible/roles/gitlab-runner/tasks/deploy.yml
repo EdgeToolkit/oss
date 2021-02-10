@@ -19,7 +19,8 @@
       --tester {{GITLAB_RUNNER_TESTER}} \
       --deployer {{GITLAB_RUNNER_DEPLOYER}} \
       --trigger {{GITLAB_RUNNER_CI_GENERATOR}}   \
-      --platform {{ansible_os_family}}      \
+      --platform {{ansible_system}}      \
+      --arch {{ansible_architecture}} \
       --workbench workbench=oss/{{OSS_VERSION}}
 #  with_items: "{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost
