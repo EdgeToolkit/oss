@@ -47,8 +47,9 @@ def gitlab_runner_register(args):
 
 
 def gitlab_runner_reset(args):
+
     gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
-    gitlab_runner.reset(args.hostname)
+    #gitlab_runner.reset(args.hostname)
 
 
 def gitlab_runner_config(args):
