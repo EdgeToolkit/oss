@@ -53,6 +53,7 @@ def gitlab_runner_reset(args):
 
 
 def gitlab_runner_config(args):
+    return
     gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
     gitlab_runner.config(args.hostname, workbench=args.workbench,
                          builder=args.builder, tester=args.tester,
