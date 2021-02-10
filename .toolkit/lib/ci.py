@@ -63,6 +63,8 @@ class GitlabRunner(object):
     def reset(self, hostname='*'):
         """disable all runners"""
         for runner in self.runners(hostname):
+            print('-*-')
+            return
             runner.description = f'[free] {id}'
             runner.active = False
             runner.tag_list = None
