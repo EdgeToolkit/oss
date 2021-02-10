@@ -18,7 +18,7 @@
       --builder {{GITLAB_RUNNER_BUILDER}}  \
       --tester {{GITLAB_RUNNER_TESTER}} \
       --deployer {{GITLAB_RUNNER_DEPLOYER}} \
-      --trigger {{GITLAB_RUNNER_TRIGGER}}   \
+      --trigger {{GITLAB_RUNNER_CI_GENERATOR}}   \
       --platform {{ansible_os_family}}      \
       --workbench workbench=oss:{{item}}         \
   with_items: OSS_VERSIONS
