@@ -90,6 +90,7 @@ def main():
     cmd = subs.add_parser('runner.reset', help='Register gitlab-runner')
     cmd.add_argument('--url', required=True, help='Gitlab url')
     cmd.add_argument('--token', required=True, help='Gitlab access private token')
+    cmd.add_argument('--hostname', default=None, help='')
     cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
     cmd.set_defaults(func=gitlab_runner_reset)
 

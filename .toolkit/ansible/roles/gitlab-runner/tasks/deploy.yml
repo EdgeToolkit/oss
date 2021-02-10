@@ -1,8 +1,16 @@
 ---
 
+# 1. reset all configured hostname
+# 2. generate gitlab config for each hostname
+# 3. deploy configs
+
 - name: update config in gitlab
   shell: |
-    /oss/.toolkit/bin/gitlab-ci runner.reset
+    /oss/.toolkit/bin/gitlab-ci runner.reset --url {{GITLAB_URL}} \
+      --token {{GITLAB_TOKEN}} \
+      --dir /oss/.toolkit/var/gitlab-runner
+      --hostname {{inventory_hostname}}
+
     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner
