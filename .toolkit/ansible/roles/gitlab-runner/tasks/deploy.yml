@@ -11,6 +11,7 @@
       --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{ansible_ssh_host}}
 
+    rm -rf /oss/tmp/config
     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
@@ -22,6 +23,6 @@
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
       --workbench workbench=oss/{{OSS_VERSION}}
-      --out /home/{{ansible_ssh_user}}/.gitlab-runner/tmp/config
+      --out /oss/tmp/config
 #  with_items: "{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost
