@@ -146,9 +146,11 @@ class GitlabRunner(object):
         self._render_config(hostname, out_dir)
 
     def _render_config(self, hostname, out_dir, concurrency=1):
+        filename = f"{out_dir}/{hostname}/config.toml"
         content = "concurrent = 1\n" \
                   "timeout=1800\n"
-        save(f"{out_dir}/{hostname}/config.toml", content)
+        save(filename, content)
+        print(filename, '<---------------------')
 
         for runner in self.runners(hostname):
             m = self.parse_description(runner.description)
@@ -158,7 +160,8 @@ class GitlabRunner(object):
             kind = context['kind']
             j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
             content += j2.render(f"{kind}.toml.j2")
-            save(f"{out_dir}/{hostname}/config.toml", content, append=True)
+            print(content)
+            save(filename, content, append=True)
             content = "\n"
 #
 #    def _render_config(self, config, out_dir, concurrency=1):
