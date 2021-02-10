@@ -17,7 +17,7 @@
     ./gitlab-runner stop
     ./gitlab-runner uninstall
 
-    ./gitlab-runner install -c config.toml
+    ./gitlab-runner install -c config.toml --user {{ansible_ssh_user}}
   args:
     chdir: /home/{{ansible_ssh_user}}/.gitlab-runner
   become: yes
