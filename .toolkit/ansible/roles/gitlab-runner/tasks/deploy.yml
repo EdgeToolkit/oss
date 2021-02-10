@@ -14,7 +14,6 @@
 
 - name: config in gitlab
   shell: |
-    rm -rf /oss/.tmp/gitlab-runner
     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
@@ -25,6 +24,15 @@
       --trigger {{GITLAB_RUNNER_CI_GENERATOR}}   \
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
-      --workbench workbench=oss/{{OSS_VERSION}} \
+      --workbench workbench=oss/{{OSS_VERSION}}
+  delegate_to: localhost
+
+- name: generate runner config and workbench files
+  shell: |
+    rm -rf /oss/.tmp/gitlab-runner
+    /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
+      --token {{GITLAB_PRIVATE_TOKEN}} \
+      --dir /oss/.toolkit/var/gitlab-runner \
+      --hostname {{ansible_ssh_host}} \
       --out /oss/.tmp/gitlab-runner
   delegate_to: localhost
