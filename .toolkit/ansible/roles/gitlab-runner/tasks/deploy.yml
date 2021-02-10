@@ -21,5 +21,6 @@
       --trigger {{GITLAB_RUNNER_TRIGGER}}   \
       --platform {{ansible_os_family}}      \
       --workbench workbench=oss:{{item}}         \
-  with_items: "{{ OSS_VERSIONS.split(',')}}"
+  with_items: OSS_VERSIONS
+  #"{{ OSS_VERSIONS.split(',')}}"
   delegate_to: localhost
