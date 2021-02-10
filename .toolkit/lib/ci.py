@@ -60,19 +60,14 @@ class GitlabRunner(object):
             if id in token:
                 del token[id]
 
-    def reset(self, hostname=None):
+    def reset(self, hostname='*'):
         """disable all runners"""
         with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
-            for id in token:
-                runner = self.gitlab.runners.get(id)
-                m = self.parse_description(runner.description)
-                if m is None:
-                    continue
-                if hostname is None or hostname == m.hostname:
-                    runner.description = f'[free] {id}'
-                    runner.active = False
-                    runner.tag_list = None
-                    runner.save()
+            for runner in self.runners(hostname):
+                runner.description = f'[free] {id}'
+                runner.active = False
+                runner.tag_list = None
+                runner.save()
 
     def active(self, hostname=None, state=True):
         with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
