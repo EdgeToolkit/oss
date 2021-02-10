@@ -3,5 +3,5 @@ _DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 _TOP=$(cd "$_DIR/../.."; pwd)
 echo -- starting ansible docker
 docker run -it --rm --name ansible-playbook -v $_TOP:/oss -v $_DIR:/home/conan/ansible -w /home/conan/ansible \
-       edgetoolkit/ansible /bin/bash -c "ansible-playbook -i hosts -e OSS_DIR=$_TOP $*"
+       --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash -c "ansible-playbook -i hosts -e OSS_DIR=$_TOP $*"
 
