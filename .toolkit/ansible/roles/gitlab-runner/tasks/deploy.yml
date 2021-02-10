@@ -15,7 +15,7 @@
 
 - name: config in gitlab
   shell: |
-     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
+    /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
       --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{ansible_ssh_host}} \
@@ -26,4 +26,4 @@
       --platform {{ansible_system}}      \
       --arch {{ansible_architecture}} \
       --workbench workbench=oss/{{OSS_VERSION}}
- delegate_to: localhost
+  delegate_to: localhost
