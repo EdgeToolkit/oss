@@ -62,12 +62,11 @@ class GitlabRunner(object):
 
     def reset(self, hostname='*'):
         """disable all runners"""
-        with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
-            for runner in self.runners(hostname):
-                runner.description = f'[free] {id}'
-                runner.active = False
-                runner.tag_list = None
-                runner.save()
+        for runner in self.runners(hostname):
+            runner.description = f'[free] {id}'
+            runner.active = False
+            runner.tag_list = None
+            runner.save()
 
     def active(self, hostname=None, state=True):
         with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
