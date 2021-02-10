@@ -122,6 +122,7 @@ def main():
     cmd.add_argument('--token', required=True, help='Gitlab access private token')
     cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
     cmd.add_argument('--out', default="runner-config",  help='')
+    cmd.add_argument('--hostname', required=True,  help='')
 
     cmd.set_defaults(func=gitlab_runner_make)
 
