@@ -4,19 +4,11 @@
   win_file:
     path: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
     state: directory
-#
-#- name: Download gitlab-runner program to specified path
-#  win_get_url:
-#    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
-#    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
 
-- name: Uninstall gitlab service
-  win_shell: |
-    .\gitlab-runner.exe uninstall
-  args:
-    chdir: C:\Users\{{ansible_ssh_user}}\.gitlab-runner
-    executable: cmd
-
+- name: Download gitlab-runner program to specified path
+  win_get_url:
+    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{GITLAB_RUNNER_VERSION}}/binaries/gitlab-runner-windows-amd64.exe"
+    dest: C:\Users\{{ansible_ssh_user}}\.gitlab-runner\gitlab-runner.exe
 
 - name: Install gitlab service
   win_shell: |
