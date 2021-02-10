@@ -3,7 +3,7 @@
   file:
     path: /home/{{ansible_ssh_user}}/.gitlab-runner
     state: directory
-    mode: 755
+    mode: 744
 
 - name: Download gitlab-runner program ~/.gitlab-runner
   get_url:
