@@ -8,7 +8,7 @@
   shell: |
     /oss/.toolkit/bin/gitlab-ci runner.reset --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner
+      --dir /oss/.toolkit/var/gitlab-runner \
       --hostname {{inventory_hostname}}
 
     /oss/.toolkit/bin/gitlab-ci runner.config --url {{GITLAB_URL}} \
