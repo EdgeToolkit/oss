@@ -74,5 +74,5 @@ OSS_VERSION=0.1
 #pc241  ansible_ssh_host=172.16.192.241
 #pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
 #pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
-pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_CONCURRENCY=3 GITLAB_RUNNER_DEPLOYER=0 GITLAB_RUNNER_CI_GENERATOR=1 GITLAB_RUNNER_BUILDER=0 GITLAB_RUNNER_TESTER=0
+pc119  ansible_ssh_host=172.16.0.119    GITLAB_RUNNER_CONCURRENCY=3 GITLAB_RUNNER_DEPLOYER=1 GITLAB_RUNNER_CI_GENERATOR=1 GITLAB_RUNNER_BUILDER=0 GITLAB_RUNNER_TESTER=0
 
