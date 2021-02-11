@@ -1,6 +1,6 @@
 stages:
   - init
-  - data
+
 generate:
   stage: init
   tags:
