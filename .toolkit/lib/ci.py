@@ -97,18 +97,11 @@ class GitlabRunner(object):
 
     def apply(self, hostname, kind, workbench=None, platform='Linux', arch='adm64'):
         """ apply a configuration for specified host
-        :param hostname:
-        :param kind:
-        :param workbench:
-        :param platform:
-        :param arch:
-        :return:
         """
         if kind == 'trigger':
             kind = 'gitlab-ci.config.generator'
             workbench = None
         assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
-
 
         filename = f"{self.conf.dir}/tokens.yml"
         with FileLock(filename, timeout=60):
@@ -147,30 +140,18 @@ class GitlabRunner(object):
         content = "concurrent = 1\n" \
                   "timeout=1800\n"
         save(filename, content)
+        token = self.tokens
         for runner in self.runners(hostname):
             m = self.parse_description(runner.description)
             assert hostname == m.hostname
             context = {'hostname': m.hostname, 'platform': m.platform, 'arch': m.arch,
+                       'url': self.conf.url, 'token': token[runner.id],
                        'kind': m.kind, 'workbench': m.workbench, 'tags': runner.tag_list}
             kind = context['kind']
             j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
             content = j2.render(f"{kind}.toml.j2")
             save(filename, content, append=True)
-#
-#    def _render_config(self, config, out_dir, concurrency=1):
-#        for hostname, runners in config.items():
-#            content = "concurrent = 1\n"\
-#                      "timeout=1800\n"
-#            save(f"{out_dir}/{hostname}/config.toml", content)
-#            for runner in runners:
-#                context = {}
-#                context.update(runner)
-#                kind = context['kind']
-#                j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
-#                content += j2.render(f"{kind}.toml.j2")
-#                save(f"{out_dir}/{hostname}/config.toml", content, append=True)
-#                content = "\n"
-#
+
     @staticmethod
     def parse_description(description):
         P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86|adm)\w*)'
@@ -183,28 +164,3 @@ class GitlabRunner(object):
                 m.group('hostname'), m.group('platform'), m.group('arch'),
                 m.group('kind'), m.group('workbench'))
         return None
-#
-#    def _load_config(self):
-#        """make gitlab runner config for march"""
-#        P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86|adm)\w*)'
-#        P += r'\:(?P<kind>builder|tester|deployer|gitlab-ci.config.generator)'
-#        P += r'(\s+\@(?P<workbench>[\w\d\-/\.]+))?'
-#        pattern = re.compile(P)
-#        runners = {}
-#        with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
-#            for id in token:
-#                runner = self.gitlab.runners.get(id)
-#                if not runner.tag_list:
-#                    continue
-#                m = pattern.match(runner.description)
-#                if not m:
-#                    continue
-#                conf = {'tags': runner.tag_list, 'token': token[id], 'url': self.conf.url}
-#                for i in ['hostname', 'platform', 'arch', 'workbench', 'kind']:
-#                    conf[i] = m.group(i)
-#                hostname = conf['hostname']
-#                if hostname not in runners:
-#                    runners[hostname] = []
-#                runners[hostname].append(conf)
-#        return runners
-
