@@ -47,10 +47,15 @@
       --out /oss/.tmp/gitlab-runner
   delegate_to: localhost
 
+- name: deploy gitlab-runner config to {{ansible_ssh_host}}
+  copy:
+    src: "/oss/.tmp/gitlab-runner/config.toml"
+    dest: "/home/{{ansible_ssh_host}}/.gitlab-runner/config.toml"
+
+
 - name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
   copy:
     src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
     dest: "/home/{{ansible_ssh_host}}/.epm"
-
 
 # .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
