@@ -1,10 +1,13 @@
 ---
-- name: Create gitlab-runner home folder
+- name: Create gitlab-runner and epm folders
   file:
-    path: /home/{{ansible_ssh_user}}/.gitlab-runner
+    path: /home/{{ansible_ssh_user}}/{{item}}
     state: directory
     mode: '0755'
-    #740
+  with_items:
+    - .epm
+    - .epm/.workbench
+    - .gitlabrunner
 
 - name: Download gitlab-runner program to ~/.gitlab-runner
   get_url:
@@ -24,11 +27,8 @@
 #  become_user: "{{ansible_ssh_user}}"
 #  become_method: sudo
 
-- name: Create gitlab-runner home folder
-  file:
-    path: /home/{{ansible_ssh_user}}/.epm
-    state: directory
-    mode: '0755'
+
+
 
 - name: Download mirror.yml
   get_url:

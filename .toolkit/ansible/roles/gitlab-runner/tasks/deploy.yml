@@ -35,3 +35,5 @@
       --hostname {{ansible_ssh_host}} \
       --out /oss/.tmp/gitlab-runner
   delegate_to: localhost
+
+# .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
