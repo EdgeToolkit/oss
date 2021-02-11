@@ -11,8 +11,8 @@
   with_items:
     - .tmp
     - .tmp/gitlab-runner
-    - .tmp/{{ansible_ssh_host}}
-    - .tmp/{{ansible_ssh_host}}/.workbench
+    - ".tmp/gitlab-runner/{{ansible_ssh_host}}"
+    - ".tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
   delegate_to: localhost
 
 - name: reset config in gitlab
