@@ -7,7 +7,7 @@ startup:
   tags:
     - gitlab-ci.config.generator
   script: 
-  - echo python .toolkit/bin/gitlab-ci generate
+  - .toolkit/bin/gitlab-ci generate
   artifacts:
     paths:
       - .gitlab-ci/cache/trigger.yml
