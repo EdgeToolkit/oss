@@ -49,8 +49,8 @@
 
 - name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
   fetch:
-    src: /oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench
-    dest: /home/{{ansible_ssh_hostname}}/.epm/.workbench
+    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
+    dest: "/home/{{ansible_ssh_hostname}}/.epm"
 
 
 # .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
