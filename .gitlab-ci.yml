@@ -20,4 +20,4 @@ init:
     include:
       - artifact: .gitlab-ci/cache/trigger.yml
         job: startup
-    strategy: depend
+ #   strategy: depend
