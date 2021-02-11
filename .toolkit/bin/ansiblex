@@ -8,13 +8,53 @@
 _DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 _OSS_DIR=$(cd "$_DIR/../.."; pwd)
 _ANSIBLE_DIR=$(cd "$_OSS_DIR/.toolkit/ansible"; pwd)
+_INVENTORY=hosts
+_ROLE=
+_TARGET=
+_OPTIONS=
 function docker_run() {
-docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+echo docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash -c \
        "echo started in docker. && ansible-playbook -i hosts $*"
 }
 
 
 # options
+help()
+{
+echo 'HELP
+USAGE: ansiblex [-i INVENTORY] --install|deploy <target>
+    -i | --inventory=INVENTORY
+       specify inventory host path or comma separated host list.
+'
+exit 0
+}
 
-docker_run $*
+while [ -n "$1" ];do
+  case $1 in
+  -h | --help )  help;;
+  -i | --inventory)
+    _INVENTORY=$2; shift 2
+  ;;
+
+  --install)
+    _ROLE=install.yml
+    _TARGET=$2
+    shift 2
+  ;;
+
+  --deploy)
+    _ROLE=deploy.yml
+    _TARGET=$2
+    shift 2
+  ;;
+  *) _OTHERS=$* ;;
+ esac
+done
+
+if [[ -z $_ROLE ]]; then
+  echo "please specify role (with --deploy or --install)."
+  exit 1
+fi
+
+docker_run -i $_INVENTORY $_ROLE $_TARGET $*
