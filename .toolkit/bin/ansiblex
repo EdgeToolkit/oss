@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# GITLAB CI DEPLOYMENT TOOL WITH ANSIBLE
+#
+#
+#
+#
+###########################################################
+_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
+_OSS_DIR=$(cd "$_DIR/../.."; pwd)
+_ANSIBLE_DIR=$(cd "$_OSS_DIR/.toolkit/ansible"; pwd)
+function docker_run() {
+docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+       --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash -c \
+       "echo started in docker. && ansible-playbook -i hosts $*"
+}
+
+
+# options
+
+docker_run $*
