@@ -5,7 +5,6 @@ stages:
 startup:
   stage: startup
   tags:
-    - docker
     - gitlab-ci.config.generator
   script: 
   - echo python .toolkit/bin/gitlab-ci generate
@@ -14,6 +13,8 @@ startup:
       - .gitlab-ci/cache/trigger.yml
 init:
   stage: init
+  tags:
+    - gitlab-ci.config.generator
   trigger:
     include:
       - artifact: .gitlab-ci/cache/trigger.yml
