@@ -7,7 +7,7 @@ startup:
   tags:
     - gitlab-ci.config.generator
   script:
-    - pip install networkx
+    - pip install networkx python-gitlab
     - .toolkit/bin/gitlab-ci generate
   artifacts:
     paths:
