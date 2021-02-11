@@ -5,11 +5,14 @@
 # 3. deploy configs
 - name: Create local workbench folders for {{ansible_ssh_host}}
   file:
-    path: /oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/{{item}]
+    path: /oss/{{item}
     state: directory
     mode: '0755'
   with_items:
-    - .workbench
+    - .tmp
+    - .tmp/gitlab-runner
+    - .tmp/{{ansible_ssh_host}}
+    - .tmp/{{ansible_ssh_host}}/.workbench
   delegate_to: localhost
 
 - name: reset config in gitlab
