@@ -5,7 +5,7 @@
 # 3. deploy configs
 - name: Create local workbench folders for {{ansible_ssh_host}}
   file:
-    path: /oss/{{item}
+    path: /oss/{{item}}
     state: directory
     mode: '0755'
   with_items:
