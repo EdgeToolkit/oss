@@ -6,8 +6,9 @@ startup:
   stage: startup
   tags:
     - gitlab-ci.config.generator
-  script: 
-  - .toolkit/bin/gitlab-ci generate
+  script:
+    - pip install networkx
+    - .toolkit/bin/gitlab-ci generate
   artifacts:
     paths:
       - .gitlab-ci/cache/trigger.yml
