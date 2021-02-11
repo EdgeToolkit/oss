@@ -49,7 +49,7 @@
 
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
   copy:
-    src: "/oss/.tmp/gitlab-runner/config.toml"
+    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/config.toml"
     dest: "/home/{{ansible_ssh_host}}/.gitlab-runner/config.toml"
 
 
