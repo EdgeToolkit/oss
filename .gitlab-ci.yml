@@ -1,9 +1,10 @@
 generate:
   stage: init
   tags:
-  - ci-config-generator
+    - docker
+    - gitlab-ci.config.generator
   script: 
-  - python .toolkit/bundle/main.py ci.gitlab.generate
+  - echo python .toolkit/bundle/main.py ci.gitlab.generate
   artifacts:
     paths:
       - .gitlab-ci/*.yml
