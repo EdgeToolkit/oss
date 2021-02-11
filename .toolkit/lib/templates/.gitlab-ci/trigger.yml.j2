@@ -16,7 +16,7 @@ oss.generate:
   tags:
   - ci-config-generator
   script:
-  - .toolkit/bin/gitlab-ci generate --layer
+  - .toolkit/bin/gitlab-ci generate --target package
   artifacts:
     paths:
       - .gitlab-ci/cache/*.yml

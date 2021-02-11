@@ -1,20 +1,21 @@
 stages:
+  - startup
   - init
 
-generate:
-  stage: init
+startup:
+  stage: startup
   tags:
     - docker
     - gitlab-ci.config.generator
   script: 
-  - echo python .toolkit/bundle/main.py ci.gitlab.generate
-#  artifacts:
-#    paths:
-#      - .gitlab-ci/*.yml
-#trigger:
-#  stage: data
-#  trigger:
-#    include:
-#      - artifact: .gitlab-ci/data.yml
-#        job: generate
-#    strategy: depend
+  - echo python .toolkit/bin/gitlab-ci generate
+  artifacts:
+    paths:
+      - .gitlab-ci/cache/trigger.yml
+init:
+  stage: init
+  trigger:
+    include:
+      - artifact: .gitlab-ci/cache/trigger.yml
+        job: startup
+    strategy: depend
