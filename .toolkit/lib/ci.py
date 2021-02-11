@@ -69,13 +69,10 @@ class GitlabRunner(object):
             runner.save()
 
     def active(self, hostname=None, state=True):
-        with Dict(f"{self.conf.dir}/tokens.yml", sync=False) as token:
-            for id in token:
-                runner = self.gitlab.runners.get(id)
-                m = self.parse_description(runner.description)
-                if hostname is None or (m and m.hostname == hostname):
-                    runner.active = state
-                    runner.save()
+        for runner in self.runners(hostname):
+            runner.active = state
+            runner.save()
+
     @property
     def tokens(self):
         filename = f"{self.conf.dir}/tokens.yml"

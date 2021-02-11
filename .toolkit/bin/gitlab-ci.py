@@ -62,7 +62,7 @@ def gitlab_runner_config(args):
 
 def gitlab_runner_active(args):
     gitlab_runner = GitlabRunner(args.url, args.dir, access=args.token)
-    gitlab_runner.active(not args.disable)
+    gitlab_runner.active(args.hostname, not args.disable)
 
 
 def gitlab_runner_make(args):
@@ -100,6 +100,7 @@ def main():
     cmd.add_argument('--token', required=True, help='Gitlab access private token')
     cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
     cmd.add_argument('--disable', default=False, action='store_true', help='')
+    cmd.add_argument('--hostname', default=None, help='')
     cmd.set_defaults(func=gitlab_runner_active)
 
     # Generate gitlab-ci reset. kypLygrDSZ-92NewWx4R

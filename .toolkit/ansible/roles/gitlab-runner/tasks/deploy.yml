@@ -58,4 +58,19 @@
     src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
     dest: "/home/{{ansible_ssh_host}}/.epm"
 
+- name: active gitlab-runner in server side
+  shell: |
+    /oss/.toolkit/bin/gitlab-ci runner.active --url {{GITLAB_URL}} \
+      --token {{GITLAB_PRIVATE_TOKEN}} \
+      --dir /oss/.toolkit/var/gitlab-runner \
+      --hostname {{ansible_ssh_host}} \
+  delegate_to: localhost
+
+- name: Reset gitlab-runner service in  {{ansible_ssh_host}}
+  shell: |
+    ./gitlab-runner restart
+  args:
+    chdir: /home/{{ansible_ssh_user}}/.gitlab-runner
+  become: yes
+
 # .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
