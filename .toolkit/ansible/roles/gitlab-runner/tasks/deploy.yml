@@ -48,7 +48,7 @@
   delegate_to: localhost
 
 - name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
-  fetch:
+  copy:
     src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
     dest: "/home/{{ansible_ssh_host}}/.epm"
 
