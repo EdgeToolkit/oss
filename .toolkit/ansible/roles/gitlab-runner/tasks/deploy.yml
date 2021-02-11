@@ -3,6 +3,14 @@
 # 1. reset all configured hostname
 # 2. generate gitlab config for each hostname
 # 3. deploy configs
+- name: Create local workbench folders for {{ansible_ssh_host}}
+  file:
+    path: /oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/{{item}]
+    state: directory
+    mode: '0755'
+  with_items:
+    - .workbench
+  delegate_to: localhost
 
 - name: reset config in gitlab
   shell: |
@@ -35,5 +43,11 @@
       --hostname {{ansible_ssh_host}} \
       --out /oss/.tmp/gitlab-runner
   delegate_to: localhost
+
+- name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
+  fetch:
+    src: /oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench
+    dest: /home/{{ansible_ssh_hostname}}/.epm/.workbench
+
 
 # .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
