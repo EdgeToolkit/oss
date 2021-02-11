@@ -1,15 +1,18 @@
 {#  #}
 [[runners]]
-  name = "{{ hostname }}/{{ platform }}:{{ kind }}"
-  url = "{{ url }}"
-  token = "{{ token }}"
+  name = "172.16.0.119/Linux:gitlab-ci.config.generator"
+  url = "http://172.16.0.121:8200"
+  token = "ufMfJ4NWCH2PFxuWgGpK"
   executor = "docker"
-  image = "{{ docker_repository_url  }}edgetoolkit/gcc5"
   limit = 1
-  pull_policy = "if-not-present"
-  [runners.custom_build_dir]
+  [runners.docker]
+    image = "edgetoolkit/gcc5"
+    tls_verify = false
+    privileged = true
+    disable_cache = false
+    volumes = ["/certs/client", "/cache"]
+    pull_policy = "if-not-present"
   [runners.cache]
     [runners.cache.s3]
     [runners.cache.gcs]
-    [runners.cache.azure]
 {#  #}
