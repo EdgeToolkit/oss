@@ -116,8 +116,6 @@ class GitlabRunner(object):
             if kind == 'tester':
                 tags += [platform]
                 tags += ['docker'] if platform == 'Linux' else []
-            elif kind in ['deployer']:
-                tags += ['docker']
             description = f"{hostname}/{platform}/{arch}:{kind}"
             if workbench:
                 description += f" @{workbench}"
