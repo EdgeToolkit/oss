@@ -13,9 +13,9 @@ _ROLE=
 _TARGET=
 _OPTIONS=
 function docker_run() {
-echo docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash -c \
-       "echo started in docker. && ansible-playbook -i hosts $*"
+       "echo started in docker. && ansible-playbook $*"
 }
 
 
@@ -57,4 +57,4 @@ if [[ -z $_ROLE ]]; then
   exit 1
 fi
 
-docker_run -i $_INVENTORY $_ROLE $_TARGET $*
+docker_run -i $_INVENTORY $_ROLE -e target=$_TARGET $*
