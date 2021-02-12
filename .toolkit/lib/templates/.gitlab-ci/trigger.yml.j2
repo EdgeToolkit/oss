@@ -1,7 +1,7 @@
 {% set tool_layout = synthesis.tool_layout %}
 {% set layout = synthesis.layout -%}
 stages:
-- init
+- prepare
 {% for i in range(1, tool_layout|length + 1) -%}
   - T{{ i }}
 {% endfor  -%}
@@ -11,8 +11,8 @@ stages:
 # -------------------------------------
 # Generate package config for gitlab ci
 # -------------------------------------
-oss.generate:
-  stage: init
+package.generate:
+  stage: prepare
   tags:
     - gitlab-ci.config.generator
   script:
@@ -38,7 +38,7 @@ oss.generate:
   trigger:
     include:
       - artifact: .gitlab-ci/cache/{{ package.name }}{{ suffix }}.yml
-        job: oss.generate
+        job: package.generate
     strategy: depend
 {% endfor %}
 {% endfor  -%}
@@ -60,7 +60,7 @@ oss.generate:
   trigger:
     include:
       - artifact: .gitlab-ci/cache/{{ package.name }}.yml
-        job: oss.generate
+        job: package.generate
     strategy: depend
 {% endfor %}
 {% endfor  -%}
