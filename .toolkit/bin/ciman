@@ -16,11 +16,11 @@ _OPTIONS=
 function docker_run() {
 _command=docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash
-if [[ "_ANSIBLE_SHELL" == "yes" ]];
+if [[ "_ANSIBLE_SHELL" == "yes" ]]; then
   $_command
 else
   $__command -c "echo started in docker. && ansible-playbook $*"
-endif
+fi
 
 }
 
