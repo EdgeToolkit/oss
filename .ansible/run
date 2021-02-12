@@ -6,7 +6,7 @@
 #
 ###########################################################
 _DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
-_OSS_DIR=$(cd "$_DIR/../.."; pwd)
+_OSS_DIR=$(cd "$_DIR/.."; pwd)
 _ANSIBLE_DIR=$(cd "$_OSS_DIR/.toolkit/ansible"; pwd)
 _INVENTORY=hosts
 _ROLE=
