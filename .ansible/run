@@ -13,7 +13,7 @@ _ROLE=
 _TARGET=
 _OPTIONS=
 function docker_run() {
-  docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+  docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash \
        -c "echo started in docker. && ansible-playbook $*"
 }
@@ -37,7 +37,7 @@ while [ -n "$1" ];do
     _INVENTORY=$2; shift 2
   ;;
   --shell)
-    docker run -it --rm --name docker-ansible-shell -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+    docker run -it --rm --name docker-ansible-shell -v $_OSS_DIR:/oss -w /oss/.ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash
     exit $?
   ;;
