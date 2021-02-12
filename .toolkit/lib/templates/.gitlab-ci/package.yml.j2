@@ -15,7 +15,7 @@ stages:
 {{ package.name }}{{ suffix }}.build@windows:
     stage: build
     tags:
-    - workbench=oss:{{ synthesis.version }}
+    - workbench=oss/{{ synthesis.version }}
     - builder
     - Windows
     - MSVC
@@ -37,7 +37,7 @@ stages:
 {{ package.name }}{{ suffix }}.build@linux:
     stage: build
     tags:
-    - workbench=oss:{{ synthesis.version }}
+    - workbench=oss/{{ synthesis.version }}
     - builder
     - Windows
     - MSVC
