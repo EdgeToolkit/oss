@@ -1,0 +1,12 @@
+{% from 'macro/build.macro' import input -%}
+{% for name in layer -%}
+{%   if name in configure -%}
+{%     set config = configure[name] -%}
+{%     set package = bundle.package[name] -%}
+{%     set suffix = '-tool' if package.tool else '' -%}
+{{ bundle.name }}.{{ name }}{{ suffix }}:
+    stage: T{{ layer_index }}
+    trigger:
+      include: .gitlab-ci/{{ name }}{{ suffix }}.yml
+{%   endif -%}
+{% endfor -%}

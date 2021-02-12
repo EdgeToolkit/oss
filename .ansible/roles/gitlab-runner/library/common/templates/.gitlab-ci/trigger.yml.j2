@@ -1,0 +1,45 @@
+{% set tool_layout = synthesis.tool_layout %}
+{% set layout = synthesis.layout -%}
+stages:
+{% for i in range(1, tool_layout|length + 1) %}
+  - T{{ i }}
+{% endfor  -%}
+{% for i in range(1, layout|length + 1) -%}
+  - L{{ i }}
+{% endfor  -%}
+
+# -------------------------------------
+# Build tools and deps package
+# -------------------------------------
+{% for i in range(tool_layout|length) -%}
+{%- set layer = tool_layout[i] -%}
+{%- set index = i + 1 -%}
+{% for name in layer -%}
+
+{%- set package = synthesis.package[name] -%}
+{%- set suffix = '' if package.config.tool else '.tool' -%}
+{# % #}
+{{ package.name }}{{ suffix }}:
+  stage: T{{ index }}
+  include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
+{% endfor %}
+{% endfor  -%}
+
+
+
+# -------------------------------------
+# OSS package
+# -------------------------------------
+{% for i in range(layout|length) -%}
+{%- set layer = layout[i] -%}
+{%- set index = i + 1 -%}
+{% for name in layer -%}
+
+{%- set package = synthesis.package[name] -%}
+{# % #}
+{{ package.name }}:
+  stage: L{{ index }}
+  include: .gitlab-ci/{{ package.name }}.yml
+{% endfor %}
+{% endfor  -%}
+
