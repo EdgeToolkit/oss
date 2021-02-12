@@ -31,11 +31,11 @@ def gitlab_ci_generate(args):
     if 'package' in target:
         for name, package in synthesis.package.items():
             print(f"[{name}] ...", end=' ')
-            j2.render('package.yml.j2', outfile=f'.gitlab-ci/cache/{name}.yml',
+            j2.render('package.yml.j2', outfile=f'.gitlab-ci/{name}.yml',
                       context={'package': package})
             if not package.config.tool and package.tool_user:
                 print(f"{name}.tool ...", end='')
-                j2.render('package.yml.j2', outfile=f'.gitlab-ci/cache/{name}.tool.yml',
+                j2.render('package.yml.j2', outfile=f'.gitlab-ci/{name}.tool.yml',
                           context={'package': package, 'FOR_TOOL': True})
             print(" done.")
     return None

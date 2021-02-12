@@ -11,13 +11,11 @@ startup:
     - .toolkit/bin/gitlab-ci generate
   artifacts:
     paths:
-      - .gitlab-ci/cache/trigger.yml
+      - .gitlab-ci/.cache/trigger.yml
 init:
   stage: init
-#  tags:
-#    - gitlab-ci.config.generator
   trigger:
     include:
-      - artifact: .gitlab-ci/cache/trigger.yml
+      - artifact: .gitlab-ci/.cache/trigger.yml
         job: startup
     strategy: depend
