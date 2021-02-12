@@ -62,4 +62,4 @@ if [[ -z $_ROLE ]]; then
   exit 1
 fi
 
-docker_run -i $_INVENTORY $_ROLE -e target=$_TARGET $*
+echo docker_run -i $_INVENTORY $_ROLE -e target=$_TARGET $*
