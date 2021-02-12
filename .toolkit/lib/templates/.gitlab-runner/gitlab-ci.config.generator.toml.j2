@@ -7,8 +7,8 @@
   limit = 1
   #environment = ["LC_ALL=en_US.UTF-8"]
   pre_build_script = """set -e
-  pip config set global.index-url='http://172.16.0.119:8481/repository/pypi/simple/'
-  pip config set install.trusted-host=172.16.0.119
+  pip config set global.index-url http://172.16.0.119:8481/repository/pypi/simple/
+  pip config set install.trusted-host 172.16.0.119
   """
   [runners.docker]
     image = "edgetoolkit/gcc5"
