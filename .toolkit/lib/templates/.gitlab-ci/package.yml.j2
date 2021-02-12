@@ -64,7 +64,7 @@ stages:
 {{ package.name }}{{ suffix }}.publish@linux:
     stage: publish
     tags:
-    - workbench=oss:{{ synthesis.version }}
+    - workbench=oss/{{ synthesis.version }}
     - publisher
     script: echo epm --profile $PROFILE --scheme $SCHEME upload -r oss
     parallel:
