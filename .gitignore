@@ -18,11 +18,9 @@ epm.log
 excludes.yml
 /mirrors.yml
 /.stages
-/.gitlab-ci/main.yml
+/.gitlab-ci/.cache
 .idea
 /built.yml
 .workbench
 .toolkit/oss_utils/oss_utils.egg-info/SOURCES.txt
 /bundle-meta-tree.yaml
-/.gitlab-ci/bundle
-/.gitlab-ci
