@@ -10,12 +10,18 @@ _OSS_DIR=$(cd "$_DIR/../.."; pwd)
 _ANSIBLE_DIR=$(cd "$_OSS_DIR/.toolkit/ansible"; pwd)
 _INVENTORY=hosts
 _ROLE=
+_ANSIBLE_SHELL=
 _TARGET=
 _OPTIONS=
 function docker_run() {
-docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
-       --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash -c \
-       "echo started in docker. && ansible-playbook $*"
+_command=docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.toolkit/ansible \
+       --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash
+if [[ "_ANSIBLE_SHELL" == "yes" ]];
+  $_command
+else
+  $__command -c "echo started in docker. && ansible-playbook $*"
+endif
+
 }
 
 
@@ -35,6 +41,10 @@ while [ -n "$1" ];do
   -h | --help )  help;;
   -i | --inventory)
     _INVENTORY=$2; shift 2
+  ;;
+  --shell)
+    _ANSIBLE_SHELL=yes
+    shift 1
   ;;
 
   --install)
