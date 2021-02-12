@@ -53,7 +53,8 @@ while [ -n "$1" ];do
     _TARGET=$2
     shift 2
   ;;
-#  *) _OTHERS=$1 ; shift 1;;
+  *) break ;;
+	  #_OTHERS="_OTHERS $1" ; shift 1;;
   esac
 done
 
@@ -62,4 +63,4 @@ if [[ -z $_ROLE ]]; then
   exit 1
 fi
 
-echo docker_run -i $_INVENTORY $_ROLE -e target=$_TARGET $*
+docker_run -i $_INVENTORY $_ROLE -e target=$_TARGET $*
