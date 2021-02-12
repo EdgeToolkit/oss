@@ -14,9 +14,10 @@ stages:
 oss.generate:
   stage: init
   tags:
-  - ci-config-generator
+    - gitlab-ci.config.generator
   script:
-  - .toolkit/bin/gitlab-ci generate --target package
+    - pip install networkx python-gitlab
+    - .toolkit/bin/gitlab-ci generate --target package
   artifacts:
     paths:
       - .gitlab-ci/cache/*.yml

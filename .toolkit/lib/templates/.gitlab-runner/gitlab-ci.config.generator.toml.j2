@@ -5,7 +5,12 @@
   token = "{{ token }}"
   executor = "docker"
   limit = 1
-  environment = ["LC_ALL=en_US.UTF-8"]
+  #environment = ["LC_ALL=en_US.UTF-8"]
+  pre_build_script = """set -e
+  WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}
+  chmod +x $WD/script/builder_pre_build.py
+  $WD/script/builder_pre_build.py
+  """
   [runners.docker]
     image = "edgetoolkit/gcc5"
     tls_verify = false
