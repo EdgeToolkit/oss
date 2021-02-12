@@ -1,0 +1,371 @@
+property:
+  mirror: http://172.16.0.119/archive
+  
+package:
+  7zip:
+    ${mirror}/${__name__}/${tarball}:
+    - https://www.7-zip.org/a/${tarball}
+    ${mirror}/epmkit/downloads/${tarball}:
+    - https://github.com/epmkit/downloads/releases/download/7z-1900/${tarball}
+
+  brotli:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/google/brotli/archive/${tarball}
+
+  c-ares:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/c-ares/c-ares/archive/${tarball}
+
+  zlib:
+    ${mirror}/zlib/${tarball}:
+    - https://zlib.net/${tarball}
+    - https://downloads.sourceforge.net/project/libpng/zlib/${version}/${tarball}
+  bzip2:
+    ${mirror}/bzip2/${tarball}:
+    - https://sourceware.org/pub/bzip2/${tarball}
+    
+
+  libpng:
+    ${mirror}/libpng/${tarball}:    
+    - https://github.com/glennrp/libpng/archive/${tarball}
+
+  pixman:
+    ${mirror}/pixman/${tarball}:
+    - https://www.cairographics.org/releases/${tarball}
+
+  cairo:
+    ${mirror}/cairographics/${tarball}:
+    - https://www.cairographics.org/snapshots/${tarball}
+    - https://www.cairographics.org/releases/${tarball}
+
+  mosquitto:
+    ${mirror}/mosquitto/${tarball}:
+    - https://github.com/eclipse/mosquitto/archive/${tarball}
+
+  ninja:
+    ${mirror}/ninja/${tarball}:
+    - https://github.com/ninja-build/ninja/archive/${tarball}
+
+  pcre: &_pcre
+    ${mirror}/pcre/${tarball}:
+    - https://ftp.pcre.org/pub/pcre/${tarball}
+  pcre2: *_pcre
+
+  libelf:
+    ${mirror}/libelf/${tarball}:
+    - http://repository.timesys.com/buildsources/l/libelf/libelf-${version}/${tarball}
+
+  libmount:
+    ${mirror}/kernel.org/${tarball}:
+    - https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/${version}/${tarball}
+  
+  libselinux:
+    ${mirror}/selinux/libselinux-${version}.tar.gz:
+    - https://github.com/SELinuxProject/selinux/releases/download/20200710/libselinux-${version}.tar.gz
+
+    ${mirror}/selinux/libsepol-${version}.tar.gz:
+    - https://github.com/SELinuxProject/selinux/releases/download/20200710/libsepol-${version}.tar.gz
+
+  libffi:
+    ${mirror}/libffi/${tarball}:
+    - https://github.com/libffi/libffi/releases/download/v${version}/${tarball}
+
+  libwebsockets:
+    ${mirror}/${__name__}/libwebsockets-${version}.tar.gz:
+    - https://github.com/warmcat/libwebsockets/archive/v${version}.tar.gz
+
+  libcurl:
+    ${mirror}/curl/${tarball}:
+    - https://curl.haxx.se/download/${tarball}
+    ${mirror}/curl/ca/${tarball}:
+    - https://curl.haxx.se/ca/${tarball}
+    
+  libwebp:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/webmproject/libwebp/archive/${tarball}
+  meson:
+    ${mirror}/meson/${tarball}:
+    - https://github.com/mesonbuild/meson/archive/${tarball}
+    
+
+  expat:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/libexpat/libexpat/releases/download/R_2_2_9/${tarball}
+    
+  winflexbison:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/lexxmark/winflexbison/archive/${tarball}
+
+  flex:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/westes/flex/releases/download/${version}/${tarball}
+
+  freetype:
+    ${mirror}/${__name__}/${tarball}:
+    - https://download.savannah.gnu.org/releases/freetype/${tarball}
+    - https://sourceforge.net/projects/freetype/files/freetype2/${version}/${tarball}/download
+  gmp:
+    ${mirror}/${__name__}/${tarball}:
+    - https://gmplib.org/download/gmp/${tarball}
+
+  gtest:
+    ${mirror}/${__name__}/${tarball}:
+      - https://github.com/google/googletest/archive/${tarball}
+  protobuf:
+    ${mirror}/${__name__}/${tarball}:
+      - https://github.com/protocolbuffers/protobuf/archive/${tarball}
+
+
+  libuuid:
+    ${mirror}/${__name__}/${tarball}:
+    - https://downloads.sourceforge.net/project/libuuid/${tarball}
+  icu:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/unicode-org/icu/releases/download/${version}/${tarball}
+  icu-utils: ${icu}
+    
+  harfbuzz:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/harfbuzz/harfbuzz/archive/${tarball}
+
+  libjpeg:
+    ${mirror}/${__name__}/${tarball}:
+    - http://ijg.org/files/${tarball}
+
+
+
+  libxml2:
+    ${mirror}/${__name__}/libxml2-${tarball}:
+    - http://xmlsoft.org/sources/libxml2-${tarball}
+
+  libxslt:
+    ${mirror}/${__name__}/libxslt-${tarball}:
+    - http://xmlsoft.org/sources/libxslt-${tarball}
+
+
+  libpsl:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/rockdaboot/libpsl/releases/download/${version}/${tarball}
+  
+  libepoxy:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/anholt/libepoxy/releases/download/${version}/${tarball}
+
+  libunwind:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/libunwind/libunwind/releases/download/${version}/${tarball}
+
+  opengl-es-emulator:
+    ${mirror}/${__name__}/${version}/${tarball}:
+    - https://armkeil.blob.core.windows.net/developer/Files/downloads/open-gl-es-emulator/${version}/${tarball}
+
+    
+  openssl:
+    ${mirror}/${__name__}/${tarball}:
+    - https://www.openssl.org/source/${tarball}
+
+  openjpeg:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/uclouvain/openjpeg/archive/${tarball}
+    
+    
+  pthreads4w:
+    ${mirror}/${__name__}/${tarball}:
+    - https://sourceforge.net/projects/pthreads4w/files/${tarball}/download
+  
+  protobuf-c:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/protobuf-c/protobuf-c/releases/download/${version}/${tarball}
+
+  sqlite3:
+    ${mirror}/sqlite/${tarball}:
+    - https://www.sqlite.org/2020/${tarball}
+    - https://www.sqlite.org/2019/${tarball}
+
+  woff2:
+    ${mirror}/woff/${tarball}:
+    - https://github.com/google/woff2/archive/${version}/${tarball}
+
+  wpe:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/WebPlatformForEmbedded/${__name__}/archive/${version}/${tarball}
+  libwpe: ${wpe}
+    
+  xkbcommon:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/xkbcommon/libxkbcommon/archive/${tarball}
+  xz_utils:
+    ${mirror}/xz/${tarball}:
+    - https://tukaani.org/xz/${tarball}
+  
+  # --------------------------------------------
+  #    GNU
+  # --------------------------------------------
+  .GNU: &_gnu
+    ${mirror}/gnu/${__name__}/${tarball}:
+    - http://ftp.gnu.org/gnu/${__name__}/${tarball}
+    - http://ftp.gnu.org/pub/gnu/${__name__}/${tarball}
+    - https://ftp.gnu.org/gnu/${__name__}/${tarball}
+    - https://ftp.gnu.org/pub/gnu/${__name__}/${tarball}
+    - https://mirrors.tuna.tsinghua.edu.cn/gnu/${__name__}/${tarball}
+    - https://${__name__}.freedesktop.org/releases/${tarball}
+  autoconf: *_gnu
+  automake: *_gnu
+  bison: *_gnu
+  gettext: *_gnu
+  gperf: *_gnu
+  libiconv: *_gnu
+  libunistring: *_gnu
+  m4: *_gnu
+  texinfo: *_gnu
+  libtasn1: *_gnu
+  libtasn1-utils: ${libtasn1}
+  nettle: *_gnu
+  libtool: *_gnu
+
+  libgettext:
+    ${mirror}/gnu/gettext/${tarball}:
+    - http://ftp.gnu.org/gnu/gettext/${tarball}
+    - http://ftp.gnu.org/pub/gnu/gettext/${tarball}
+    - https://ftp.gnu.org/gnu/gettext/${tarball}
+    - https://ftp.gnu.org/pub/gnu/gettext/${tarball}
+    - https://mirrors.tuna.tsinghua.edu.cn/gnu/gettext/${tarball}
+
+  # -----------------------------------
+  #  GNOME 
+  # ------------------------------------
+  .GNOME: &_gnome
+    ${mirror}/gnome/${__name__}/${tarball}:
+    - https://ftp.gnome.org/pub/GNOME/sources/${__name__}/${version}/${tarball}
+    - https://download.gnome.org/sources/${__name__}/${version}/${tarball}
+
+  atk: *_gnome
+  at-spi2-core: *_gnome
+  libsoup: *_gnome
+  glib: *_gnome
+  glib-utils: ${glib}
+  glib-networking: *_gnome
+  gobject-introspection: *_gnome
+  # -----------------------------------
+  #  GnuPG 
+  # ------------------------------------
+  .GnuPG: &_GnuPG
+    ${mirror}/GnuPG/${__name__}/${tarball}:
+    - https://gnupg.org/ftp/gcrypt/${__name__}/${tarball}
+    - https://www.gnupg.org/ftp/gcrypt/${__name__}/${tarball}
+  
+  libgpg-error: *_GnuPG
+  libgcrypt: *_GnuPG
+  gnutls: *_GnuPG
+
+  # -------------------------------------------
+  #        freedesktop
+  # -------------------------------------------
+  .freedesktop: &_freedesktop
+    ${mirror}/freedesktop/${__name__}/${tarball}:
+    - https://${__name__}.freedesktop.org/releases/${__name__}/${tarball}
+    - https://${__name__}.freedesktop.org/releases/${tarball}
+    - https://www.freedesktop.org/software/${__name__}/release/${tarball}
+    - https://dri.freedesktop.org/libdrm/${tarball}
+    - https://${__name__}.freedesktop.org/archive/${tarball}
+  dbus: *_freedesktop
+  fontconfig: *_freedesktop
+  wayland: *_freedesktop
+  wayland-scanner: ${wayland}
+  libdrm: *_freedesktop
+  mesa: *_freedesktop
+
+
+
+  # -------------------------------------------
+  #        XOrg.freedesktop
+  # http://mirrors.ustc.edu.cn/Xorg
+  # -------------------------------------------
+  x.org: &_xorg
+    ${mirror}/x.org/${__name__}/${__name__}-${suffix}:
+    - https://www.x.org/releases/individual/lib/${__name__}-${suffix}
+    - https://www.x.org/releases/individual/xcb/${__name__}-${suffix}
+    - https://www.x.org/releases/individual/proto/${__name__}-${suffix}
+  
+  xtrans: *_xorg
+  libpthread-stubs: *_xorg
+  libxcb: *_xorg
+  xorgproto: *_xorg
+  xcb-proto: *_xorg
+  libpciaccess: *_xorg
+  libxshmfence: *_xorg
+
+  libx11:
+    ${mirror}/x.org/${__name__}/libX11-${suffix}:
+    - https://www.x.org/releases/individual/lib/libX11-${suffix}
+  libxau:
+    ${mirror}/x.org/${__name__}/libXau-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXau-${suffix}
+  libxext:
+    ${mirror}/x.org/${__name__}/libXext-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXext-${suffix}
+  libxfixes:
+    ${mirror}/x.org/${__name__}/libXfixes-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXfixes-${suffix}
+    
+  libxdamage:
+    ${mirror}/x.org/${__name__}/libXdamage-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXdamage-${suffix}
+        
+  libxxf86vm:
+    ${mirror}/x.org/${__name__}/libXxf86vm-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXxf86vm-${suffix}
+
+  libxrandr:
+    ${mirror}/x.org/${__name__}/libXrandr-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXrandr-${suffix} 
+
+  libxrender:
+    ${mirror}/x.org/${__name__}/libXrender-${suffix}:
+    - https://www.x.org/releases/individual/lib/libXrender-${suffix}     
+
+  xorg-util-macros:
+    ${mirror}/x.org/util-macros/util-macros-${suffix}:
+    - https://www.x.org/releases/individual/util/util-macros-${suffix}
+
+  hi3536_sdk:
+    ${mirror}/HiSilicon/SDKs/Hi3536/V100R001C02SPC070/01.software/board/Hi3536_SDK_V2.0.7.0/package/${tarball}:
+    - SDK:/Hi3536/V100R001C02SPC070/01.software/board/Hi3536_SDK_V2.0.7.0/package/${tarball}
+
+  iperf:
+    ${mirror}/iperf/${tarball}:
+    - https://github.com/esnet/iperf/archive/${tarball}
+
+ 
+  
+###########################################
+  ruby:
+    ${mirror}/${__name__}/${tarball}:
+    - https://cache.ruby-china.com/pub/ruby/${version}/${tarball}
+    - https://github.com/oneclick/rubyinstaller2/releases/download/${version}/${tarball}
+
+  msys2:
+    ${mirror}/${__name__}/${tarball}:    
+    - http://repo.msys2.org/distrib/${arch}/${tarball}
+    
+    ${mirror}/epmkit/downloads/${tarball}:
+    - https://github.com/epmkit/downloads/releases/download/${version}/${tarball}
+    
+  re2c:
+    ${mirror}/${__name__}/${tarball}:
+    - https://github.com/skvadrik/re2c/releases/download/${version}/${tarball}
+       
+  pkgconf:
+    ${mirror}/${__name__}/${tarball}:
+    - https://git.sr.ht/~kaniini/pkgconf/archive/${tarball}
+
+  strawberryperl:
+    ${mirror}/${__name__}/${tarball}:    
+    - http://strawberryperl.com/download/${version}/${tarball}
+
+  nasm:
+    ${mirror}/${__name__}/${tarball}:    
+    - http://www.nasm.us/pub/nasm/releasebuilds/${version}/${tarball}
+
+
+    

@@ -11,9 +11,8 @@ from configure import Synthesis
 def gitlab_ci_generate(args):
     """generate gitlab ci config file
     """
-    target = args.target or ['trigger']
-    filename = 'config.yml'
-    synthesis = Synthesis(filename)
+    out_dir = abspath(args.out)
+    synthesis = Synthesis('config.yml')
     context = {'synthesis': synthesis}
     docker_registry_url = os.getenv('DOCKER_REGISTRY_URL')
     if docker_registry_url:
@@ -21,20 +20,19 @@ def gitlab_ci_generate(args):
             docker_registry_url = '/'
         context['DOCKER_REGISTRY_URL'] = docker_registry_url
 
-    j2 = Jinja2(f"{_DIR}/templates/.gitlab-ci", context=context)
-    if 'trigger' in target:
-        j2.render('trigger.yml.j2', outfile=f'.gitlab-ci/cache/trigger.yml')
+    j2 = Jinja2(f"{_DIR}/templates", context=context)
+    if args.trigger:
+        j2.render('trigger.yml.j2', outfile=f'{out_dir}/trigger.yml')
         print('Gitlab CI trigger config file generated.')
-    if 'package' in target:
+    if args.package:
         for name, package in synthesis.package.items():
-            print(f"[{name}] ...", end=' ')
-            j2.render('package.yml.j2', outfile=f'.gitlab-ci/{name}.yml',
-                      context={'package': package})
-            if not package.config.tool and package.tool_user:
-                print(f"{name}.tool ...", end='')
-                j2.render('package.yml.j2', outfile=f'.gitlab-ci/{name}.tool.yml',
-                          context={'package': package, 'FOR_TOOL': True})
-            print(" done.")
+            if '*' in args.package or name in args.package:
+                print(f"[{name}] ...")
+                j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                          context={'package': package})
+                if not package.config.tool and package.tool_user:
+                    j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
+                              context={'package': package, 'FOR_TOOL': True})
     return None
 
 
