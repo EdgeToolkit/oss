@@ -5,10 +5,7 @@ import argparse
 from epm.utils import Jinja2, abspath
 
 _DIR = os.path.dirname(abspath(__file__))
-_LIBD = abspath(f"{_DIR}/../../.toolkit/lib")
-sys.path.insert(0, _LIBD)
 from configure import Synthesis
-
 
 
 def gitlab_ci_generate(args):
@@ -24,7 +21,7 @@ def gitlab_ci_generate(args):
             docker_registry_url = '/'
         context['DOCKER_REGISTRY_URL'] = docker_registry_url
 
-    j2 = Jinja2(f"{_LIBD}/templates/.gitlab-ci", context=context)
+    j2 = Jinja2(f"{_DIR}/templates/.gitlab-ci", context=context)
     if 'trigger' in target:
         j2.render('trigger.yml.j2', outfile=f'.gitlab-ci/cache/trigger.yml')
         print('Gitlab CI trigger config file generated.')
@@ -40,62 +37,19 @@ def gitlab_ci_generate(args):
             print(" done.")
     return None
 
+
 def main():
-    parser = argparse.ArgumentParser(prog='Open source software gitlab command tools')
+    parser = argparse.ArgumentParser(prog='Open source software gitlab-ci command tools')
     subs = parser.add_subparsers(dest='sub_command')
 
     # Generate gitlab-ci config files.
     cmd = subs.add_parser('generate', help='Generate gitlab runner config')
-    cmd.add_argument('--target', default=None, action='append', help='Generate config for bundle')
+    cmd.add_argument('--package', default=None, action='append', help='Generate package ci config file.')
+    cmd.add_argument('--trigger', default=False, action='store_true', help='Generate gitlab-ci trigger file')
+    cmd.add_argument('--out', default='.gitlab-ci/.cache', action='append',
+                     help='Directory where generated file sotrage')
+
     cmd.set_defaults(func=gitlab_ci_generate)
-
-    # Generate gitlab-ci config files.
-    cmd = subs.add_parser('runner.register', help='Register gitlab-runner')
-    cmd.add_argument('--url', required=True, help='Gitlab url')
-    cmd.add_argument('--token', required=True, help='Gitlab runner registration token')
-    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
-    cmd.add_argument('--count', default=1, type=int, help='')
-    cmd.set_defaults(func=gitlab_runner_register)
-
-    # Generate gitlab-ci reset.
-    cmd = subs.add_parser('runner.reset', help='Register gitlab-runner')
-    cmd.add_argument('--url', required=True, help='Gitlab url')
-    cmd.add_argument('--token', required=True, help='Gitlab access private token')
-    cmd.add_argument('--hostname', default=None, help='')
-    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
-    cmd.set_defaults(func=gitlab_runner_reset)
-
-    cmd = subs.add_parser('runner.active', help='Register gitlab-runner')
-    cmd.add_argument('--url', required=True, help='Gitlab url')
-    cmd.add_argument('--token', required=True, help='Gitlab access private token')
-    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
-    cmd.add_argument('--disable', default=False, action='store_true', help='')
-    cmd.add_argument('--hostname', default=None, help='')
-    cmd.set_defaults(func=gitlab_runner_active)
-
-    # Generate gitlab-ci reset. kypLygrDSZ-92NewWx4R
-    cmd = subs.add_parser('runner.config', help='Register gitlab-runner')
-    cmd.add_argument('--url', required=True, help='Gitlab url')
-    cmd.add_argument('--token', required=True, help='Gitlab access private token')
-    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
-    cmd.add_argument('--hostname', required=True,  help='')
-    cmd.add_argument('--builder', type=int, default=0, help='')
-    cmd.add_argument('--tester', type=int, default=0, help='')
-    cmd.add_argument('--deployer', type=int, default=0, help='')
-    cmd.add_argument('--trigger', type=int, default=0, help='')
-    cmd.add_argument('--platform', required=True, help='')
-    cmd.add_argument('--arch', default='adm64', help='')
-    cmd.add_argument('--workbench', default=None, help='')
-    cmd.set_defaults(func=gitlab_runner_config)
-
-    cmd = subs.add_parser('runner.make', help='Register gitlab-runner')
-    cmd.add_argument('--url', required=True, help='Gitlab url')
-    cmd.add_argument('--token', required=True, help='Gitlab access private token')
-    cmd.add_argument('--dir', required=True,  help='Directory where store token and runner log')
-    cmd.add_argument('--out', default="runner-config",  help='')
-    cmd.add_argument('--hostname', required=True,  help='')
-
-    cmd.set_defaults(func=gitlab_runner_make)
 
     args = parser.parse_args()
     return args.func(args)
