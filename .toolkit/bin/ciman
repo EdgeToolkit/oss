@@ -44,7 +44,8 @@ while [ -n "$1" ];do
   ;;
   --shell)
     _ANSIBLE_SHELL=yes
-    shift 1
+    docker_run
+    exit $?
   ;;
 
   --install)
