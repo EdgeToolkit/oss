@@ -3,7 +3,7 @@ import subprocess
 
 
 def main():
-    changed = False
+    changed = True
     module = AnsibleModule(
         argument_spec=dict(
             cmd=dict(type='str', required=True),
