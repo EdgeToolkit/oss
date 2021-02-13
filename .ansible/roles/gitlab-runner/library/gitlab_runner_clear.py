@@ -1,5 +1,9 @@
 from ansible.module_utils.basic import AnsibleModule
 import subprocess
+import os
+_DIR = os.path.dirname(__file__)
+import sys
+sys.path.insert(0, f"{_DIR}/common")
 from common.ci import GitlabRunner
 
 def main():
