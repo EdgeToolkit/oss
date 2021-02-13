@@ -7,7 +7,6 @@ from epm.utils import Jinja2, abspath, ObjectView
 from conans.tools import mkdir, save
 import gitlab
 _DIR = os.path.dirname(abspath(__file__))
-from configure import Synthesis
 
 class Dict(object):
 
