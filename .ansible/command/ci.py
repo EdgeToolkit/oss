@@ -8,6 +8,7 @@ from conans.tools import mkdir, save
 import gitlab
 _DIR = os.path.dirname(abspath(__file__))
 
+
 class Dict(object):
 
     def __init__(self, filename, sync=True):

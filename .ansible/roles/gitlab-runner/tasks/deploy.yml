@@ -18,7 +18,7 @@
   shell: |
     {{inventory_dir}}/command/gitlab-ci runner.reset --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner \
+      --dir {{inventory_dir}}/config \
       --hostname {{ansible_ssh_host}}
   delegate_to: localhost
 
@@ -26,7 +26,7 @@
   shell: |
     {{inventory_dir}}/command/gitlab-ci runner.config --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner \
+      --dir {{inventory_dir}}/config \
       --hostname {{ansible_ssh_host}} \
       --builder {{GITLAB_RUNNER_BUILDER}}  \
       --tester {{GITLAB_RUNNER_TESTER}} \
@@ -41,7 +41,7 @@
   shell: |
     {{inventory_dir}}/command/gitlab-ci runner.make --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner \
+      --dir {{inventory_dir}}/config \
       --hostname {{ansible_ssh_host}} \
       --out /oss/.tmp/gitlab-runner
   delegate_to: localhost
@@ -61,7 +61,7 @@
   shell: |
     {{inventory_dir}}/command/gitlab-ci runner.active --url {{GITLAB_URL}} \
       --token {{GITLAB_PRIVATE_TOKEN}} \
-      --dir /oss/.toolkit/var/gitlab-runner \
+      --dir {{inventory_dir}}/config \
       --hostname {{ansible_ssh_host}} \
   delegate_to: localhost
 
