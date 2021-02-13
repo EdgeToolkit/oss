@@ -5,8 +5,6 @@ import argparse
 from epm.utils import Jinja2, abspath
 
 _DIR = os.path.dirname(abspath(__file__))
-_LIBD = abspath(f"{_DIR}/../lib")
-sys.path.insert(0, _LIBD)
 from ci import GitlabRunner
 
 
