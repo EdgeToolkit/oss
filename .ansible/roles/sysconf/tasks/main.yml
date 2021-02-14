@@ -12,9 +12,33 @@
   - ansible_distribution == "Ubuntu"
   #- ansible_distribution_major_version == "18"
 
-- name: install build requirement
-  shell: |
-    apt install -y --no-install-recommends make build-essential libssl-dev \
-         zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-         xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-  become: yes
+#- name: install build requirement
+#  shell: |
+#    apt install -y --no-install-recommends make build-essential libssl-dev \
+#         zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+#         xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+#  become: yes
+- name: ansible apt with_items
+  apt:
+    name: "{{item}}"
+    update_cache: true
+    state: present
+    install_recommends: false
+  with_items:
+  - make
+  - build-essential
+  - libssl-dev
+  - zlib1g-dev
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - wget
+  - curl
+  - llvm
+  - libncurses5-dev
+  - xz-utils
+  - tk-dev
+  - libxml2-dev
+  - libxmlsec1-dev
+  - libffi-dev
+  - liblzma-dev
