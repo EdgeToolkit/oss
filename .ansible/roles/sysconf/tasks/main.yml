@@ -19,11 +19,12 @@
 #         xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 #  become: yes
 - name: ansible apt with_items
+  become: yes
   apt:
     name: "{{item}}"
     update_cache: true
     state: present
-    install_recommends: false
+    install_recommends: no
   with_items:
   - make
   - build-essential
