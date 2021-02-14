@@ -1,4 +1,4 @@
-- hosts: sysconf
+- hosts: all
   vars:
     - COMMAND: install
   roles:
