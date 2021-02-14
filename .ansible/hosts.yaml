@@ -1,0 +1,9 @@
+linux:
+  hosts:
+    server1:
+      ansible_host: 172.16.0.119
+  vars:
+    x1: fuck
+    x2: 
+    - a
+    - b
