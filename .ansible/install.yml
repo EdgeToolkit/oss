@@ -1,4 +1,4 @@
-- hosts: machines
+- hosts: linux_server
   vars:
     - COMMAND: install
   roles:

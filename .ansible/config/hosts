@@ -17,10 +17,20 @@ device_ssh_user=admin
 device_ssh_pass=admin123
 #device_sudo_pass=edgetoolkit
 
-[linux]
-m1 ansible_ssh_host=172.16.0.119
-m2 ansible_ssh_host=172.16.0.121
-m3 ansible_ssh_host=172.16.192.241
+# ---------------------------------------------------
+# Machines
+# ---------------------------------------------------
+[linux_server_01]
+pc119 ansible_ssh_host=172.16.0.119
+
+[linux_server_02]
+pc121 ansible_ssh_host=172.16.0.121
+
+
+[linux_server:children]
+linux_server_01
+linux_server_02
+
 [windows:vars]
 ansible_ssh_port=5985 ansible_connection=winrm
 
