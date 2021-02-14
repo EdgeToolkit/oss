@@ -1,3 +1,11 @@
+- hosts: sysconf
+  vars:
+    - COMMAND: install
+  roles:
+  - role: sysconf
+    when:
+    - target == "sysconf"
+
 - hosts: artifactory
   vars:
     - COMMAND: install
