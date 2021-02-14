@@ -1,4 +1,4 @@
-- hosts: machines
+- hosts: machines:children
   vars:
     - COMMAND: install
   roles:
