@@ -5,7 +5,7 @@
   token = "{{ token }}
   executor = "shell"
   pre_build_script = """set -e
-  WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}
+  WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}/{{ id }}
   chmod +x $WD/script/builder_pre_build.py
   $WD/script/builder_pre_build.py
   """
@@ -23,7 +23,7 @@
   executor = "shell"
   shell = "powershell"
   pre_build_script = """
-  $WD=$HOME/.epm/.workbench/{{workbench}}/{{kind }}
+  $WD=$HOME/.epm/.workbench/{{workbench}}/{{kind }}/{{ id }}
   python $WD/script/builder_pre_build.py
   """
   environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{ kind }}"]

@@ -1,0 +1,13 @@
+- name: Config {{ansible_architecture}} {{ansible_architecture}} system and install basic requirement {{ansible_ssh_host}}
+  include: windwows.yml
+  when:
+  - COMMAND == 'install'
+  - ansible_architecture == 'Windwows'
+
+- name: Config {{ansible_architecture}} {{ansible_architecture}} system and install basic requirement {{ansible_ssh_host}}
+  include: ubuntu.yml
+  when:
+  - COMMAND == 'install'
+  - ansible_architecture == 'Linux'
+  - ansible_distribution == "Ubuntu"
+  #- ansible_distribution_major_version == "18"
