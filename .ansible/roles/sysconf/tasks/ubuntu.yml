@@ -4,3 +4,7 @@
     src: "mirrors/ubuntu-{{ansible_distribution_major_version}}.sources.list"
     dest: /etc/apt/sources.list
   become: yes
+- name: Update source
+  shell: |
+    apt update
+  become: yes
