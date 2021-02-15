@@ -15,7 +15,7 @@ _OPTIONS=
 function docker_run() {
   docker run -it --rm --name ansible-playbook -v $_OSS_DIR:/oss -w /oss/.ansible \
        --user $(id -u):$(id -g) edgetoolkit/ansible /bin/bash \
-       -c "echo started in docker. && ansible-playbook $*"
+       -c "echo started in docker. && ansible-galaxy install avanov.pyenv && ansible-playbook $*"
 }
 
 

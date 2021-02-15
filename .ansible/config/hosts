@@ -11,6 +11,9 @@ PIP_INDEX_URL='http://172.16.0.121:8040/repository/pypi/simple'
 PIP_TRUSTED_HOST='172.16.0.121'
 
 ARCHIVE_REPO_URL='http://172.16.0.119/archive'
+
+PYEVN_REPO='http://172.16.0.119/archive/pyenv'
+PYENV_VERSION='1.2.22'
 ###
 device_ssh_port=1022
 device_ssh_user=admin
@@ -20,16 +23,16 @@ device_ssh_pass=admin123
 # ---------------------------------------------------
 # Machines
 # ---------------------------------------------------
-[linux_server_01]
+[linux_server_119]
 pc119 ansible_ssh_host=172.16.0.119
 
-[linux_server_02]
+[linux_server_121]
 pc121 ansible_ssh_host=172.16.0.121
 
 
 [linux_server:children]
-linux_server_01
-linux_server_02
+linux_server_119
+linux_server_121
 
 [windows:vars]
 ansible_ssh_port=5985 ansible_connection=winrm
@@ -49,16 +52,18 @@ ARTIFACTORY_VERSION=7.12.6
 ARTIFACTORY_WEB_PORT=8060
 ARTIFACTORY_API_PORT=8061
 
-[artifactory]
-artifactory_host ansible_ssh_host=172.16.0.119
+[artifactory:children]
+linux_server_119
+#artifactory_host ansible_ssh_host=172.16.0.119
 
 [nexus3:vars]
 NEXUS3_VERSION=3.29.2
 NEXUS3_WEB_PORT=8481
 NEXUS3_PYPI_PROXY_NAME=pypi
 
-[nexus3]
-nexus3_host ansible_ssh_host=172.16.0.119
+[nexus3:children]
+linux_server_119
+#nexus3_host ansible_ssh_host=172.16.0.119
 
 
 [gitlab:vars]
@@ -67,8 +72,9 @@ GITLAB_DOCKER_IMAGE=gitlab/gitlab-ce:13.8.3-ce.0
 GITLAB_HTTP_PORT=8200
 GITLAB_SSH_PORT=8222
 
-[gitlab]
-gitlab_host ansible_ssh_host=172.16.0.121
+[gitlab:children]
+linux_server_121
+#gitlab_host ansible_ssh_host=172.16.0.121
 
 
 #################################################
