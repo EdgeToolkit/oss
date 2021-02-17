@@ -26,3 +26,4 @@ test:
     - builder
   script:
     - which python
+    - pip list
