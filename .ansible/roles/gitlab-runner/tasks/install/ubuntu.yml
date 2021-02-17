@@ -1,0 +1,38 @@
+---
+- name: Create gitlab-runner and epm folders
+  file:
+    path: "{{ ansible_env.HOME }}/{{item}}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - .epm
+    - .epm/.workbench
+    - .gitlabrunner
+
+- name: Download gitlab-runner program to ~/.gitlab-runner
+  get_url:
+    url: "{{ARCHIVE_REPO_URL}}/gitlab-runner/v{{gitlab_runner_version}}/binaries/gitlab-runner-linux-amd64"
+    dest: /home/{{ansible_ssh_user}}/.gitlab-runner/gitlab-runner
+    mode: '0766'
+
+- name: Install gitlab service
+  shell: |
+    set +e
+    ./gitlab-runner stop
+    ./gitlab-runner uninstall
+    set -e
+    ./gitlab-runner install -c config.toml --user {{ansible_env.USER}}
+
+  args:
+    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
+  become: yes
+#  become_user: "{{ansible_ssh_user}}"
+#  become_method: sudo
+
+
+
+
+- name: Download mirror.yml
+  get_url:
+    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
+    dest: /home/{{ansible_ssh_user}}/.epm/mirror.yml

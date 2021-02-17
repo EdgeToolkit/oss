@@ -1,0 +1,35 @@
+concurrent = 1
+timeout=1800
+
+[[runners]]
+  name = "172.16.192.241/Linux/x86_64:builder @workbench=oss/0.1:3"
+  url = "http://172.16.0.121:8200"
+  token = "VuQP2myicn1Z51y1CKiT"
+  executor = "shell"
+  pre_build_script = """set -e
+  WD=$HOME/.epm/.workbench/oss/0.1/builder/3
+  chmod +x $WD/script/pre_build.py
+  $WD/script/pre_build.py
+  """
+  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH=oss/0.1/builder/3"]
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+[[runners]]
+  name = "172.16.192.241/Linux/x86_64:tester @workbench=oss/0.1:4"
+  url = "http://172.16.0.121:8200"
+  token = "s7bsC2xA8iXDKyhNweuT"
+  executor = "docker"
+  pre_build_script = """set -e
+  WD=$HOME/.epm/.workbench/oss/0.1/tester/4
+  chmod +x $WD/script/pre_build.py
+  $WD/script/pre_build.py
+  """
+  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH=oss/0.1/tester/4"]
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]

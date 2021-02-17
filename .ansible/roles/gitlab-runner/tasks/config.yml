@@ -1,0 +1,66 @@
+---
+- name: Reset configured gitlab-runners
+  shell: |
+    {{playbook_dir}}/command/gitlab-ci runner.reset --url {{gitlab_url}} \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}} \
+      --hostname {{ansible_ssh_host}}
+  delegate_to: localhost
+
+- name: config in gitlab
+  shell: |
+    {{playbook_dir}}/command/gitlab-ci runner.config --url {{gitlab_url}} \
+      --token {{gitlab_private_token}}     \
+      --db {{gitlab_runner_db}}            \
+      --hostname {{ansible_ssh_host}}      \
+      --builder {{gitlab_runner_builder}}  \
+      --tester {{gitlab_runner_tester}}    \
+      --deployer {{gitlab_runner_deployer}} \
+      --trigger {{gitlab_runner_ci_generator}}  \
+      --platform {{ansible_system}}             \
+      --arch {{ansible_architecture}}           \
+      --workbench workbench=oss/{{OSS_VERSION}}
+  delegate_to: localhost
+
+- name: generate runner config and workbench files
+  shell: |
+    {{playbook_dir}}/command/gitlab-ci runner.make \
+      --url {{gitlab_url}}             \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}}        \
+      --hostname {{ansible_ssh_host}}  \
+      --out /oss/.tmp/gitlab-runner
+    
+  delegate_to: localhost
+
+- name: deploy gitlab-runner config to {{ansible_ssh_host}}
+  copy:
+    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/config.toml"
+    dest: "{{ ansible_env.HOME }}/.gitlab-runner/config.toml"
+    mode: u=rw,g=r,o=r
+    group: "{{ansible_ssh_user}}"
+    owner: "{{ansible_ssh_user}}"
+  become: yes
+
+
+#- name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
+#  copy:
+#    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
+#    dest: "{{ ansible_env.HOME }}/.epm"
+
+- name: active gitlab-runner in server side
+  shell: |
+    {{playbook_dir}}/command/gitlab-ci runner.active --url {{gitlab_url}} \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}} \
+      --hostname {{ansible_ssh_host}} \
+  delegate_to: localhost
+
+- name: Restart gitlab-runner service in  {{ansible_ssh_host}}
+  shell: |
+    ./gitlab-runner restart
+  args:
+    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
+  become: yes
+
+# .workbench/oss/{{kind}}/{{version}}/{{runner.id}}

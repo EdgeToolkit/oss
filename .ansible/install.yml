@@ -6,24 +6,12 @@
     when:
     - target == "sysconf"
 - hosts: linux_server
+  vars:
+    - COMMAND: install
   roles:
-  - role: avanov.pyenv
-    pyenv_path: "/home/{{ ansible_ssh_user }}/pyenv"
-    pyenv_owner: "{{ ansible_ssh_user }}"
-    pyenv_global: "3.6.5"
-    pyenv_update_git_install: no
-    pyenv_enable_autocompletion: no
-    pyenv_python_versions:
-      - "3.8.6"
-#         - "3.4.1"
-#         - "2.7.8"
-    pyenv_virtualenvs:
-    - venv_name: "latest_v3"
-      py_version: "3.4.1"
-    - venv_name: "latest_v2"
-      py_version: "2.7.8"
+  - role: pyenv
     when:
-    - target == "sysconf"
+    - target == "pyenv"
 
 - hosts: artifactory
   vars:

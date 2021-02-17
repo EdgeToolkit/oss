@@ -34,10 +34,11 @@ class Dict(object):
 
 class GitlabRunner(object):
 
-    def __init__(self, url, conf_dir, access=None, registration=None):
+    def __init__(self, url, access=None, registration=None, db=None):
         token = namedtuple("Token", "access registration")(access, registration)
-        self.conf = namedtuple("Conf", "url dir token")\
-            (url, conf_dir, token)
+        self._db_filename = db
+        self.conf = namedtuple("Conf", "url token")\
+            (url, token)
         self._gitlab = None
 
     @property
@@ -47,14 +48,14 @@ class GitlabRunner(object):
         return self._gitlab
 
     def register(self, n):
-        with Dict(f"{self.conf.dir}/tokens.yml") as token:
+        with Dict(self._db_filename) as token:
             for i in range(n):
                 runner = self.gitlab.runners.create({'token': self.conf.token.registration})
                 token[runner.id] = runner.token
                 print(f"{i} -- {runner.id}: {runner.token}")
 
     def unregister(self, id):
-        with Dict(f"{self.conf.dir}/tokens.yml") as token:
+        with Dict(self._db_filename) as token:
             runner = self.gitlab.runners.get(id)
             runner.delete()
             if id in token:
@@ -75,8 +76,8 @@ class GitlabRunner(object):
 
     @property
     def tokens(self):
-        filename = f"{self.conf.dir}/tokens.yml"
-        with Dict(filename, sync=False) as token:
+        #filename = f"{self.conf.dir}/tokens.yml"
+        with Dict(self._db_filename, sync=False) as token:
             return token
 
     def runners(self, hostname=None):
@@ -103,33 +104,38 @@ class GitlabRunner(object):
             workbench = None
         assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
 
-        filename = f"{self.conf.dir}/tokens.yml"
-        with FileLock(filename, timeout=60):
-            runner = self.runners()[0]
-            tags = [kind]
-            if workbench:
-                tags += [f"@{workbench}"]
+        #filename = f"{self.conf.dir}/tokens.yml"
+        #with FileLock(filename, timeout=60):
+        # get the first available one
+        runner = self.runners()[0]
+        tags = [kind]
+        if workbench:
+            tags += [f"@{workbench}"]
 
-            if kind == 'builder':
-                tags += [platform]
-                tags += [] if platform == 'Linux' else ['MSVC']
-            if kind == 'tester':
-                tags += [platform]
-                tags += ['docker'] if platform == 'Linux' else []
-            description = f"{hostname}/{platform}/{arch}:{kind}"
-            if workbench:
-                description += f" @{workbench}"
-            value = {'tag_list': tags, 'description': description, 'active': False}
-            self.gitlab.runners.update(runner.id, value)
+        if kind in ['builder', 'tester']:
+            tags += [platform]
 
-    def config(self, hostname, builder=0, tester=0, trigger=0, deployer=0,
-               workbench=None, platform='Linux', arch='x86_64'):
-        kinds = {'builder': builder, 'tester': tester, 'trigger': trigger, 'deployer': deployer}
+        if kind == 'builder':            
+            tags += [] if platform == 'Linux' else ['MSVC']
 
-        for kind, n in kinds.items():
-            for i in range(n):
-                self.apply(hostname, kind, workbench, platform)
+        if kind == 'tester':
+            tags += ['docker'] if platform == 'Linux' else []
 
+        description = f"{hostname}/{platform}/{arch}:{kind}"
+        if workbench:
+            description += f" @{workbench}:{runner.id}"
+
+        self.gitlab.runners.update(runner.id, {'active': False,
+            'tag_list': tags, 'description': description})
+#
+#    def config(self, hostname, builder=0, tester=0, trigger=0, deployer=0,
+#               workbench=None, platform='Linux', arch='x86_64'):
+#        kinds = {'builder': builder, 'tester': tester, 'trigger': trigger, 'deployer': deployer}
+#
+#        for kind, n in kinds.items():
+#            for i in range(n):
+#                self.apply(hostname, kind, workbench, platform)
+#
     def make(self, hostname, out_dir):
         self._render_config(hostname, out_dir)
 
@@ -143,7 +149,8 @@ class GitlabRunner(object):
             m = self.parse_description(runner.description)
             assert hostname == m.hostname
             context = {'hostname': m.hostname, 'platform': m.platform, 'arch': m.arch,
-                       'url': self.conf.url, 'token': token[runner.id],
+                       'url': self.conf.url, 'token': token[runner.id], 
+                       'description': runner.description, 'id': m.id,
                        'kind': m.kind, 'workbench': m.workbench, 'tags': runner.tag_list}
             kind = context['kind']
             j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
@@ -154,11 +161,13 @@ class GitlabRunner(object):
     def parse_description(description):
         P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86|adm)\w*)'
         P += r'\:(?P<kind>builder|tester|deployer|gitlab-ci.config.generator)'
-        P += r'(\s+\@(?P<workbench>[\w\d\-/\.]+))?'
+        P += r'(\s+\@workbench\=(?P<workbench>[\w\d\-\.\/]+)\:(?P<id>\d+))?'
+        #
         pattern = re.compile(P)
         m = pattern.match(description)
         if m:
-            return namedtuple('D', "hostname platform arch kind workbench")(
+            print(m.groups())
+            return namedtuple('D', "hostname platform arch kind workbench id")(
                 m.group('hostname'), m.group('platform'), m.group('arch'),
-                m.group('kind'), m.group('workbench'))
+                m.group('kind'), m.group('workbench'), m.group('id'))
         return None
