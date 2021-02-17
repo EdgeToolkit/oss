@@ -127,15 +127,7 @@ class GitlabRunner(object):
 
         self.gitlab.runners.update(runner.id, {'active': False,
             'tag_list': tags, 'description': description})
-#
-#    def config(self, hostname, builder=0, tester=0, trigger=0, deployer=0,
-#               workbench=None, platform='Linux', arch='x86_64'):
-#        kinds = {'builder': builder, 'tester': tester, 'trigger': trigger, 'deployer': deployer}
-#
-#        for kind, n in kinds.items():
-#            for i in range(n):
-#                self.apply(hostname, kind, workbench, platform)
-#
+
     def make(self, hostname, out_dir):
         self._render_config(hostname, out_dir)
 
