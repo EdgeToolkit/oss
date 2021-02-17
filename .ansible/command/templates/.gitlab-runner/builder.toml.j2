@@ -6,8 +6,8 @@
   executor = "shell"
   pre_build_script = """set -e
   WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}/{{ id }}
-  chmod +x $WD/script/pre_build.py
-  $WD/script/pre_build.py
+  source $WD/venv/bin/activate
+  python $WD/pre_build.py
   """
   environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{ kind }}/{{id}}"]
   [runners.custom_build_dir]
@@ -24,6 +24,7 @@
   shell = "powershell"
   pre_build_script = """
   $WD=$HOME/.epm/.workbench/{{workbench}}/{{kind }}/{{ id }}
+  $WD/venv/Script/activate
   python $WD/script/pre_build.py
   """
   environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{ kind }}/{{id}}"]
