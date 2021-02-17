@@ -22,7 +22,7 @@ stages:
 test:
   tags:
     - Linux
-    - @workbench=oss/0.1
+    - '@workbench=oss/0.1' 
     - builder
   script:
     - which python
