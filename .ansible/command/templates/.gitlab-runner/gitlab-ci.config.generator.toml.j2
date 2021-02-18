@@ -1,6 +1,6 @@
-{#  #}
+{% set m = metadata %}
 [[runners]]
-  name = "{{description}}"
+  name = "{{runner.name}}"
   url = "{{ url }}"
   token = "{{ token }}"
   executor = "docker"

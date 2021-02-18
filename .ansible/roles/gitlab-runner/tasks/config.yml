@@ -1,7 +1,7 @@
 ---
 - name: Reset configured gitlab-runners
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.reset --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py free --url {{gitlab_url}} \
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}} \
       --hostname {{ansible_ssh_host}}
@@ -9,7 +9,7 @@
 
 - name: config in gitlab
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.config --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py apply --url {{gitlab_url}} \
       --token {{gitlab_private_token}}     \
       --db {{gitlab_runner_db}}            \
       --hostname {{ansible_ssh_host}}      \
@@ -19,12 +19,12 @@
       --trigger {{gitlab_runner_ci_generator}}  \
       --platform {{ansible_system}}             \
       --arch {{ansible_architecture}}           \
-      --workbench workbench=oss/{{OSS_VERSION}}
+      --workbench oss/{{OSS_VERSION}}
   delegate_to: localhost
 
-- name: generate runner config and workbench files
+- name: generate gitlab-runner config files
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.make \
+    python {{playbook_dir}}/command/ci.py mkconfig \
       --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}}        \

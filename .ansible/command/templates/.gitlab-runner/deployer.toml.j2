@@ -1,11 +1,11 @@
-{#  #}
+{% set m = metadata %}
 [[runners]]
-  name = "{{description}}"
+  name = "{{runner.name}}"
   url = "{{ url }}"
   token = "{{ token }}"
   executor = "docker"
   limit = {{ limit | default(1) }}
-  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{ kind }}"]
+  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{m.workbench}}/{{ m.kind }}"]
 {#
   pre_build_script = """set -e
   WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}
