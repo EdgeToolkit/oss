@@ -35,3 +35,7 @@
   tags:
   - config
 
+- name: Deploy workbench of gitlab-runner
+  include: workbench.yml
+  tags:
+  - workbench

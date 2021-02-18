@@ -19,7 +19,7 @@
       --trigger {{gitlab_runner_ci_generator}}  \
       --platform {{ansible_system}}             \
       --arch {{ansible_architecture}}           \
-      --workbench oss/{{OSS_VERSION}}
+      --workbench {{gitlab_runner_workbench}}
   delegate_to: localhost
 
 - name: generate gitlab-runner config files
@@ -29,13 +29,12 @@
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}}        \
       --hostname {{ansible_ssh_host}}  \
-      --out /oss/.tmp/gitlab-runner
-    
+      --out {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
   delegate_to: localhost
 
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
   copy:
-    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/config.toml"
+    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
     dest: "{{ ansible_env.HOME }}/.gitlab-runner/config.toml"
     mode: u=rw,g=r,o=r
     group: "{{ansible_ssh_user}}"
@@ -50,7 +49,7 @@
 
 - name: active gitlab-runner in server side
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.active --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py active --url {{gitlab_url}} \
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}} \
       --hostname {{ansible_ssh_host}} \

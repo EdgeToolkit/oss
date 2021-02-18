@@ -1,0 +1,26 @@
+workbench:
+  name: {{workbench}}
+
+conan:
+  storage: ${workbench}/data
+  remotes:
+{% for name, repo in remotes.items() %}
+  - name: {{ name }}
+    url: repo.url
+
+{%- if repo.username %}
+    username: {{ repo.username }}
+{%- endif %}
+
+{%- if repo.password %}
+    password: {{ repo.password }}
+{%- endif %}
+
+{% endfor %}
+
+{% if environment %}
+environment:
+{% for name, value in environment.items() %}
+  {{name}}: {{value}}
+{% endfor %}
+{% endif %}

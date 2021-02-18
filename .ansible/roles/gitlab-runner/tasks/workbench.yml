@@ -1,0 +1,12 @@
+- name: Get {{ansible_ssh_host}} gitlab-runner infomation
+  shell: |
+    python {{playbook_dir}}/command/ci.py info --url {{gitlab_url}} \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}} \
+      --hostname {{ansible_ssh_host}}
+  register: info
+  delegate_to: localhost
+
+- name: "print info"
+  debug:
+    msg: "{{ host_port['stdout] }}"

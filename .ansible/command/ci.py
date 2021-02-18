@@ -1,8 +1,10 @@
 import os
 import re
 import yaml
+import argparse
 from collections import namedtuple
 from epm.tools.lockfile import FileLock
+from conans.tools import mkdir
 from epm.utils import Jinja2, abspath, ObjectView
 from conans.tools import mkdir, save
 import gitlab
@@ -69,7 +71,7 @@ class GitlabRunnerRegister(object):
         for id in tokens:
             self.unregister(id, private_token)
 
-import logging
+
 class GitlabRunner(object):
     FREE_FORMAT = "[{id}] free"
 
@@ -131,6 +133,14 @@ class GitlabRunner(object):
                     runners.append(runner)
         return runners
 
+    def info(self, hostname):
+        info = []
+        for runner in self.find(hostname):
+            m = self.parse(runner.description)
+            info.append({'id': runner.id, 'tags': runner.tag_list,
+                         'name': runner.name, 'kind': m.kind})
+        return info
+
     def alloc(self):
         for rid in self.db.token:
             runner = self.gitlab.runners.get(rid)
@@ -187,8 +197,7 @@ class GitlabRunner(object):
         runner.active = False
         runner.save()
 
-    def mkconfig(self, hostname, out_dir, concurrency=1):
-        filename = f"{out_dir}/{hostname}/config.toml"
+    def mkconfig(self, hostname, filename, concurrency=1):
         content = "concurrent = 1\n" \
                   "timeout=1800\n"
         save(filename, content)
@@ -201,7 +210,25 @@ class GitlabRunner(object):
             content = j2.render(f"{desc.kind}.toml.j2")
             save(filename, content, append=True)
 
-import argparse
+    def mkworkbench(self, hostname, out):
+        runners = self.match(hostname) if hasattr(hostname, 'search') else self.find(hostname)
+
+
+        # generate config.yml
+        #
+        for runner in runners:
+            m = self.parse(runner.description)
+            path = f"{out}/{m.kind}/{runner.id}/config.yml"
+
+        for runner in runners:
+            desc = self.parse(runner.description)
+            assert desc
+            context = {'runner': runner, 'metadata': desc, 'url': self._url, 'token': self.db.token[runner.id]}
+            j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
+            content = j2.render(f"{desc.kind}.toml.j2")
+            save(filename, content, append=True)
+
+
 class GitlabRunnerCommand(object):
 
     def __init__(self):
@@ -235,8 +262,14 @@ class GitlabRunnerCommand(object):
 
     def mkconfig(self, args):
         gl = GitlabRunner(args.url, args.token, args.db)
-        for hostname in args.hostname:
-            gl.mkconfig(hostname, args.out)
+        gl.mkconfig(args.hostname, args.filename)
+
+    def info(self, args):
+        import json
+        gl = GitlabRunner(args.url, args.token, args.db)
+        info = gl.info(args.hostname)
+        text = json.dumps(info)
+        print(text)
 
     def _add_argument(self, parser, name, help, url="GitLab url", token="private token to access GitLab",
                      db="GitLab metadata filename", hostname="Hostname that take this action."):
@@ -276,10 +309,16 @@ class GitlabRunnerCommand(object):
         cmd.add_argument('--arch', default='adm64', help='')
         cmd.add_argument('--workbench', default=None, help='')
 
-        cmd = self._add_argument(subs, 'mkconfig', help='')
-        cmd.add_argument('--out', default="runner-config", help='')
+        cmd = self._add_argument(subs, 'mkconfig', help='', hostname=None)
+        cmd.add_argument('hostname', type=str, help='')
+        cmd.add_argument('-f', '--filename', required=True, help='')
+
+        cmd = self._add_argument(subs, 'info', help='', hostname=None)
+        cmd.add_argument('hostname', type=str, help='')
+
         args = parser.parse_args(argv)
-        return args.func(args)
+        print(args)
+#        return args.func(args)
 
 
 if __name__ == '__main__':
