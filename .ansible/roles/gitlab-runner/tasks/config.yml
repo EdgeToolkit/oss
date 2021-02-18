@@ -1,18 +1,18 @@
 ---
 - name: Reset configured gitlab-runners
   shell: |
-    python {{playbook_dir}}/command/ci.py free --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py free {{ansible_ssh_host}} \
+      --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}} \
-      --hostname {{ansible_ssh_host}}
+      --db {{gitlab_runner_db}}
   delegate_to: localhost
 
 - name: config in gitlab
   shell: |
-    python {{playbook_dir}}/command/ci.py apply --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py apply {{ansible_ssh_host}} \
+      --url {{gitlab_url}} \
       --token {{gitlab_private_token}}     \
       --db {{gitlab_runner_db}}            \
-      --hostname {{ansible_ssh_host}}      \
       --builder {{gitlab_runner_builder}}  \
       --tester {{gitlab_runner_tester}}    \
       --deployer {{gitlab_runner_deployer}} \
@@ -24,12 +24,11 @@
 
 - name: generate gitlab-runner config files
   shell: |
-    python {{playbook_dir}}/command/ci.py mkconfig \
+    python {{playbook_dir}}/command/ci.py mkconfig {{ansible_ssh_host}} \
       --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}}        \
-      --hostname {{ansible_ssh_host}}  \
-      --out {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
+      -f {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml
   delegate_to: localhost
 
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
@@ -49,10 +48,10 @@
 
 - name: active gitlab-runner in server side
   shell: |
-    python {{playbook_dir}}/command/ci.py active --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py active {{ansible_ssh_host}} \
+      --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}} \
-      --hostname {{ansible_ssh_host}} \
+      --db {{gitlab_runner_db}}
   delegate_to: localhost
 
 - name: Restart gitlab-runner service in  {{ansible_ssh_host}}

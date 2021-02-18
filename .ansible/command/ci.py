@@ -98,7 +98,7 @@ class GitlabRunner(object):
     def parse(self, description):
         P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86|adm)\w*)'
         P += r'\:(?P<kind>builder|tester|deployer|gitlab-ci.config.generator)'
-        P += r'(\s+\@workbench\=(?P<workbench>[\w\d\-\.\/]+)\:(?P<id>\d+))?'
+        P += r'(\s+\@(?P<workbench>[\w\d\-\.\/]+)\:(?P<id>\d+))?'
         #
         pattern = re.compile(P)
         m = pattern.match(description)
@@ -134,11 +134,12 @@ class GitlabRunner(object):
         return runners
 
     def info(self, hostname):
-        info = []
+        info = {}
         for runner in self.find(hostname):
             m = self.parse(runner.description)
-            info.append({'id': runner.id, 'tags': runner.tag_list,
-                         'name': runner.name, 'kind': m.kind})
+            info[runner.id] = {'id': runner.id, 'tags': runner.tag_list,
+            'description': runner.description, 
+            'kind': m.kind, 'workbench': m.workbench}
         return info
 
     def alloc(self):
@@ -317,8 +318,7 @@ class GitlabRunnerCommand(object):
         cmd.add_argument('hostname', type=str, help='')
 
         args = parser.parse_args(argv)
-        print(args)
-#        return args.func(args)
+        return args.func(args)
 
 
 if __name__ == '__main__':
