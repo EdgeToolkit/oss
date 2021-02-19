@@ -1,6 +1,9 @@
 - name: Stop service before deploy workbench
   win_shell: |
-    echo ./gitlab-runner stop
+    gitlab-runner stop
+  args:
+    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+    executable: powershell
   ignore_errors: yes
 
 - name: Remove previous generated workbench
@@ -47,6 +50,9 @@
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
 
-- name: Restart service before deploy workbench
+- name: Start service
   win_shell: |
-    echo ./gitlab-runner restart
+    gitlab-runner start
+  args:
+    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+    executable: powershell

@@ -1,11 +1,9 @@
 ---
 - name: Create gitlab-runner and epm folders
   file:
-    path: "{{ ansible_env.HOME }}/{{item}}"
+    path: "{{ ansible_env.HOME }}/.gitlabrunner"
     state: directory
     mode: '0755'
-  with_items:
-    - .gitlabrunner
 
 - name: Download gitlab-runner program to ~/.gitlab-runner
   get_url:
@@ -24,12 +22,3 @@
   args:
     chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
   become: yes
-
-
-
-
-
-- name: Download mirror.yml
-  get_url:
-    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
-    dest: /home/{{ansible_ssh_user}}/.epm/mirror.yml

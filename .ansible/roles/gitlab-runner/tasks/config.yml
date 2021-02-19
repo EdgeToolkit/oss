@@ -68,17 +68,17 @@
 # ---------------------------------------------------------
 # Restart gitlab service
 # ---------------------------------------------------------
-- name: Restart gitlab-runner service
-  shell: |
-    ./gitlab-runner restart
-  args:
-    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
-  become: yes
-  when: ansible_connection == 'ssh'
-
-- name: Restart gitlab-runner service
-  win_shell: |
-    echo .\gitlab-runner restart
-  args:
-    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
-  when: ansible_connection == 'winrm'
+#- name: Restart gitlab-runner service
+#  shell: |
+#    ./gitlab-runner restart
+#  args:
+#    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
+#  become: yes
+#  when: ansible_connection == 'ssh'
+#
+#- name: Restart gitlab-runner service
+#  win_shell: |
+#    echo .\gitlab-runner restart
+#  args:
+#    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+#  when: ansible_connection == 'winrm'
