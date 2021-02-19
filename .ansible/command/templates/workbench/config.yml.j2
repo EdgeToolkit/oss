@@ -4,9 +4,14 @@ workbench:
 conan:
   storage: ${workbench}/data
   remotes:
+  - name: oss
+    url: {{ remote }}
+    # username:
+    # password:
+{#
 {% for name, repo in remotes.items() %}
   - name: {{ name }}
-    url: repo.url
+    url: {{repo.url}}
 
 {%- if repo.username %}
     username: {{ repo.username }}
@@ -17,6 +22,7 @@ conan:
 {%- endif %}
 
 {% endfor %}
+ #}
 
 {% if environment %}
 environment:

@@ -212,15 +212,28 @@ class GitlabRunner(object):
             content = j2.render(f"{desc.kind}.toml.j2")
             save(filename, content, append=True)
 
-    def mkworkbench(self, hostname, out):
+    def mkworkbench(self, hostname, out, remote, environment, username=None, password=None):
         runners = self.match(hostname) if hasattr(hostname, 'search') else self.find(hostname)
 
         for runner in runners:
             m = self.parse(runner.description)
-            context = {'runner': runner, 'metadata': m, 'url': self._url, 'token': self.db.token[runner.id]}            
-            j2 = Jinja2(f"{_DIR}/templates/.workbench/config.yml.j2", context)
-            path = f"{out}/{m.kind}/{runner.id}/config.yml"
-            j2.render(path)
+            context = {'runner': runner, 'metadata': m, 'url': self._url, 'token': self.db.token[runner.id],
+                       'remote': remote,
+                       'environment': environment or [],
+                       'workbench': "oss/{}/{}".format(m.kind, runner.id)
+                       }
+            j2 = Jinja2(f"{_DIR}/templates/workbench/", context)
+            path = abspath(f"{out}/{m.kind}/{runner.id}")
+            j2.render('config.yml.j2', outfile=f"{path}/config.yml")
+            from conans.tools import environment_append
+            from subprocess import run
+            with environment_append({'CONAN_USER_HOME': path}):
+                run('conan remote clean')
+                run(f'conan remote add oss {remote} False')
+                if m.kind == 'deployer' and username and password:
+                    run(f'conan user -p {password} -r {remote} {username}')
+
+
 
 
 class GitlabRunnerCommand(object):
@@ -257,6 +270,15 @@ class GitlabRunnerCommand(object):
     def mkconfig(self, args):
         gl = GitlabRunner(args.url, args.token, args.db)
         gl.mkconfig(args.hostname, args.filename)
+
+    def mkworkbench(self, args):
+        gl = GitlabRunner(args.url, args.token, args.db)
+        environment = {}
+        for e in args.environment or []:
+            name, value = e.split('=')
+            environment[name] = value
+        for hostname in args.hostname:
+            gl.mkworkbench(hostname, args.out, args.remote, environment)
 
     def info(self, args):
         import json
@@ -309,6 +331,11 @@ class GitlabRunnerCommand(object):
 
         cmd = self._add_argument(subs, 'info', help='', hostname=None)
         cmd.add_argument('hostname', type=str, help='')
+
+        cmd = self._add_argument(subs, 'mkworkbench', help='')
+        cmd.add_argument('--out', default="_workbench", type=str, help='')
+        cmd.add_argument('--remote', required=True, type=str, help='')
+        cmd.add_argument('-e', '--environment', action="append", type=str, help='')
 
         args = parser.parse_args(argv)
         return args.func(args)
