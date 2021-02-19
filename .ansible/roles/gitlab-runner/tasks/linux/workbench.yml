@@ -1,0 +1,68 @@
+- name: Stop service before deploy workbench
+  shell: |
+    echo ./gitlab-runner stop
+  ignore_errors: yes
+  become: yes
+
+- name: Get {{ansible_ssh_host}} gitlab-runner infomation
+  shell: |
+    python {{playbook_dir}}/command/ci.py info {{ansible_ssh_host}} \
+      --url {{gitlab_url}} \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}}
+  register: info
+  delegate_to: localhost
+
+- name: Set factor for {{ansible_ssh_host}} related runner info
+  set_fact:
+    runner_info: "{{info['stdout']}}"
+
+
+- name: Remove previous generated workbench
+  file:
+    path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}"
+    state: absent
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: Copy mirror.yml
+  get_url:
+    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
+    dest: /home/{{ansible_ssh_user}}/.epm/mirror.yml
+
+- name: Create workbench folders
+  file:
+    path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}"
+    state: directory
+    mode: '0744'
+    recurse: yes
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: copy workbench config file
+  template:
+    src: workbench/config.yml.j2
+    dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}/config.yml"
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: init conan
+  shell: |
+    kind=item['kind']
+    WD={{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}
+    export CONAN_USER_HOME=$WD
+    export CONAN_REVISIONS_ENABLED=1
+    conan remote clean
+    conan remote add {{conan_remote_name}} {{conan_remote_url}} False
+    if [[ $kind == deployer ]]; then
+      conan user -p {{conan_remote_username}} -r {{conan_remote_name}} {{conan_remote_username}}
+    fi
+  with_list: "{{runner_info}}"
+  when: 
+  - item['kind'] != 'gitlab-ci.config.generator'
+  - ansible_system == 'Linux'
+
+- name: Restart service before deploy workbench
+  shell: |
+    echo ./gitlab-runner restart
+  become: yes

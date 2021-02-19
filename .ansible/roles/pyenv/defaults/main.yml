@@ -57,3 +57,7 @@ pyenv_redhat_packages:
 pyenv_osx_packages:
   - readline
   - xz
+
+
+python_source_mirror: "https://npm.taobao.org/mirrors/python"
+pyenv_git_mirror: "https://gitee.com/mirrors/pyenv.git"  

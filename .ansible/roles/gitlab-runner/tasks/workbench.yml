@@ -6,11 +6,18 @@
       --db {{gitlab_runner_db}}
   register: info
   delegate_to: localhost
+
 - name: Set factor for {{ansible_ssh_host}} related runner info
   set_fact:
     runner_info: "{{info['stdout']}}"
-- name: "print info"
-  debug:
-    msg: "{{ item['id'] }}"
-  with_list: "{{runner_info}}"
-  
+
+# ---------------------------------------------------------
+# Platform related
+# ---------------------------------------------------------
+- name: Linux
+  include: linux/workbench.yml
+  when: ansible_connection == 'ssh'
+
+- name: Windows
+  include: win/workbench.yml
+  when: ansible_connection == 'winrm'

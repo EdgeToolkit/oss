@@ -10,17 +10,17 @@ ansible_python_interpreter=/usr/bin/python3
 PIP_INDEX_URL='http://172.16.0.121:8040/repository/pypi/simple'
 PIP_TRUSTED_HOST='172.16.0.121'
 
-ARCHIVE_REPO_URL='http://172.16.0.119/archive'
+#ARCHIVE_REPO_URL='http://172.16.0.119/archive'
 
-PYEVN_REPO='http://172.16.0.119/archive/pyenv'
-PYENV_VERSION='1.2.22'
+#PYEVN_REPO='http://172.16.0.119/archive/pyenv'
+#PYENV_VERSION='1.2.22'
 
-python_source_mirror="https://npm.taobao.org/mirrors/python"
-pyenv_git_mirror="https://gitee.com/mirrors/pyenv.git"
+#python_source_mirror="https://npm.taobao.org/mirrors/python"
+#pyenv_git_mirror="https://gitee.com/mirrors/pyenv.git"
 ###
-device_ssh_port=1022
-device_ssh_user=admin
-device_ssh_pass=admin123
+#device_ssh_port=1022
+##device_ssh_user=admin
+#device_ssh_pass=admin123
 #device_sudo_pass=edgetoolkit
 
 # ---------------------------------------------------
@@ -95,16 +95,11 @@ linux_server_121
 #GITLAB_URL=http://172.16.0.121:8200
 #GITLAB_PRIVATE_TOKEN=kypLygrDSZ-92NewWx4R
 
-OSS_VERSION=0.1
+#OSS_VERSION=0.1
 
-gitlab_runner_version=13.8.0
-gitlab_url=http://172.16.0.121:8200
-gitlab_private_token=kypLygrDSZ-92NewWx4R
 gitlab_runner_db=/oss/.ansible/config/tokens.yml
 [gitlab_runner]
-pc241  ansible_ssh_host=172.16.192.241
-#pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
+#pc241  ansible_ssh_host=172.16.192.241
+pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
 #pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
-pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=4 gitlab_runner_ci_generator=1 gitlab_runner_builder=0 gitlab_runner_tester=0
-
-
+#pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=4 gitlab_runner_ci_generator=1 gitlab_runner_builder=0 gitlab_runner_tester=0

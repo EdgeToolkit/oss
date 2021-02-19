@@ -1,0 +1,52 @@
+- name: Stop service before deploy workbench
+  win_shell: |
+    echo ./gitlab-runner stop
+  ignore_errors: yes
+
+- name: Remove previous generated workbench
+  win_file:
+    path: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}"
+    state: absent
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: Copy mirror.yml
+  win_get_url:
+    url: "{{mirror_repository_url}}/mirror.yml"
+    dest: "{{ ansible_env.USERPROFILE }}/.epm/mirror.yml"
+  when: 
+  - mirror_repository_url is defined
+
+- name: Create workbench folders (windows)
+  win_file:
+    path: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}"
+    state: directory
+    recurse: yes
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: copy workbench config file (windows) 
+  template:
+    src: workbench/config.yml.j2
+    dest: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}/config.yml"
+  with_list: "{{runner_info}}"
+  when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: init conan (windows)
+  win_shell: |
+    $kind="{{item['kind']}}"
+    $WD="{{ ansible_env.USERPROFILE }}\.epm\.workbench\{{item['workbench']}}\{{item['kind']}}\{{item['id']}}"
+    $env:CONAN_USER_HOME="$WD"
+    $env:CONAN_REVISIONS_ENABLED="1"
+    conan remote clean
+    conan remote add {{conan_remote_name}} {{conan_remote_url}} False
+    if( $kind -eq "deployer") {
+      conan user -p {{conan_remote_username}} -r {{conan_remote_name}} {{conan_remote_username}}
+    }
+  with_list: "{{runner_info}}"
+  when: 
+  - item['kind'] != 'gitlab-ci.config.generator'
+
+- name: Restart service before deploy workbench
+  win_shell: |
+    echo ./gitlab-runner restart

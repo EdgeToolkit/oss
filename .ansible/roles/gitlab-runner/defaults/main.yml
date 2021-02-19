@@ -1,3 +1,8 @@
+gitlab_runner_version: 13.8.0
+gitlab_url: http://172.16.0.121:8200
+gitlab_private_token: kypLygrDSZ-92NewWx4R
+
+
 gitlab_runner_out_dir: "/tmp/ansible-gitlab-runner"
 gitlab_runner_workbench: "oss-0.1"
 gitlab_runner_conan_repo: "oss-0.1"
@@ -7,5 +12,10 @@ gitlab_runner_tester: 1
 gitlab_runner_deployer: 0
 gitlab_runner_ci_generator: 0
 
+mirror_repository_url: http://172.16.0.119/archive
 
+conan_remote_name: oss
+conan_remote_url: http://172.16.0.119:8060/artifactory/api/conan/oss-0.1
+conan_remote_username: mingyiz
+conan_remote_password: Admin123
 
