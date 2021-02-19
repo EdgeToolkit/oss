@@ -134,12 +134,13 @@ class GitlabRunner(object):
         return runners
 
     def info(self, hostname):
-        info = {}
+        info = []
         for runner in self.find(hostname):
             m = self.parse(runner.description)
-            info[runner.id] = {'id': runner.id, 'tags': runner.tag_list,
+            element = {'id': runner.id, 'tags': runner.tag_list,
             'description': runner.description, 
             'kind': m.kind, 'workbench': m.workbench}
+            info.append(element)
         return info
 
     def alloc(self):
@@ -214,20 +215,12 @@ class GitlabRunner(object):
     def mkworkbench(self, hostname, out):
         runners = self.match(hostname) if hasattr(hostname, 'search') else self.find(hostname)
 
-
-        # generate config.yml
-        #
         for runner in runners:
             m = self.parse(runner.description)
+            context = {'runner': runner, 'metadata': m, 'url': self._url, 'token': self.db.token[runner.id]}            
+            j2 = Jinja2(f"{_DIR}/templates/.workbench/config.yml.j2", context)
             path = f"{out}/{m.kind}/{runner.id}/config.yml"
-
-        for runner in runners:
-            desc = self.parse(runner.description)
-            assert desc
-            context = {'runner': runner, 'metadata': desc, 'url': self._url, 'token': self.db.token[runner.id]}
-            j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
-            content = j2.render(f"{desc.kind}.toml.j2")
-            save(filename, content, append=True)
+            j2.render(path)
 
 
 class GitlabRunnerCommand(object):
