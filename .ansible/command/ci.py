@@ -333,7 +333,7 @@ class GitlabRunnerCommand(object):
         cmd.add_argument('hostname', type=str, help='')
 
         cmd = self._add_argument(subs, 'mkworkbench', help='')
-        cmd.add_argument('--out', default="_workbench", type=str, help='')
+        cmd.add_argument('--out', default=".tmp/workbench", type=str, help='')
         cmd.add_argument('--remote', required=True, type=str, help='')
         cmd.add_argument('-e', '--environment', action="append", type=str, help='')
 
