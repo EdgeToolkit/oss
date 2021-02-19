@@ -227,13 +227,11 @@ class GitlabRunner(object):
             j2.render('config.yml.j2', outfile=f"{path}/config.yml")
             from conans.tools import environment_append
             from subprocess import run
-            with environment_append({'CONAN_USER_HOME': path}):
+            with environment_append({'CONAN_USER_HOME': path, 'CONAN_REVISIONS_ENABLED': '1'}):
                 run('conan remote clean')
                 run(f'conan remote add oss {remote} False')
                 if m.kind == 'deployer' and username and password:
-                    run(f'conan user -p {password} -r {remote} {username}')
-
-
+                    run(f'conan user -p {password} -r oss {username}')
 
 
 class GitlabRunnerCommand(object):
@@ -278,7 +276,7 @@ class GitlabRunnerCommand(object):
             name, value = e.split('=')
             environment[name] = value
         for hostname in args.hostname:
-            gl.mkworkbench(hostname, args.out, args.remote, environment)
+            gl.mkworkbench(hostname, args.out, args.remote, environment, args.username, args.password)
 
     def info(self, args):
         import json
@@ -336,6 +334,8 @@ class GitlabRunnerCommand(object):
         cmd.add_argument('--out', default=".tmp/workbench", type=str, help='')
         cmd.add_argument('--remote', required=True, type=str, help='')
         cmd.add_argument('-e', '--environment', action="append", type=str, help='')
+        cmd.add_argument('-u', '--username', default=None, type=str, help='')
+        cmd.add_argument('-p', '--password', default=None, type=str, help='')
 
         args = parser.parse_args(argv)
         return args.func(args)
