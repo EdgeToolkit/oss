@@ -1,0 +1,23 @@
+- name: Get {{ansible_ssh_host}} gitlab-runner infomation
+  shell: |
+    python {{playbook_dir}}/command/ci.py info {{ansible_ssh_host}} \
+      --url {{gitlab_url}} \
+      --token {{gitlab_private_token}} \
+      --db {{gitlab_runner_db}}
+  register: info
+  delegate_to: localhost
+
+- name: Set factor for {{ansible_ssh_host}} related runner info
+  set_fact:
+    runner_info: "{{info['stdout']}}"
+
+# ---------------------------------------------------------
+# Platform related
+# ---------------------------------------------------------
+- name: Linux
+  include: linux/workbench.yml
+  when: ansible_connection == 'ssh'
+
+- name: Windows
+  include: win/workbench.yml
+  when: ansible_connection == 'winrm'

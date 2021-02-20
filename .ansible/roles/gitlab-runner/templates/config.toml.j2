@@ -1,0 +1,19 @@
+{% for runner in runners %}
+{%- set kind = runner['kind'] -%}
+{%- set platform = runner['platform'] -%}
+{%- set arch = runner['arch'] -%}
+{%- set id = runner['id'] -%}
+{%- set hostname = runner['hostname'] -%}
+{%- set workbench = runner['workbench'] -%}
+{%- set token = runner['token'] -%}
+{%- set url = gitlab_url -%}
+{%- set description = runner['description'] -%}
+
+{% if kind == 'builder'%}
+{% include "builder.config.toml.j2" %}
+{% endif %}
+{% if kind == 'tester'%}
+{% include "tester.config.toml.j2" %}
+{% endif %}
+
+{% endfor %}

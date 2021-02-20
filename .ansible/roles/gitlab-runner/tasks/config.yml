@@ -1,66 +1,87 @@
 ---
 - name: Reset configured gitlab-runners
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.reset --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py free {{ansible_ssh_host}} \
+      --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}} \
-      --hostname {{ansible_ssh_host}}
+      --db {{gitlab_runner_db}}
   delegate_to: localhost
 
 - name: config in gitlab
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.config --url {{gitlab_url}} \
+    case {{ansible_system}} in
+      Win32NT) platform=Windows ;;
+      *) platform=Linux ;;
+    esac
+    
+    case {{ansible_architecture}} in
+      64-bit) arch=x86_64;;
+      *) arch=x86_64;;
+    esac
+
+    python {{playbook_dir}}/command/ci.py apply {{ansible_ssh_host}} \
+      --url {{gitlab_url}} \
       --token {{gitlab_private_token}}     \
       --db {{gitlab_runner_db}}            \
-      --hostname {{ansible_ssh_host}}      \
       --builder {{gitlab_runner_builder}}  \
       --tester {{gitlab_runner_tester}}    \
       --deployer {{gitlab_runner_deployer}} \
       --trigger {{gitlab_runner_ci_generator}}  \
-      --platform {{ansible_system}}             \
-      --arch {{ansible_architecture}}           \
-      --workbench workbench=oss/{{OSS_VERSION}}
+      --platform $platform                     \
+      --arch $arch           \
+      --workbench {{gitlab_runner_workbench}}
   delegate_to: localhost
 
-- name: generate runner config and workbench files
+- name: generate gitlab-runner config files
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.make \
+    python {{playbook_dir}}/command/ci.py mkconfig {{ansible_ssh_host}} \
       --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
       --db {{gitlab_runner_db}}        \
-      --hostname {{ansible_ssh_host}}  \
-      --out /oss/.tmp/gitlab-runner
-    
+      -f {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml
   delegate_to: localhost
 
+# ---------------------------------------------------------
+# Deploy
+# ---------------------------------------------------------
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
   copy:
-    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/config.toml"
+    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
     dest: "{{ ansible_env.HOME }}/.gitlab-runner/config.toml"
     mode: u=rw,g=r,o=r
     group: "{{ansible_ssh_user}}"
     owner: "{{ansible_ssh_user}}"
-  become: yes
+  become: yes  
+  when: ansible_connection == 'ssh'
 
-
-#- name: deploy gitlab-runner workbench to {{ansible_ssh_host}}
-#  copy:
-#    src: "/oss/.tmp/gitlab-runner/{{ansible_ssh_host}}/.workbench"
-#    dest: "{{ ansible_env.HOME }}/.epm"
+- name: deploy gitlab-runner config to {{ansible_ssh_host}}
+  win_copy:
+    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
+    dest: "{{ ansible_env.USERPROFILE }}/.gitlab-runner/config.toml"
+  when: ansible_connection == 'winrm'
 
 - name: active gitlab-runner in server side
   shell: |
-    {{playbook_dir}}/command/gitlab-ci runner.active --url {{gitlab_url}} \
+    python {{playbook_dir}}/command/ci.py active {{ansible_ssh_host}} \
+      --url {{gitlab_url}}             \
       --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}} \
-      --hostname {{ansible_ssh_host}} \
+      --db {{gitlab_runner_db}}
   delegate_to: localhost
 
-- name: Restart gitlab-runner service in  {{ansible_ssh_host}}
-  shell: |
-    ./gitlab-runner restart
-  args:
-    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
-  become: yes
-
-# .workbench/oss/{{kind}}/{{version}}/{{runner.id}}
+# ---------------------------------------------------------
+# Restart gitlab service
+# ---------------------------------------------------------
+#- name: Restart gitlab-runner service
+#  shell: |
+#    ./gitlab-runner restart
+#  args:
+#    chdir: "{{ ansible_env.HOME }}/.gitlab-runner"
+#  become: yes
+#  when: ansible_connection == 'ssh'
+#
+#- name: Restart gitlab-runner service
+#  win_shell: |
+#    echo .\gitlab-runner restart
+#  args:
+#    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+#  when: ansible_connection == 'winrm'

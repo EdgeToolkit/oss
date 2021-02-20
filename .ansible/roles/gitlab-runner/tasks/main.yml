@@ -1,30 +1,12 @@
-#- name: Install GitLab-runner
-#  include: install.yml
-#  when:
-#  - COMMAND == 'install'
-#  - ansible_connection == 'ssh'
-#
-#- name: Install GitLab-runner for Windows
-#  include: install-win.yml
-#  when:
-#  - COMMAND == 'install'
-#  - ansible_connection == 'winrm'
-#
-#- name: Config GitLab-Runner
-#  include: deploy.yml
-#  when:
-#  - COMMAND == 'deploy'
-#ansible_architecture
-
 - name: Install gitlab-runner for Windows
-  include: install/windows.yml
+  include: win/install.yml
   when:
   - ansible_connection == 'winrm'
   tags:
   - install
 
 - name: Install gitlab-runner for Linux
-  include: install/ubuntu.yml
+  include: linux/install.yml
   when:
   - ansible_connection == 'ssh'
   tags:
@@ -35,3 +17,12 @@
   tags:
   - config
 
+- name: Deploy workbench of gitlab-runner
+  include: workbench.yml
+  tags:
+  - workbench
+
+- name: TEST
+  include: test.yml
+  tags:
+  - test
