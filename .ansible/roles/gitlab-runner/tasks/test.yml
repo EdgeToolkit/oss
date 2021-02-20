@@ -20,7 +20,14 @@
 
 - name: set_fact
   set_fact:
-    runners: {{ gitlab_runner_hosts.update(runners) }}
+    runners: "{{ gitlab_runner_hosts.runners }}"
+  when: runners is undefined
+
+- name: set_factX
+  set_fact:
+    dump: "{{ runners.update(gitlab_runner_hosts.runners) }}"
+  when: runners is defined
+
 - name: Y
   debug:
-    msg: "{{gitlab_runner_hosts}}"
+    msg: "{{runners}}"
