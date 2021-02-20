@@ -204,12 +204,14 @@ class GitlabRunner(object):
                   "timeout=1800\n"
         save(filename, content)
         runners = self.match(hostname) if hasattr(hostname, 'search') else self.find(hostname)
+        print(runners)
         for runner in runners:
             desc = self.parse(runner.description)
             assert desc
             context = {'runner': runner, 'metadata': desc, 'url': self._url, 'token': self.db.token[runner.id]}
             j2 = Jinja2(f"{_DIR}/templates/.gitlab-runner", context)
             content = j2.render(f"{desc.kind}.toml.j2")
+            print('**', desc, f"{desc.kind}.toml.j2", content)
             save(filename, content, append=True)
 
     def mkworkbench(self, hostname, out, remote, environment, username=None, password=None):

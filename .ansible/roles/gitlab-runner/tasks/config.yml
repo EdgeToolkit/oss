@@ -41,6 +41,9 @@
       -f {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml
   delegate_to: localhost
 
+# ---------------------------------------------------------
+# Deploy
+# ---------------------------------------------------------
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
   copy:
     src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
@@ -48,7 +51,7 @@
     mode: u=rw,g=r,o=r
     group: "{{ansible_ssh_user}}"
     owner: "{{ansible_ssh_user}}"
-  become: yes
+  become: yes  
   when: ansible_connection == 'ssh'
 
 - name: deploy gitlab-runner config to {{ansible_ssh_host}}
