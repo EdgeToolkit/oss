@@ -5,11 +5,22 @@
 #    msg: "{{gitlab_runner.runner}}"
 
 - name: X
-  gitlab_runner_helper:
+  gitlab_runner_command:
     db: "{{gitlab_runner}}" 
     hostname: "{{ansible_ssh_host}}"
+    builder: "{{gitlab_runner_builder}}"
+    tester: "{{gitlab_runner_tester}}"
+    deployer: "{{gitlab_runner_deployer}}"
+    trigger: "{{gitlab_runner_ci_generator}}"
+    workbench: "{{gitlab_runner.conan.name}}"
+    platform: "{{'Windows' if ansible_system == 'Win32NT' else ansible_system}}"
+    arch: "{{ansible_architecture2 if ansible_system == 'Win32NT' else ansible_architecture}}"
   delegate_to: localhost
   register: gitlab_runner_hosts
+
+- name: set_fact
+  set_fact:
+    runners: {{ gitlab_runner_hosts.update(runners) }}
 - name: Y
   debug:
     msg: "{{gitlab_runner_hosts}}"
