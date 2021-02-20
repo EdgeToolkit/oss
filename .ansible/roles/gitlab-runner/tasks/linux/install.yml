@@ -1,7 +1,7 @@
 ---
 - name: Create gitlab-runner and epm folders
   file:
-    path: "{{ ansible_env.HOME }}/.gitlabrunner"
+    path: "{{ ansible_env.HOME }}/.gitlab-runner"
     state: directory
     mode: '0755'
 

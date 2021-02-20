@@ -108,7 +108,6 @@ def main():
     argument_spec = {
         "hostname": {"required": True, "type": "str"},
         "db": {"required": True, "type": "dict"}, 
-        #"concurrency": {"default":  None, "type": "int" },
         "builder": {"default":  None, "type": "int" },
         "tester": {"default": None, "type": "int" },
         "deployer": {"default": None, "type": "int" },
@@ -124,25 +123,23 @@ def main():
     }
     module = AnsibleModule(argument_spec=argument_spec)
     db = module.params['db']
-    #concurrency = module.params['concurrency']
     command = module.params['command']
     hostname = module.params['hostname']
     workbench = module.params['workbench']
     platform = module.params['platform']
     arch = module.params['arch']
     try:
-        runners = []
+        runners = {}
         gl = GitlabRunner(db)        
         if command == 'free':
             runners = gl.free(hostname)
         else:
-            runners = [] #configure(module.params)
+            runners = []
             gl.free(hostname)
             for kind in ['builder', 'tester', 'deployer', 'trigger']:
                 for i in range(module.params[kind]):
-                    #runners.append({'kind': kind, 'platform': platform ,'arch': arch})
-                    runners.append(gl.apply(hostname, kind, workbench, platform, arch))
-            runners={hostname: runners}
+                    runner = gl.apply(hostname, kind, workbench, platform, arch)
+                    runners.append(runner)
     except Exception as e:
         module.fail_json(changed=True, msg=str(e))
     else:
