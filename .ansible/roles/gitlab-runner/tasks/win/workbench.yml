@@ -50,9 +50,9 @@
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
 
-- name: Start service
+- name: Startup service
   win_shell: |
-    gitlab-runner start
+    ./gitlab-runner start
   args:
     chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
     executable: powershell

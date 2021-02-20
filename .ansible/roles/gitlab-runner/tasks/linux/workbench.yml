@@ -15,8 +15,8 @@
 
 - name: Copy mirror.yml
   get_url:
-    url: "{{ARCHIVE_REPO_URL}}/mirror.yml"
-    dest: /home/{{ansible_ssh_user}}/.epm/mirror.yml
+    url: "{{mirror_repository_url}}/mirror.yml"
+    dest: "{{ ansible_env.HOME }}/.epm/mirror.yml"
 
 - name: Create workbench folders
   file:
@@ -48,10 +48,9 @@
   with_list: "{{runner_info}}"
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
-  - ansible_system == 'Linux'
+
 
 - name: Startup service
-- name: Install gitlab service
   shell: |
     ./gitlab-runner start
   args:
