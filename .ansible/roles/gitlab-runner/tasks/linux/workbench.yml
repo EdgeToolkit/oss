@@ -10,7 +10,7 @@
   file:
     path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}"
     state: absent
-  with_list: "{{runner_info}}"
+  with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: Copy mirror.yml
@@ -24,17 +24,17 @@
     state: directory
     mode: '0744'
     recurse: yes
-  with_list: "{{runner_info}}"
+  with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: copy workbench config file
   template:
     src: workbench/config.yml.j2
     dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}/config.yml"
-  with_list: "{{runner_info}}"
+  with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
-- name: init conan
+- name: Initialize workbench
   shell: |
     kind=item['kind']
     WD={{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}
@@ -45,10 +45,15 @@
     if [[ $kind == deployer ]]; then
       conan user -p {{conan_remote_username}} -r {{conan_remote_name}} {{conan_remote_username}}
     fi
-  with_list: "{{runner_info}}"
+    #python -m venv $WD/venv
+    {{ ansible_env.HOME }}/.pyenv/shims/python -m venv $WD/venv
+#    /bin/bash -c "source ~/.bashrc && pyenv --version && which python"
+  args:
+    executable: /bin/bash  
+  with_list: "{{runners}}"
+
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
-
 
 - name: Startup service
   shell: |

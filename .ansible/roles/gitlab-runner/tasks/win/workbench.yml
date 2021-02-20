@@ -35,7 +35,7 @@
   with_list: "{{runner_info}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
-- name: init conan (windows)
+- name: Initialize workbench (windows)
   win_shell: |
     $kind="{{item['kind']}}"
     $WD="{{ ansible_env.USERPROFILE }}\.epm\.workbench\{{item['workbench']}}\{{item['kind']}}\{{item['id']}}"
@@ -46,6 +46,7 @@
     if( $kind -eq "deployer") {
       conan user -p {{conan_remote_username}} -r {{conan_remote_name}} {{conan_remote_username}}
     }
+    python -m venv $WD/venv
   with_list: "{{runner_info}}"
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'

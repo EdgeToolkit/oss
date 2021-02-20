@@ -67,6 +67,13 @@ class GitlabRunner(object):
             runner.active = state
             runner.save()
             runners.append(runner.id)
+        return runners
+
+    def info(self, runner, hostname=None):
+        runners = []        
+        for runner in self.find(hostname):
+            runners.append(self._mkinfo(runner, hostname))
+        return runners
 
     def apply(self, hostname, kind, workbench, platform, arch):
         if kind == 'trigger':
@@ -92,7 +99,16 @@ class GitlabRunner(object):
             runner.description += f" @{workbench}:{runner.id}"
         runner.active = False        
         runner.save()
-        return {'id': runner.id,
+        return self._mkinfo(runner, hostname, workbench=workbench, kind=kind, platform=platform, arch=arch)
+
+    def _mkinfo(self, runner, hostname, workbench=None, platform=None, arch=None, kind=None):
+        m = self.parse(runner.description)
+        hostname = hostname or (m.hostname if m else '?')
+        platform = platform or (m.platform if m else '?')
+        arch = arch or (m.arch if m else '?')
+        kind = kind or (m.kind if m else '?')
+        workbench = workbench or (m.workbench if m else '?')
+        return {'id': runner.id,        
         'hostname': hostname,
         'token': self.db['runner'][str(runner.id)],
         'platform': platform,
@@ -104,7 +120,6 @@ class GitlabRunner(object):
         }
 
 def main():
-
     argument_spec = {
         "hostname": {"required": True, "type": "str"},
         "db": {"required": True, "type": "dict"}, 
@@ -116,8 +131,8 @@ def main():
         "platform": {"default": None, "type": "str"},
         "arch": {"default": None, "type": "str"},
         "command": {
-            "default": "configure", 
-            "choices": ['free', 'configure'],  
+            "required": True, 
+            "choices": ['free', 'configure', 'active', 'deactive', 'info'],  
             "type": 'str' 
         },
     }
@@ -133,13 +148,21 @@ def main():
         gl = GitlabRunner(db)        
         if command == 'free':
             runners = gl.free(hostname)
-        else:
+        elif command == 'active':
+            runners = gl.active(hostname, True)
+        elif command == 'deactive':
+            runners = gl.active(hostname, False)
+        elif command == 'info':
+            runners = gl.info(hostname)
+        elif command == 'configure':
             runners = []
             gl.free(hostname)
             for kind in ['builder', 'tester', 'deployer', 'trigger']:
                 for i in range(module.params[kind]):
                     runner = gl.apply(hostname, kind, workbench, platform, arch)
                     runners.append(runner)
+        else:
+            raise Exception('Not implement command <{}>'.format(command))
     except Exception as e:
         module.fail_json(changed=True, msg=str(e))
     else:

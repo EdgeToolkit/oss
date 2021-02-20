@@ -1,72 +1,103 @@
 ---
-- name: Reset configured gitlab-runners
-  shell: |
-    python {{playbook_dir}}/command/ci.py free {{ansible_ssh_host}} \
-      --url {{gitlab_url}}             \
-      --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}}
+- name: Config gitlab service runner for {{ansible_ssh_host}}
+  gitlab_runner_command:
+    command: configure
+    db: "{{gitlab_runner}}" 
+    hostname: "{{ansible_ssh_host}}"
+    builder: "{{gitlab_runner_builder}}"
+    tester: "{{gitlab_runner_tester}}"
+    deployer: "{{gitlab_runner_deployer}}"
+    trigger: "{{gitlab_runner_ci_generator}}"
+    workbench: "{{gitlab_runner.conan.name}}"
+    platform: "{{'Windows' if ansible_system == 'Win32NT' else ansible_system}}"
+    arch: "{{ansible_architecture2 if ansible_system == 'Win32NT' else ansible_architecture}}"
   delegate_to: localhost
+  register: result
 
-- name: config in gitlab
-  shell: |
-    case {{ansible_system}} in
-      Win32NT) platform=Windows ;;
-      *) platform=Linux ;;
-    esac
-    
-    case {{ansible_architecture}} in
-      64-bit) arch=x86_64;;
-      *) arch=x86_64;;
-    esac
+- name: set_fact
+  set_fact:
+    runners: "{{ result.runners }}"
 
-    python {{playbook_dir}}/command/ci.py apply {{ansible_ssh_host}} \
-      --url {{gitlab_url}} \
-      --token {{gitlab_private_token}}     \
-      --db {{gitlab_runner_db}}            \
-      --builder {{gitlab_runner_builder}}  \
-      --tester {{gitlab_runner_tester}}    \
-      --deployer {{gitlab_runner_deployer}} \
-      --trigger {{gitlab_runner_ci_generator}}  \
-      --platform $platform                     \
-      --arch $arch           \
-      --workbench {{gitlab_runner_workbench}}
-  delegate_to: localhost
+- name: Apply gitlab-runner config.toml
+  template:
+    src: config.toml.j2
+    dest: "{{ ansible_env.USERPROFILE if ansible_system.startswith('Win') else ansible_env.HOME }}/.gitlab-runner/config.toml"
 
-- name: generate gitlab-runner config files
-  shell: |
-    python {{playbook_dir}}/command/ci.py mkconfig {{ansible_ssh_host}} \
-      --url {{gitlab_url}}             \
-      --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}}        \
-      -f {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml
-  delegate_to: localhost
 
-# ---------------------------------------------------------
-# Deploy
-# ---------------------------------------------------------
-- name: deploy gitlab-runner config to {{ansible_ssh_host}}
-  copy:
-    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
-    dest: "{{ ansible_env.HOME }}/.gitlab-runner/config.toml"
-    mode: u=rw,g=r,o=r
-    group: "{{ansible_ssh_user}}"
-    owner: "{{ansible_ssh_user}}"
-  become: yes  
-  when: ansible_connection == 'ssh'
+#- name: Y
+#  debug:
+#    msg: "{{ansible_ssh_host}} : {{runners}}"
 
-- name: deploy gitlab-runner config to {{ansible_ssh_host}}
-  win_copy:
-    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
-    dest: "{{ ansible_env.USERPROFILE }}/.gitlab-runner/config.toml"
-  when: ansible_connection == 'winrm'
 
-- name: active gitlab-runner in server side
-  shell: |
-    python {{playbook_dir}}/command/ci.py active {{ansible_ssh_host}} \
-      --url {{gitlab_url}}             \
-      --token {{gitlab_private_token}} \
-      --db {{gitlab_runner_db}}
-  delegate_to: localhost
+###############################################################################
+#- name: Reset configured gitlab-runners
+#  shell: |
+#    python {{playbook_dir}}/command/ci.py free {{ansible_ssh_host}} \
+#      --url {{gitlab_url}}             \
+#      --token {{gitlab_private_token}} \
+#      --db {{gitlab_runner_db}}
+#  delegate_to: localhost
+#
+#- name: config in gitlab
+#  shell: |
+#    case {{ansible_system}} in
+#      Win32NT) platform=Windows ;;
+#      *) platform=Linux ;;
+#    esac
+#    
+#    case {{ansible_architecture}} in
+#      64-bit) arch=x86_64;;
+#      *) arch=x86_64;;
+#    esac
+#
+#    python {{playbook_dir}}/command/ci.py apply {{ansible_ssh_host}} \
+#      --url {{gitlab_url}} \
+#      --token {{gitlab_private_token}}     \
+#      --db {{gitlab_runner_db}}            \
+#      --builder {{gitlab_runner_builder}}  \
+#      --tester {{gitlab_runner_tester}}    \
+#      --deployer {{gitlab_runner_deployer}} \
+#      --trigger {{gitlab_runner_ci_generator}}  \
+#      --platform $platform                     \
+#      --arch $arch           \
+#      --workbench {{gitlab_runner_workbench}}
+#  delegate_to: localhost
+#
+#- name: generate gitlab-runner config files
+#  shell: |
+#    python {{playbook_dir}}/command/ci.py mkconfig {{ansible_ssh_host}} \
+#      --url {{gitlab_url}}             \
+#      --token {{gitlab_private_token}} \
+#      --db {{gitlab_runner_db}}        \
+#      -f {{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml
+#  delegate_to: localhost
+#
+## ---------------------------------------------------------
+## Deploy
+## ---------------------------------------------------------
+#- name: deploy gitlab-runner config to {{ansible_ssh_host}}
+#  copy:
+#    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
+#    dest: "{{ ansible_env.HOME }}/.gitlab-runner/config.toml"
+#    mode: u=rw,g=r,o=r
+#    group: "{{ansible_ssh_user}}"
+#    owner: "{{ansible_ssh_user}}"
+#  become: yes  
+#  when: ansible_connection == 'ssh'
+#
+#- name: deploy gitlab-runner config to {{ansible_ssh_host}}
+#  win_copy:
+#    src: "{{gitlab_runner_out_dir}}/{{ansible_ssh_host}}-config.toml"
+#    dest: "{{ ansible_env.USERPROFILE }}/.gitlab-runner/config.toml"
+#  when: ansible_connection == 'winrm'
+#
+#- name: active gitlab-runner in server side
+#  shell: |
+#    python {{playbook_dir}}/command/ci.py active {{ansible_ssh_host}} \
+#      --url {{gitlab_url}}             \
+#      --token {{gitlab_private_token}} \
+#      --db {{gitlab_runner_db}}
+#  delegate_to: localhost
 
 # ---------------------------------------------------------
 # Restart gitlab service
