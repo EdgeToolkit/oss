@@ -1,0 +1,15 @@
+#- name: print
+#  debug:
+#    #msg: "{{ansible_facts}}"
+#    #msg: "{{hostvars}}"
+#    msg: "{{gitlab_runner.runner}}"
+
+- name: X
+  gitlab_runner_helper:
+    db: "{{gitlab_runner}}" 
+    hostname: "{{ansible_ssh_host}}"
+  delegate_to: localhost
+  register: gitlab_runner_hosts
+- name: Y
+  debug:
+    msg: "{{gitlab_runner_hosts}}"

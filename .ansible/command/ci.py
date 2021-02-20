@@ -197,6 +197,7 @@ class GitlabRunner(object):
             runner.description += f" @{workbench}:{runner.id}"
 
         runner.active = False
+        print(runner, runner.id, platform)
         runner.save()
 
     def mkconfig(self, hostname, filename, concurrency=1):
@@ -264,6 +265,7 @@ class GitlabRunnerCommand(object):
         for hostname in args.hostname:
             for kind in ['builder', 'tester', 'deployer', 'trigger']:
                 n = getattr(args, kind, 0)
+                print(kind, '------', n, args.platform)
                 for i in range(n):
                     gl.apply(hostname, kind, args.workbench, args.platform, args.arch)
 
