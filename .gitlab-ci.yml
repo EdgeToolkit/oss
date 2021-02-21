@@ -27,3 +27,4 @@ test:
   script:
     - which python
     - pip list
+    
