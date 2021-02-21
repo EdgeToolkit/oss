@@ -79,9 +79,8 @@ class GitlabRunner(object):
         if kind == 'trigger':
             kind = 'gitlab-ci.config.generator'
             workbench = None
-        assert kind in ['builder', 'tester', 'deployer', 'gitlab-ci.config.generator']
+
         runner = self.alloc()
-        assert runner, "No free runners"
 
         runner.tag_list = [kind]
         if kind in ['builder', 'tester']:
@@ -108,6 +107,7 @@ class GitlabRunner(object):
         arch = arch or (m.arch if m else '?')
         kind = kind or (m.kind if m else '?')
         workbench = workbench or (m.workbench if m else '?')
+        folder = f"{workbench}/{kind}/{runner.id}"
         return {'id': runner.id,        
         'hostname': hostname,
         'token': self.db['runner'][str(runner.id)],
@@ -116,7 +116,12 @@ class GitlabRunner(object):
         'tags': runner.tag_list,
         'description': runner.description,
         'kind': kind,
-        'workbench': workbench
+        'workbench': workbench,
+        'Workbench': {
+            'name': workbench,
+            'posix_path': folder,
+            'path': folder.replace('/', '\\') if platform == 'Windows' else folder
+            }
         }
 
 def main():

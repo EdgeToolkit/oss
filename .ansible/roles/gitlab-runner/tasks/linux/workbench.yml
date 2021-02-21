@@ -60,6 +60,14 @@
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
 
+- name: copy pre_build script
+  copy:
+    src: pre_build.py
+    dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['Workbench']['posix_path']}}/pre_build.py"
+  with_list: "{{runners}}"
+  when: 
+  - item['kind'] != 'gitlab-ci.config.generator'
+
 - name: Startup service
   shell: |
     ./gitlab-runner start
