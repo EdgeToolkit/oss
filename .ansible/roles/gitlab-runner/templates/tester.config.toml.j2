@@ -23,9 +23,9 @@
   executor = "shell"
   shell = "powershell"
   pre_build_script = """
-  $ENV:USERNAME={{ansible_ssh_user}}
-  $ENV:USERPROFILE={{ansible_env.USERPROFILE}}
-  $WD={{ansible_env.USERPROFILE}}/.epm/.workbench/{{workbench}}
+  $env:USERNAME='{{ansible_ssh_user}}'
+  $env:USERPROFILE='{{ansible_env.USERPROFILE}}'
+  $WD='{{ansible_env.USERPROFILE| replace('/', '\\')}}/.epm/.workbench/{{workbench}}'
   .$WD/venv/Scripts/Activate.ps1
   python $WD/script/pre_build.py
   """
