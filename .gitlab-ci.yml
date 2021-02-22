@@ -19,12 +19,21 @@
 #      - artifact: .gitlab-ci/.cache/trigger.yml
 #        job: startup
 #    strategy: depend
-test:
+build.Linux:
   tags:
     - Linux
     - '@oss-0.1'
     - builder
-  script:
+  script:    
+    - which python
+    - pip list
+build.Win:
+  tags:
+    - Windows
+    - '@oss-0.1'
+    - MSVC
+    - builder
+  script:    
     - which python
     - pip list
     
