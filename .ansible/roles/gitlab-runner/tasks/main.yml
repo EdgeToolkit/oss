@@ -22,9 +22,9 @@
   tags:
   - workbench
 
-- name: TEST
-  include: test.yml
-  tags:
-  - test
-  when:
-  - ansible_connection == 'ssh'
+#- name: TEST
+#  include: test.yml
+#  tags:
+#  - test
+#  when:
+#  - ansible_connection == 'ssh'

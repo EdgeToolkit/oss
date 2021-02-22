@@ -1,11 +1,14 @@
 - name: S
-  shell: |
-    source ~/.pyenv/.pyenvrc
-    echo "@$PATH"
-    which python
+  win_shell: |
+    echo A
+    $_HOME = "{{ansible_env.USERPROFILE | regex_replace('\\', '/')}}"
+    $_X = "$_HOME"
+    echo "$_X"
+    echo "$_HOME"
+
   register: result
-  args:
-    executable: /bin/bash
+#  args:
+#    executable: /bin/bash
 
 
 - name: Y
