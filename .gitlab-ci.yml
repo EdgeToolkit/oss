@@ -34,7 +34,9 @@ build.Win:
     - MSVC
     - builder
   script:    
-    -  cmd.exe /k "where python"
+    - echo $env:PATH
+    - cmd.exe /c "where python"
+    - cmd.exe /c "where pip"
     - pip list
     - python -c "import os; print(os.path.expanduser('~'));"
 

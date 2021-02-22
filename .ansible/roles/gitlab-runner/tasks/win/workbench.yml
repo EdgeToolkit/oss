@@ -40,7 +40,8 @@
     $kind="{{item['kind']}}"
     $WD="{{ ansible_env.USERPROFILE }}\.epm\.workbench\{{item['workbench']}}"
     python -m venv $WD\venv
-    .$WD\venv\Script\Activate.ps1
+    . $WD\venv\Script\Activate.ps1
+    cmd.exe /c "where pip"
     pip config set global.index-url http://172.16.0.121:8040/repository/pypi/simple
     pip config set install.trusted-host 172.16.0.121
     pip install --upgrade pip
