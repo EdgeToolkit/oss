@@ -34,7 +34,6 @@ build.Win:
     - MSVC
     - builder
   script:    
-    - which python
+    -  cmd.exe /k "where python"
     - pip list
 
-    
