@@ -5,11 +5,11 @@
   token = "{{ token }}"
   executor = "docker"
   pre_build_script = """set -e
-  WD=$HOME/.epm/.workbench/{{workbench}}/{{ kind }}/{{id}}
+  WD=$HOME/.epm/.workbench/{{workbench}}
   chmod +x $WD/script/pre_build.py
   $WD/script/pre_build.py
   """
-  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{kind}}/{{id}}"]
+  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}"]
   [runners.custom_build_dir]
   [runners.cache]
     [runners.cache.s3]
@@ -23,10 +23,13 @@
   executor = "shell"
   shell = "powershell"
   pre_build_script = """
-  $WD=$HOME/.epm/.workbench/{{workbench}}/{{kind }}/{{id}}
+  $ENV:USERNAME={{ansible_ssh_user}}
+  $ENV:USERPROFILE={{ansible_env.USERPROFILE}}
+  $WD={{ansible_env.USERPROFILE}}/.epm/.workbench/{{workbench}}
+  .$WD/venv/Scripts/Activate.ps1
   python $WD/script/pre_build.py
   """
-  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}/{{kind}}/{{id}}"]
+  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}"]
   [runners.custom_build_dir]
   [runners.cache]
     [runners.cache.s3]

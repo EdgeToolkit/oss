@@ -16,4 +16,12 @@
 {% include "tester.config.toml.j2" %}
 {% endif %}
 
+{% if kind == 'deployer'%}
+{% include "deployer.config.toml.j2" %}
+{% endif %}
+
+{% if kind in ['trigger', 'gitlab-ci.config.generator'] %}
+{% include "trigger.config.toml.j2" %}
+{% endif %}
+
 {% endfor %}

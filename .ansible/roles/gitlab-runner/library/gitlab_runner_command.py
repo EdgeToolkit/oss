@@ -116,12 +116,7 @@ class GitlabRunner(object):
         'tags': runner.tag_list,
         'description': runner.description,
         'kind': kind,
-        'workbench': workbench,
-        'Workbench': {
-            'name': workbench,
-            'posix_path': folder,
-            'path': folder.replace('/', '\\') if platform == 'Windows' else folder
-            }
+        'workbench': folder,
         }
 
 def main():

@@ -18,6 +18,7 @@
   include: win/workbench.yml
   when: ansible_connection == 'winrm'
 
+
 - name: Active Gitlab service runners
   gitlab_runner_command:
     command: active

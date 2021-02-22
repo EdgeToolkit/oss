@@ -20,7 +20,7 @@
 
 - name: Create workbench folders
   file:
-    path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}"
+    path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/script"
     state: directory
     mode: '0744'
     recurse: yes
@@ -30,14 +30,14 @@
 - name: copy workbench config file
   template:
     src: workbench/config.yml.j2
-    dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}/config.yml"
+    dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/config.yml"
   with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: Initialize workbench
   shell: |
     kind=item['kind']
-    WD={{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}
+    WD={{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}
     source ~/.pyenv/.pyenvrc
     python -m venv $WD/venv
     source $WD/venv/bin/activate
@@ -56,17 +56,15 @@
   args:
     executable: /bin/bash  
   with_list: "{{runners}}"
-
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
 
-- name: copy pre_build script
-  copy:
-    src: pre_build.py
-    dest: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['Workbench']['posix_path']}}/pre_build.py"
+- name: generate runner pre_build.py
+  template:
+    src: workbench/script/{{item['kind']}}-pre_build.py.j2
+    dest: "{{ansible_env.HOME}}/.epm/.workbench/{{item['workbench']}}/script/pre_build.py"
   with_list: "{{runners}}"
-  when: 
-  - item['kind'] != 'gitlab-ci.config.generator'
+  when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: Startup service
   shell: |

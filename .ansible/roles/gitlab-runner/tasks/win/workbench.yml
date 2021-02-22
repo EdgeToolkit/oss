@@ -22,7 +22,7 @@
 
 - name: Create workbench folders (windows)
   win_file:
-    path: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}"
+    path: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/script"
     state: directory
     recurse: yes
   with_list: "{{runners}}"
@@ -31,15 +31,14 @@
 - name: copy workbench config file (windows) 
   template:
     src: workbench/config.yml.j2
-    dest: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/{{item['kind']}}/{{item['id']}}/config.yml"
+    dest: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['workbench']}}/config.yml"
   with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: Initialize workbench (windows)
   win_shell: |
     $kind="{{item['kind']}}"
-    $WD="{{ ansible_env.USERPROFILE }}\.epm\.workbench\{{item['workbench']}}\{{item['kind']}}\{{item['id']}}"
-    echo $WD
+    $WD="{{ ansible_env.USERPROFILE }}\.epm\.workbench\{{item['workbench']}}"
     python -m venv $WD\venv
     .$WD\venv\Script\Activate.ps1
     pip config set global.index-url http://172.16.0.121:8040/repository/pypi/simple
@@ -57,13 +56,13 @@
   with_list: "{{runners}}"
   when: 
   - item['kind'] != 'gitlab-ci.config.generator'
-- name: copy pre_build script
-  win_copy:
-    src: pre_build.py
-    dest: "{{ ansible_env.USERPROFILE }}/.epm/.workbench/{{item['Workbench']['posix_path']}}/pre_build.py"
+
+- name: Copy runner pre_build
+  template:
+    src: workbench/script/{{item['kind']}}-pre_build.py.j2
+    dest: "{{ansible_env.USERPROFILE}}/.epm/.workbench/{{item['workbench']}}/script/pre_build.py"
   with_list: "{{runners}}"
-  when: 
-  - item['kind'] != 'gitlab-ci.config.generator'
+  when: item['kind'] != 'gitlab-ci.config.generator'
 
 - name: Startup service
   win_shell: |
