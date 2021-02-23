@@ -51,9 +51,9 @@
     $env:CONAN_USER_HOME="$WD"
     $env:CONAN_REVISIONS_ENABLED="1"
     conan remote clean
-    conan remote add {{conan_remote_name}} {{conan_remote_url}} False
+    conan remote add {{gitlab_runner.conan.name}} {{gitlab_runner.conan.url}} False
     if( $kind -eq "deployer") {
-      conan user -p {{conan_remote_username}} -r {{conan_remote_name}} {{conan_remote_username}}
+      conan user -p {{gitlab_runner.conan.password}} -r {{gitlab_runner.conan.name}} {{gitlab_runner.conan.username}}
     }
   with_list: "{{runners}}"
   when: 

@@ -8,7 +8,7 @@
     tester: "{{gitlab_runner_tester}}"
     deployer: "{{gitlab_runner_deployer}}"
     trigger: "{{gitlab_runner_ci_generator}}"
-    workbench: "{{gitlab_runner.conan.name}}"
+    workbench: "{{gitlab_runner.workbench}}"
     platform: "{{'Windows' if ansible_system == 'Win32NT' else ansible_system}}"
     arch: "{{ansible_architecture2 if ansible_system == 'Win32NT' else ansible_architecture}}"
   delegate_to: localhost

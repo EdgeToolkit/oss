@@ -25,15 +25,16 @@ build.Linux:
     - '@oss-0.1'
     - builder
   script:    
-    - which python
-    - pip list
+    - cd zlib
+    - epm --profile gcc5 create
 build.Win:
   tags:
     - Windows
     - '@oss-0.1'
     - MSVC
     - builder
-  script:    
+  script:   
+    - - epm --profile vs2019 create 
     - echo $env:PATH
     - cmd.exe /c "where python"
     - cmd.exe /c "where pip"

@@ -1,3 +1,6 @@
+concurrent = {{gitlab_runner_concurrency | default(1)}}
+timeout = 1800
+
 {% for runner in runners %}
 {%- set kind = runner['kind'] -%}
 {%- set platform = runner['platform'] -%}
