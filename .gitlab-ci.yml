@@ -34,7 +34,8 @@ build.Win:
     - MSVC
     - builder
   script:   
-    - - epm --profile vs2019 create 
+    - cd zlib
+    - epm --profile vs2019 create 
     - echo $env:PATH
     - cmd.exe /c "where python"
     - cmd.exe /c "where pip"
