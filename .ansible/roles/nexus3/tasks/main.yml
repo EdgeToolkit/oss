@@ -1,3 +1,4 @@
 - name: Install Nexus3
   include: install.yml
-  when: COMMAND == 'install'
+  tags:
+  - install

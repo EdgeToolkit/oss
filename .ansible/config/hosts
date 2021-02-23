@@ -59,14 +59,9 @@ ARTIFACTORY_API_PORT=8061
 linux_server_119
 #artifactory_host ansible_ssh_host=172.16.0.119
 
-[nexus3:vars]
-NEXUS3_VERSION=3.29.2
-NEXUS3_WEB_PORT=8481
-NEXUS3_PYPI_PROXY_NAME=pypi
 
-[nexus3:children]
-linux_server_119
-#nexus3_host ansible_ssh_host=172.16.0.119
+[nexus3]
+nexus3_host ansible_ssh_host=172.16.0.119
 
 
 [gitlab:vars]
@@ -99,7 +94,7 @@ linux_server_121
 
 gitlab_runner_db=/oss/.ansible/config/tokens.yml
 [gitlab_runner]
-pc241  ansible_ssh_host=172.16.192.241
-pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
+#pc241  ansible_ssh_host=172.16.192.241
+#pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
 #pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
-pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=4 gitlab_runner_ci_generator=1 gitlab_runner_builder=0 gitlab_runner_tester=0
+#pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=4 gitlab_runner_ci_generator=1 gitlab_runner_builder=0 gitlab_runner_tester=0
