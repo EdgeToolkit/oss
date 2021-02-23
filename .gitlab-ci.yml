@@ -24,21 +24,27 @@ build.Linux:
     - Linux
     - '@oss-0.1'
     - builder
+  artifacts:
+    paths:
+    - .conan
   script:    
     - cd zlib
-    - epm --profile gcc5 create
+    - epm --profile gcc5 create --archive .conan
 build.Win:
   tags:
     - Windows
     - '@oss-0.1'
     - MSVC
     - builder
+  artifacts:
+    paths:
+    - .conan
   script:   
     - cd zlib
-    - epm --profile vs2019 create 
-    - echo $env:PATH
-    - cmd.exe /c "where python"
-    - cmd.exe /c "where pip"
-    - pip list
-    - python -c "import os; print(os.path.expanduser('~'));"
+    - epm --profile vs2019 create --archive .conan
+    #- echo $env:PATH
+    #- cmd.exe /c "where python"
+    #- cmd.exe /c "where pip"
+    #- pip list
+    #- python -c "import os; print(os.path.expanduser('~'));"
 
