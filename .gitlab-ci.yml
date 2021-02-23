@@ -41,4 +41,3 @@ build.Win:
     - pip list
     - python -c "import os; print(os.path.expanduser('~'));"
 
-
