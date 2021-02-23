@@ -26,7 +26,7 @@ build.Linux:
     - builder
   artifacts:
     paths:
-    - .conan/*
+    - zlib/.conan
   script:    
     - cd zlib
     - epm --profile gcc5 create --archive .conan
@@ -38,7 +38,7 @@ build.Win:
     - builder
   artifacts:
     paths:
-    - .conan/*
+    - zlib/.conan
   script:   
     - cd zlib
     - epm --profile vs2019 create --archive .conan
