@@ -20,6 +20,6 @@
 
 - name: Apply gitlab-runner config.toml
   template:
-    src: config.toml.j2
+    src: config/main.toml.j2
     dest: "{{ ansible_env.USERPROFILE if ansible_system.startswith('Win') else ansible_env.HOME }}/.gitlab-runner/config.toml"
 
