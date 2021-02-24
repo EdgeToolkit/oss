@@ -5,7 +5,7 @@
     db: "{{gitlab_runner}}" 
     hostname: "{{ansible_ssh_host}}"
     builder: "{{gitlab_runner_builder}}"
-    tester: "{{gitlab_runner_runner}}"
+    runner: "{{gitlab_runner_runner}}"
     deployer: "{{gitlab_runner_deployer}}"
     trigger: "{{gitlab_runner_ci_generator}}"
     workbench: "{{gitlab_runner.workbench}}"
