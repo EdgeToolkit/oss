@@ -15,8 +15,8 @@
 
 - name: Copy mirror.yml
   win_get_url:
-    url: "{{mirror_repository_url}}/mirror.yml"
-    dest: "{{ ansible_env.USERPROFILE }}/.epm/mirror.yml"
+    url: "{{mirror_repository_url}}/mirrors.yml"
+    dest: "{{ ansible_env.USERPROFILE }}/.epm/mirrors.yml"
   when: 
   - mirror_repository_url is defined
 

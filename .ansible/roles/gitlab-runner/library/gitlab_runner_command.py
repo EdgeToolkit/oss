@@ -21,7 +21,7 @@ class GitlabRunner(object):
 
     def parse(self, description):
         P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86)\w*)'
-        P += r'\:(?P<kind>builder|tester|runner|deployer|gitlab-ci.config.generator)'
+        P += r'\:(?P<kind>builder|runner|deployer|gitlab-ci.config.generator)'
         P += r'(\s+\@(?P<workbench>[\w\d\-\.\/]+)\:(?P<id>\d+))?'
         #
         pattern = re.compile(P)
