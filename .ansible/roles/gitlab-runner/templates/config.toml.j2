@@ -13,7 +13,7 @@ timeout = 1800
 {%- set description = runner['description'] -%}
 
 {% if kind in ['builder', 'runner'] %}
-{% include "EPM.config.toml.j2" %}
+{% include "epm.config.toml.j2" %}
 {% endif %}
 
 {% if kind == 'deployer'%}
