@@ -20,8 +20,8 @@ class GitlabRunner(object):
         return self._gitlab
 
     def parse(self, description):
-        P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86|adm)\w*)'
-        P += r'\:(?P<kind>builder|tester|deployer|gitlab-ci.config.generator)'
+        P = r'(?P<hostname>[\w\.\-]+)/(?P<platform>Windows|Linux)/(?P<arch>(arm|amd|x86)\w*)'
+        P += r'\:(?P<kind>builder|tester|runner|deployer|gitlab-ci.config.generator)'
         P += r'(\s+\@(?P<workbench>[\w\d\-\.\/]+)\:(?P<id>\d+))?'
         #
         pattern = re.compile(P)
@@ -83,14 +83,17 @@ class GitlabRunner(object):
         runner = self.alloc()
 
         runner.tag_list = [kind]
-        if kind in ['builder', 'tester']:
+        if kind in ['builder', 'runner']:
             runner.tag_list += [platform]
+#        if kind in ['runner']:
+#            runner.tag_list += [arch]
 
-        if kind == 'builder' and platform == 'Windows':
-            runner.tag_list += ['MSVC']
 
-        if kind == 'tester' and platform == 'Linux':
-            runner.tag_list += ['docker']
+#        if kind == 'builder' and platform == 'Windows':
+ #           runner.tag_list += ['MSVC']
+
+#        if kind == 'tester' and platform == 'Linux':
+#            runner.tag_list += ['docker']
 
         runner.description = f"{hostname}/{platform}/{arch}:{kind}"
         if workbench:
@@ -124,7 +127,7 @@ def main():
         "hostname": {"required": True, "type": "str"},
         "db": {"required": True, "type": "dict"}, 
         "builder": {"default":  None, "type": "int" },
-        "tester": {"default": None, "type": "int" },
+        "runner": {"default": None, "type": "int" },
         "deployer": {"default": None, "type": "int" },
         "trigger": {"default": None, "type": "int" },
         "workbench": {"default": None, "type": "str"},
@@ -157,7 +160,7 @@ def main():
         elif command == 'configure':
             runners = []
             gl.free(hostname)
-            for kind in ['builder', 'tester', 'deployer', 'trigger']:
+            for kind in ['builder', 'runner', 'deployer', 'trigger']:
                 for i in range(module.params[kind]):
                     runner = gl.apply(hostname, kind, workbench, platform, arch)
                     runners.append(runner)

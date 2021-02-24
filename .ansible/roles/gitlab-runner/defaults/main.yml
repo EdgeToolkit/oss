@@ -5,6 +5,6 @@ gitlab_runner_workbench: "oss"
 gitlab_runner_conan_repo: "oss"
 gitlab_runner_concurrency: 1
 gitlab_runner_builder: 1
-gitlab_runner_tester: 1
+gitlab_runner_runner: 1
 gitlab_runner_deployer: 0
 gitlab_runner_ci_generator: 0
