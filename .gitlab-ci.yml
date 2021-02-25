@@ -89,6 +89,7 @@ deployer:
   script:
     - cd zlib
 #    - epm --profile vs2019 --storage .conan upload 
+    - conan user -p Admin123 -r oss mingyiz
     - epm --profile gcc5 --storage .conan upload
 
 
