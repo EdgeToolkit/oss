@@ -77,4 +77,17 @@ test.Win:
     - epm --profile vs2019 --storage .conan exec test_package
     
 
+deployer:
+  stage: deploy
+  tags:
+    - deployer
+    - '@oss-0.1'
+  dependencies:
+    - build.Linux
+    - build.Win
+  script:    
+    - epm --profile vs2019 --storage .conan upload
+    - epm --profile gcc5 --storage .conan upload
+
+
 
