@@ -85,11 +85,10 @@ deployer:
     - '@oss-0.1'
   dependencies:
     - build.Linux
-#    - build.Win
+    - build.Win
   script:
     - cd zlib
-#    - epm --profile vs2019 --storage .conan upload 
-    - conan user -p Admin123 -r oss mingyiz
+    - epm --profile vs2019 --storage .conan upload 
     - epm --profile gcc5 --storage .conan upload
 
 
