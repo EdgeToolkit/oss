@@ -5,7 +5,7 @@ gitlab_runner:
       version: 13.8.0
       url: http://172.16.0.121:8200
       token: kypLygrDSZ-92NewWx4R
-      epm: git+http://172.16.0.121:8200/edgetoolkit/epm.git@dev/0.1
+      #epm: git+http://172.16.0.121:8200/edgetoolkit/epm.git@dev/0.1
       workbench: oss-0.1
 
       mirror:
