@@ -86,7 +86,8 @@ deployer:
   dependencies:
     - build.Linux
     - build.Win
-  script:    
+  script:
+    - cd zlib
     - epm --profile vs2019 --storage .conan upload
     - epm --profile gcc5 --storage .conan upload
 
