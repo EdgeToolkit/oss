@@ -60,7 +60,7 @@ test.Linux:
     - build.Linux
   script:    
     - cd zlib
-    - epm --profile gcc5 --storage .conan download
+    - epm --profile gcc5 --storage .conan download --reference .conan
     - epm --profile gcc5 --storage .conan exec test_package
 test.Win:
   stage: test
@@ -73,7 +73,7 @@ test.Win:
 
   script:   
     - cd zlib
-    - epm --profile vs2019 --storage .conan download
+    - epm --profile vs2019 --storage .conan download  --reference .conan
     - epm --profile vs2019 --storage .conan exec test_package
     
 
