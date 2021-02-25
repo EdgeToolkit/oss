@@ -47,7 +47,9 @@ build.Win:
 
   script:   
     - cd zlib
-    - epm --profile vs2019 create --archive .conan
+    - epm --profile gcc5 --storage .conan download
+    - epm --profile gcc5 --storage .conan exec test_package
+
 
 
 test.Linux:
@@ -72,5 +74,8 @@ test.Win:
 
   script:   
     - cd zlib
-    - epm --profile vs2019 create --archive .conan
+    - epm --profile vs2019 --storage .conan download
+    - epm --profile vs2019 --storage .conan exec test_package
+
+
 

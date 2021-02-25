@@ -35,7 +35,7 @@
   python $WD/script/pre_build.py
   """
   environment = ["LC_ALL=en_US.UTF-8", 
-    "EPM_WORKBENCH={{workbench}}"
+    "EPM_WORKBENCH={{workbench}}",
     {% if EPM_DOCKER_BUILDER_IMAGE_PREFIX -%}
     "EPM_DOCKER_BUILDER_IMAGE_PREFIX:{{EPM_DOCKER_BUILDER_IMAGE_PREFIX}}",
     {% endif -%}
