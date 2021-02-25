@@ -9,7 +9,12 @@
   source $WD/venv/bin/activate
   python $WD/script/pre_build.py
   """
-  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}"]
+  environment = ["LC_ALL=en_US.UTF-8", 
+    "EPM_WORKBENCH={{workbench}}",
+    {% if EPM_DOCKER_BUILDER_IMAGE_PREFIX -%}
+    "EPM_DOCKER_BUILDER_IMAGE_PREFIX:{{EPM_DOCKER_BUILDER_IMAGE_PREFIX}}",
+    {% endif -%}
+    ]
   [runners.custom_build_dir]
   [runners.cache]
     [runners.cache.s3]
@@ -29,7 +34,12 @@
   . $WD/venv/Scripts/Activate.ps1
   python $WD/script/pre_build.py
   """
-  environment = ["LC_ALL=en_US.UTF-8", "EPM_WORKBENCH={{workbench}}"]
+  environment = ["LC_ALL=en_US.UTF-8", 
+    "EPM_WORKBENCH={{workbench}}"
+    {% if EPM_DOCKER_BUILDER_IMAGE_PREFIX -%}
+    "EPM_DOCKER_BUILDER_IMAGE_PREFIX:{{EPM_DOCKER_BUILDER_IMAGE_PREFIX}}",
+    {% endif -%}
+    ]
   [runners.custom_build_dir]
   [runners.cache]
     [runners.cache.s3]
