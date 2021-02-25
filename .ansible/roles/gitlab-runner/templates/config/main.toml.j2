@@ -12,12 +12,8 @@ timeout = 1800
 {%- set url = gitlab_url -%}
 {%- set description = runner['description'] -%}
 
-{% if kind in ['builder', 'runner'] %}
+{% if kind in ['builder', 'runner', 'deployer'] %}
 {% include "epm.toml.j2" %}
-{% endif %}
-
-{% if kind == 'deployer'%}
-{% include "deployer.toml.j2" %}
 {% endif %}
 
 {% if kind in ['trigger', 'gitlab-ci.config.generator'] %}
