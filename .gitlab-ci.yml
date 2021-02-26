@@ -22,63 +22,46 @@ stages:
 #      - artifact: .gitlab-ci/.cache/trigger.yml
 #        job: startup
 #    strategy: depend
+#####################################
+
+
 build.Linux:
   stage: build
   tags:
     - Linux
     - '@oss-0.1'
     - builder
+  parallel:
+    matrix:
+      - PROFILE: [gcc5, gcc5d]
+        SCHEME: [static, shared]
   artifacts:
     paths:
-    - zlib/.conan
+    - zlib/.conan/$PROFILE/$SCHEME
     - zlib/.epm
   script:    
     - cd zlib
-    - epm --profile gcc5 create --archive .conan
-build.Win:
-  stage: build
-  tags:
-    - Windows
-    - '@oss-0.1'
-    - builder
-  artifacts:
-    paths:
-    - zlib/.conan
-    - zlib/.epm
-
-  script:   
-    - cd zlib
-    - epm --profile vs2019 create --archive .conan
-
+    - epm --profile gcc5 create --archive .conan/$PROFILE/$SCHEME
 
 test.Linux:
-  stage: test
+  stage: build
   tags:
     - Linux
     - '@oss-0.1'
     - runner
+  parallel:
+    matrix:
+      - PROFILE: [gcc5, gcc5d]
+        SCHEME: [static, shared]
   dependencies:
     - build.Linux
   script:    
     - cd zlib
-    - epm --profile gcc5 --storage .conan download --reference .conan
-    - epm --profile gcc5 --storage .conan exec test_package
-test.Win:
-  stage: test
-  tags:
-    - Windows
-    - '@oss-0.1'
-    - runner
-  dependencies:
-    - build.Win
+    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME download --reference .conan
+    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME exec test_package
 
-  script:   
-    - cd zlib
-    - epm --profile vs2019 --storage .conan download  --reference .conan
-    - epm --profile vs2019 --storage .conan exec test_package
-    
 
-deployer:
+deploy.Linux:
   stage: deploy
   tags:
     - deployer
@@ -87,16 +70,102 @@ deployer:
     - build.Win
   script:
     - cd zlib
-    - epm --profile vs2019 --storage .conan upload 
+    - epm --profile vs2019 --storage .conan/$PROFILE/$SCHEME upload 
 
-
-deployer2:
-  stage: deploy
-  tags:
-    - deployer
-    - '@oss-0.1'
-  dependencies:
-    - build.Linux
-  script:
-    - cd zlib
-    - epm --profile gcc5 --storage .conan upload
+#
+#
+#build.Win:
+#  stage: build
+#  tags:
+#    - Windows
+#    - '@oss-0.1'
+#    - builder
+#  artifacts:
+#    paths:
+#    - zlib/.conan
+#    - zlib/.epm
+#
+#  script:   
+#    - cd zlib
+#    - epm --profile vs2019 create --archive .conan
+#
+#
+#
+#build.Linux:
+#  stage: build
+#  tags:
+#    - Linux
+#    - '@oss-0.1'
+#    - builder
+#  artifacts:
+#    paths:
+#    - zlib/.conan
+#    - zlib/.epm
+#  script:    
+#    - cd zlib
+#    - epm --profile gcc5 create --archive .conan
+#build.Win:
+#  stage: build
+#  tags:
+#    - Windows
+#    - '@oss-0.1'
+#    - builder
+#  artifacts:
+#    paths:
+#    - zlib/.conan
+#    - zlib/.epm
+#
+#  script:   
+#    - cd zlib
+#    - epm --profile vs2019 create --archive .conan
+#
+#
+#test.Linux:
+#  stage: test
+#  tags:
+#    - Linux
+#    - '@oss-0.1'
+#    - runner
+#  dependencies:
+#    - build.Linux
+#  script:    
+#    - cd zlib
+#    - epm --profile gcc5 --storage .conan download --reference .conan
+#    - epm --profile gcc5 --storage .conan exec test_package
+#test.Win:
+#  stage: test
+#  tags:
+#    - Windows
+#    - '@oss-0.1'
+#    - runner
+#  dependencies:
+#    - build.Win
+#
+#  script:   
+#    - cd zlib
+#    - epm --profile vs2019 --storage .conan download  --reference .conan
+#    - epm --profile vs2019 --storage .conan exec test_package
+#    
+#
+#deployer:
+#  stage: deploy
+#  tags:
+#    - deployer
+#    - '@oss-0.1'
+#  dependencies:
+#    - build.Win
+#  script:
+#    - cd zlib
+#    - epm --profile vs2019 --storage .conan upload 
+#
+#
+#deployer2:
+#  stage: deploy
+#  tags:
+#    - deployer
+#    - '@oss-0.1'
+#  dependencies:
+#    - build.Linux
+#  script:
+#    - cd zlib
+#    - epm --profile gcc5 --storage .conan upload
