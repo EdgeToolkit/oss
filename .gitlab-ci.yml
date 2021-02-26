@@ -41,7 +41,7 @@ build.Linux:
     - zlib/.epm
   script:    
     - cd zlib
-    - epm --profile gcc5 create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
 
 test.Linux:
   stage: test
@@ -57,8 +57,8 @@ test.Linux:
     - build.Linux
   script:    
     - cd zlib
-    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME download --reference .conan
-    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME --storage .conan/$PROFILE/$SCHEME download --reference .conan
+    - epm --profile $PROFILE --scheme $SCHEME --storage .conan/$PROFILE/$SCHEME exec test_package
 
 
 deploy.Linux:
@@ -70,7 +70,7 @@ deploy.Linux:
     - build.Linux
   script:
     - cd zlib
-    - epm --profile vs2019 --storage .conan/$PROFILE/$SCHEME upload 
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload 
 
 #
 #
