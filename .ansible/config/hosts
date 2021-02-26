@@ -10,15 +10,6 @@ ansible_python_interpreter=/usr/bin/python3
 PIP_INDEX_URL='http://172.16.0.121:8040/repository/pypi/simple'
 PIP_TRUSTED_HOST='172.16.0.121'
 
-# ---------------------------------------------------
-# Machines
-# ---------------------------------------------------
-
-[windows:vars]
-ansible_ssh_port=5985 ansible_connection=winrm
-
-[windows]
-win1 ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm
 
 # ---------------------------------------------------------
 # JFrog Artifactory
@@ -32,9 +23,8 @@ ARTIFACTORY_VERSION=7.12.6
 ARTIFACTORY_WEB_PORT=8060
 ARTIFACTORY_API_PORT=8061
 
-[artifactory:children]
-linux_server_119
-#artifactory_host ansible_ssh_host=172.16.0.119
+[artifactory]
+artifactory_host ansible_ssh_host=172.16.0.119
 
 
 [nexus3]
@@ -47,9 +37,8 @@ GITLAB_DOCKER_IMAGE=gitlab/gitlab-ce:13.8.3-ce.0
 GITLAB_HTTP_PORT=8200
 GITLAB_SSH_PORT=8222
 
-[gitlab:children]
-linux_server_121
-#gitlab_host ansible_ssh_host=172.16.0.121
+[gitlab]
+gitlab_host ansible_ssh_host=172.16.0.121
 
 
 #################################################
@@ -58,8 +47,9 @@ linux_server_121
 [gitlab_runner:vars]
 EPM_DOCKER_BUILDER_IMAGE_PREFIX=172.16.0.119:8482/
 gitlab_runner_db=/oss/.ansible/config/tokens.yml
+
 [gitlab_runner]
 #pc241  ansible_ssh_host=172.16.192.241
 #pc238   ansible_ssh_host=172.16.192.238  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
 #pc240   ansible_ssh_host=172.16.192.240  ansible_ssh_user=epm ansible_ssh_pass=epm ansible_ssh_port=5985 ansible_connection=winrm
-pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=1 gitlab_runner_ci_generator=1 gitlab_runner_builder=0 gitlab_runner_runner=0
+pc119  ansible_ssh_host=172.16.0.119 gitlab_runner_concurrency=4 gitlab_runner_deployer=1 gitlab_runner_ci_generator=0 gitlab_runner_builder=0 gitlab_runner_runner=0

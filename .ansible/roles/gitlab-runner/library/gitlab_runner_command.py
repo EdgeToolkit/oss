@@ -10,8 +10,8 @@ class GitlabRunner(object):
 
     def __init__(self, db):
         self.db = db
-        #print(self.db)
         self._gitlab = None
+        self._logs = []
 
     @property
     def gitlab(self):
@@ -38,9 +38,7 @@ class GitlabRunner(object):
             runner = self.gitlab.runners.get(rid)
             m = self.parse(runner.description)
             if m:
-                check = True
-                check &= hostname in [None, '*'] or m.hostname == hostname
-                if check:
+                if hostname in [None, '*'] or m.hostname == hostname:
                     runners.append(runner)
         return runners
 
@@ -69,7 +67,7 @@ class GitlabRunner(object):
             runners.append(runner.id)
         return runners
 
-    def info(self, runner, hostname=None):
+    def info(self, hostname=None):
         runners = []        
         for runner in self.find(hostname):
             runners.append(self._mkinfo(runner, hostname))
@@ -85,15 +83,6 @@ class GitlabRunner(object):
         runner.tag_list = [kind]
         if kind in ['builder', 'runner']:
             runner.tag_list += [platform]
-#        if kind in ['runner']:
-#            runner.tag_list += [arch]
-
-
-#        if kind == 'builder' and platform == 'Windows':
- #           runner.tag_list += ['MSVC']
-
-#        if kind == 'tester' and platform == 'Linux':
-#            runner.tag_list += ['docker']
 
         runner.description = f"{hostname}/{platform}/{arch}:{kind}"
         if workbench:
@@ -169,7 +158,7 @@ def main():
     except Exception as e:
         module.fail_json(changed=True, msg=str(e))
     else:
-        module.exit_json(changed=True, runners=runners)
+        module.exit_json(changed=True, runners=runners, logs=gl._logs)
     
 
 if __name__ == '__main__':
