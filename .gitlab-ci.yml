@@ -84,12 +84,19 @@ deployer:
     - deployer
     - '@oss-0.1'
   dependencies:
-    - build.Linux
     - build.Win
   script:
     - cd zlib
     - epm --profile vs2019 --storage .conan upload 
+
+
+deployer2:
+  stage: deploy
+  tags:
+    - deployer
+    - '@oss-0.1'
+  dependencies:
+    - build.Linux
+  script:
+    - cd zlib
     - epm --profile gcc5 --storage .conan upload
-
-
-
