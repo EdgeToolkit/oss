@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import re
 import sys
@@ -5,6 +6,7 @@ import argparse
 from epm.utils import Jinja2, abspath
 
 _DIR = os.path.dirname(abspath(__file__))
+_TOP = abspath(f"{_DIR}/../..")
 from configure import Synthesis
 
 
@@ -50,7 +52,10 @@ def main():
     cmd.set_defaults(func=gitlab_ci_generate)
 
     args = parser.parse_args()
-    return args.func(args)
+    args.out = abspath(args.out)
+    from conans.tools import chdir
+    with chdir(_TOP):
+        return args.func(args)
 
 
 if __name__ == '__main__':

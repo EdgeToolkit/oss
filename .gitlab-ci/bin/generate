@@ -1,6 +1,3 @@
 #!/usr/bin/env bash
 _DIR=$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)
-_TOP=$(cd $_DIR/../.. && pwd)
-cd $_TOP
 python $_DIR/gitlab-ci.py generate $*
-cd -
