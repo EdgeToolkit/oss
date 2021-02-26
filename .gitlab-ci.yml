@@ -11,17 +11,17 @@ startup:
     - gitlab-ci.config.generator
   script:
     - pip install networkx python-gitlab --user
-    - python .gitlab-ci/.script/gitlab-ci.py -h
-#  artifacts:
-#    paths:
-#      - .gitlab-ci/.cache/trigger.yml
-#init:
-#  stage: init
-#  trigger:
-#    include:
-#      - artifact: .gitlab-ci/.cache/trigger.yml
-#        job: startup
-#    strategy: depend
+    - python .gitlab-ci/.script/gitlab-ci.py --trigger
+  artifacts:
+    paths:
+      - .gitlab-ci/.cache/trigger.yml
+init:
+  stage: init
+  trigger:
+    include:
+      - artifact: .gitlab-ci/.cache/trigger.yml
+        job: startup
+    strategy: depend
 #####################################
 #
 #build.Linux:
