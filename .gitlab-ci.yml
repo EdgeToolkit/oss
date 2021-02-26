@@ -33,7 +33,7 @@ build.Linux:
     - builder
   parallel:
     matrix:
-      - PROFILE: [gcc5, gcc5d]
+      - PROFILE: [gcc5]
         SCHEME: [static, shared]
   artifacts:
     paths:
@@ -51,7 +51,7 @@ test.Linux:
     - runner
   parallel:
     matrix:
-      - PROFILE: [gcc5, gcc5d]
+      - PROFILE: [gcc5]
         SCHEME: [static, shared]
   dependencies:
     - build.Linux
@@ -66,6 +66,10 @@ deploy.Linux:
   tags:
     - deployer
     - '@oss-0.1'
+  parallel:
+    matrix:
+      - PROFILE: [gcc5]
+        SCHEME: [static, shared]
   dependencies:
     - build.Linux
   script:
