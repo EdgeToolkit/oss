@@ -10,7 +10,7 @@ startup:
   tags:
     - gitlab-ci.config.generator
   script:
-    - pip install networkx python-gitlab
+    - pip install networkx python-gitlab --user
     - python .gitlab-ci/.script/gitlab-ci.py -h
 #  artifacts:
 #    paths:
