@@ -17,6 +17,7 @@
     ./gitlab-runner stop
     ./gitlab-runner uninstall
     set -e
+    rm -rf config.toml
     ./gitlab-runner install -c config.toml --user {{ansible_env.USER}}
 
   args:

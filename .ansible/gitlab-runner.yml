@@ -1,5 +1,5 @@
 - hosts: gitlab_runner
-  serial: 1
+  #serial: 1
   roles:
   - role: gitlab-runner
 

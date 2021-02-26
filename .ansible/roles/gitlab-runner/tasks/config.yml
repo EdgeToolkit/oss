@@ -11,6 +11,7 @@
     workbench: "{{gitlab_runner.workbench}}"
     platform: "{{'Windows' if ansible_system == 'Win32NT' else ansible_system}}"
     arch: "{{ansible_architecture2 if ansible_system == 'Win32NT' else ansible_architecture}}"
+    lock: /tmp/gitlab-runner.lock
   delegate_to: localhost
   register: result
 
