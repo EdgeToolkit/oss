@@ -43,34 +43,34 @@ build.Linux:
     - cd zlib
     - epm --profile gcc5 create --archive .conan/$PROFILE/$SCHEME
 
-#test.Linux:
-#  stage: build
-#  tags:
-#    - Linux
-#    - '@oss-0.1'
-#    - runner
-#  parallel:
-#    matrix:
-#      - PROFILE: [gcc5, gcc5d]
-#        SCHEME: [static, shared]
-#  dependencies:
-#    - build.Linux
-#  script:    
-#    - cd zlib
-#    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME download --reference .conan
-#    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME exec test_package
-#
-#
-#deploy.Linux:
-#  stage: deploy
-#  tags:
-#    - deployer
-#    - '@oss-0.1'
-#  dependencies:
-#    - build.Win
-#  script:
-#    - cd zlib
-#    - epm --profile vs2019 --storage .conan/$PROFILE/$SCHEME upload 
+test.Linux:
+  stage: test
+  tags:
+    - Linux
+    - '@oss-0.1'
+    - runner
+  parallel:
+    matrix:
+      - PROFILE: [gcc5, gcc5d]
+        SCHEME: [static, shared]
+  dependencies:
+    - build.Linux
+  script:    
+    - cd zlib
+    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME download --reference .conan
+    - epm --profile gcc5 --storage .conan/$PROFILE/$SCHEME exec test_package
+
+
+deploy.Linux:
+  stage: deploy
+  tags:
+    - deployer
+    - '@oss-0.1'
+  dependencies:
+    - build.Win
+  script:
+    - cd zlib
+    - epm --profile vs2019 --storage .conan/$PROFILE/$SCHEME upload 
 
 #
 #
