@@ -86,6 +86,6 @@
 - libcurl
 - libwebsockets
 - mosquitto
-#- c-ares
+- c-ares
 #- name: iperf
 #  -profile: *profile_msvc
