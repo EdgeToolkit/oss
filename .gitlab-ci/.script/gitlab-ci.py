@@ -26,7 +26,7 @@ def gitlab_ci_generate(args):
         print('Gitlab CI trigger config file generated.')
     if args.package:
         for name, package in synthesis.package.items():
-            if '*' in args.package or name in args.package:
+            if 'all' in args.package or name in args.package:
                 print(f"[{name}] ...")
                 j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
                           context={'package': package})

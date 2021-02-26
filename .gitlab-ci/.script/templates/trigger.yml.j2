@@ -3,10 +3,10 @@
 stages:
 {% for i in range(1, tool_layout|length + 1) %}
   - T{{ i }}
-{% endfor  -%}
-{% for i in range(1, layout|length + 1) -%}
+{% endfor  %}
+{% for i in range(1, layout|length + 1) %}
   - L{{ i }}
-{% endfor  -%}
+{% endfor  %}
 
 # -------------------------------------
 # Build tools and deps package

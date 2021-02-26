@@ -3,23 +3,32 @@ stages:
 {% if not package.config.tool and not FOR_TOOL -%}
 - test
 {% endif -%}
-- publish
+- deploy
 {#  #}
-
+{%- set suffix = '.tool' if FOR_TOOL else ''  -%}
+{%- set MSVC = package.c_matrix('^vs20\d\d\w*$', tool=FOR_TOOL)  -%}
+{%- set GCC = package.c_matrix('^gcc\d+(\-x86)?\w?$', tool=FOR_TOOL)  -%}
+{%- set GCC_ARMv8 = package.c_matrix( '^gcc\d+\-armv8\w*$', tool=FOR_TOOL)  -%}
+{%- set GCC_ARMv7 = package.c_matrix( '^gcc\d+\-armv7\w*$', tool=FOR_TOOL)  -%}
+{%- set GCC_HiSi = package.c_matrix( '^hisiv|himix', tool=FOR_TOOL)  -%}
+{# #}
     # ---------------------------------
     #     Build
     # ---------------------------------
-{%  set suffix = '.tool' if FOR_TOOL else ''  %}
-{%- set MSVC = package.c_matrix('^vs20\d\d\w*$', tool=FOR_TOOL)  %}
 {%- if MSVC  %}
 {{ package.name }}{{ suffix }}.build@windows:
     stage: build
     tags:
-    - workbench=oss/{{ synthesis.version }}
     - builder
     - Windows
-    - MSVC
-    script: echo epm --profile $PROFILE --scheme $SCHEME create
+    - '@oss-{{ synthesis.version }}'
+    artifacts:
+      paths:
+      - {{package.name}}/.conan/$PROFILE/$SCHEME
+      - {{package.name}}/.epm
+    script:
+    - cd {{package.name}}
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
 {%- for profiles, schemes in MSVC %}
@@ -28,23 +37,72 @@ stages:
 {% endfor -%}
 {%- endif  %}
 
-{%  set suffix = '.tool' if FOR_TOOL else ''  %}
-{%- set Linux = package.c_matrix('^gcc\d+(\-x86)?\w?$', tool=FOR_TOOL)  %}
-{%- set arm8Linux = package.c_matrix( '^gcc\d+\-armv7\w*$', tool=FOR_TOOL)  %}
-{%- set arm7Linux = package.c_matrix( '^gcc\d+\-armv8\w*$', tool=FOR_TOOL)  %}
-{%- set hisiLinux = package.c_matrix( '^hisiv|himix', tool=FOR_TOOL)  %}
-{%- if Linux + arm7Linux + arm8Linux + hisiLinux %}
+
+{%- if GCC + GCC_ARMv8  %}
 {{ package.name }}{{ suffix }}.build@linux:
     stage: build
     tags:
-    - workbench=oss/{{ synthesis.version }}
     - builder
-    - Windows
-    - MSVC
-    script: echo epm --profile $PROFILE --scheme $SCHEME create
+    - Linux
+    - '@oss-{{ synthesis.version }}'
+    artifacts:
+      paths:
+      - {{package.name}}/.conan/$PROFILE/$SCHEME
+      - {{package.name}}/.epm
+    script:
+    - cd {{package.name}}
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-{%- for m in [Linux, arm7Linux, arm8Linux, hisiLinux] -%}
+{%- for m in [GCC, GCC_ARMv8] -%}
+{%- if m  -%}
+{%- for profiles, schemes in m %}
+      - SCHEME: {{ schemes | list }}
+        PROFILE: {{ profiles | list }}
+{% endfor -%}
+{%- endif  -%}
+{%- endfor  -%}
+{%- endif  -%}
+
+{% if not package.config.tool and not FOR_TOOL -%}
+    # ---------------------------------
+    # Test
+    # ---------------------------------
+{% if MSVC  %}
+{{ package.name }}{{ suffix }}.test@windows:
+    stage: test
+    tags:
+    - runner
+    - Windows
+    - '@oss-{{ synthesis.version }}'
+    script:
+    - cd {{package.name}}
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    parallel:
+      matrix:
+{%- for m in [MSVC] -%}
+{%- if m  -%}
+{%- for profiles, schemes in m %}
+      - SCHEME: {{ schemes | list }}
+        PROFILE: {{ profiles | list }}
+{% endfor -%}
+{%- endif  -%}
+{%- endfor  -%}
+{%- endif  -%}
+
+{% if GCC  %}
+{{ package.name }}{{ suffix }}.test@linux:
+    stage: test
+    tags:
+    - runner
+    - Linux
+    - '@oss-{{ synthesis.version }}'
+    script:
+    - cd {{package.name}}
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    parallel:
+      matrix:
+{%- for m in [GCC] -%}
 {%- if m  -%}
 {%- for profiles, schemes in m %}
       - SCHEME: {{ schemes | list }}
@@ -54,22 +112,23 @@ stages:
 {%- endfor  -%}
 {%- endif  %}
 
-
-
+{% endif %}    
 
 
     # ---------------------------------
-    #     Publish
+    #     deploy
     # ---------------------------------
 {{ package.name }}{{ suffix }}.publish@linux:
-    stage: publish
+    stage: deploy
     tags:
-    - workbench=oss/{{ synthesis.version }}
-    - publisher
-    script: echo epm --profile $PROFILE --scheme $SCHEME upload -r oss
+    - '@oss-{{ synthesis.version }}'    
+    - deployer
+    script:
+    - cd {{package.name}}
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-{%- for m in [MSVC, Linux, arm7Linux, arm8Linux, hisiLinux] -%}
+{%- for m in [MSVC, GCC, GCC_ARMv8] -%}
 {%- if m  -%}
 {%- for profiles, schemes in m %}
       - SCHEME: {{ schemes | list }}
