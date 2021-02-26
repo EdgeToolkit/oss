@@ -20,8 +20,11 @@ stages:
 {%- set suffix = '' if package.config.tool else '.tool' -%}
 {# % #}
 {{ package.name }}{{ suffix }}:
-  stage: T{{ index }}
-  include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
+  stage: T{{ index }}  
+  trigger:
+    include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
+    strategy: depend  
+
 {% endfor %}
 {% endfor  -%}
 
@@ -39,7 +42,10 @@ stages:
 {# % #}
 {{ package.name }}:
   stage: L{{ index }}
-  include: .gitlab-ci/{{ package.name }}.yml
+  trigger:
+    include: .gitlab-ci/{{ package.name }}.yml
+    strategy: depend  
+  
 {% endfor %}
 {% endfor  -%}
 
