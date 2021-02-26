@@ -67,7 +67,7 @@ deploy.Linux:
     - deployer
     - '@oss-0.1'
   dependencies:
-    - build.Win
+    - build.Linux
   script:
     - cd zlib
     - epm --profile vs2019 --storage .conan/$PROFILE/$SCHEME upload 
