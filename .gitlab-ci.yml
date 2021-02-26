@@ -11,7 +11,7 @@ startup:
     - gitlab-ci.config.generator
   script:
     - pip install networkx python-gitlab --user
-    - python .gitlab-ci/.script/gitlab-ci.py --trigger
+    - python .gitlab-ci/.script/gitlab-ci.py generate --trigger
   artifacts:
     paths:
       - .gitlab-ci/.cache/trigger.yml
