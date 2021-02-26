@@ -17,12 +17,8 @@ import argparse
 import pprint
 import re
 import networkx as nx
-
-
-from collections import OrderedDict, namedtuple
-from conans.tools import mkdir, rmdir, chdir, ConanOutput
+from collections import namedtuple
 from epm.tools import create_requirements, create_build_tools
-from epm.utils import ObjectView, sequence_cast
 from epm.utils import abspath
 from epm.model.project import Project
 
