@@ -95,12 +95,10 @@ class Package(object):
         for name in graph:
             if name == self.name:
                 continue
-
             pkg = self._synthesis.package[name]
-            if pkg.config.tool and not tool:
-                continue
-            if nx.has_path(graph, name, self.name):
-                result.add(name)
+            if bool(tool) == bool(pkg.config.tool):
+                if nx.has_path(graph, name, self.name):
+                    result.add(name)
         return list(result)
 
     @property

@@ -33,6 +33,7 @@ def gitlab_ci_generate(args):
                 j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
                           context={'package': package})
                 if not package.config.tool and package.tool_user:
+                    print(package.name, '->', package.tool_user)
                     j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
                               context={'package': package, 'FOR_TOOL': True})
     return None
@@ -46,8 +47,7 @@ def main():
     cmd = subs.add_parser('generate', help='Generate gitlab runner config')
     cmd.add_argument('--package', default=None, action='append', help='Generate package ci config file.')
     cmd.add_argument('--trigger', default=False, action='store_true', help='Generate gitlab-ci trigger file')
-    cmd.add_argument('--out', default='.gitlab-ci/.cache', action='append',
-                     help='Directory where generated file sotrage')
+    cmd.add_argument('--out', default='.gitlab-ci/.cache', help='Directory where generated file sotrage')
 
     cmd.set_defaults(func=gitlab_ci_generate)
 

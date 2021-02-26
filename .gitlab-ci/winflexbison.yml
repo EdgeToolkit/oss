@@ -1,0 +1,42 @@
+stages:
+- build
+- deploy
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+winflexbison.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - winflexbison/.conan/$PROFILE/$SCHEME
+      - winflexbison/.epm
+    script:
+    - cd winflexbison
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['vs2019']
+    
+
+
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+winflexbison.publish@linux:
+    stage: deploy
+    tags:
+    - '@oss-0.1'    
+    - deployer
+    script:
+    - cd winflexbison
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['vs2019']

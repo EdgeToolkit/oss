@@ -1,0 +1,63 @@
+stages:
+- build
+- deploy
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+zlib.tool.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - zlib/.conan/$PROFILE/$SCHEME
+      - zlib/.epm
+    script:
+    - cd zlib
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static']
+        PROFILE: ['vs2019']
+
+zlib.tool.build@linux:
+    stage: build
+    tags:
+    - builder
+    - Linux
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - zlib/.conan/$PROFILE/$SCHEME
+      - zlib/.epm
+    script:
+    - cd zlib
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static']
+        PROFILE: ['gcc5']
+    
+
+
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+zlib.tool.publish@linux:
+    stage: deploy
+    tags:
+    - '@oss-0.1'    
+    - deployer
+    script:
+    - cd zlib
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    parallel:
+      matrix:
+      - SCHEME: ['static']
+        PROFILE: ['vs2019']
+
+      - SCHEME: ['static']
+        PROFILE: ['gcc5']
