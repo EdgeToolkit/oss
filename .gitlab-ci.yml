@@ -36,4 +36,4 @@ packages:
     strategy: depend
   rules:
       - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
-# MM2
+
