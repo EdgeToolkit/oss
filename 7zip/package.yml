@@ -3,4 +3,4 @@ version: '19.00'
 
 program:
 - name: 7z
-  executable: package/bin/7z
+  executable: bin/7z
