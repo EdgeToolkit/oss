@@ -1,6 +1,4 @@
 - version: 0.1
-  _profile.tool.linux: &profile_tool_linux
-  - gcc5
   _profile.tool: &profile_tool
   - vs2019
   - gcc5
@@ -24,9 +22,7 @@
   _tool_setting: &tool_setting
    profile: *profile_tool
    tool: true
-  _linux_tool_setting:
-   profile: *profile_tool_linux
-   tool: true
+
 
   profile:
   - *profile_msvc
@@ -51,9 +47,11 @@
   profile: vs2019
   tool: true
 - name: bison
-  <<: *_linux_tool_setting
+  profile: gcc5
+  tool: true
 - name: flex
-  <<: *_linux_tool_setting
+  profile: gcc5
+  tool: true
 - name: pkgconf
   <<: *tool_setting
 - name: m4
