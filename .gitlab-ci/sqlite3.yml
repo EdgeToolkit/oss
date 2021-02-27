@@ -21,7 +21,7 @@ sqlite3.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 sqlite3.build@linux:
@@ -39,10 +39,10 @@ sqlite3.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
     # ---------------------------------
@@ -60,7 +60,7 @@ sqlite3.test@windows:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 sqlite3.test@linux:
@@ -74,7 +74,7 @@ sqlite3.test@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
 
@@ -94,11 +94,11 @@ sqlite3.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']

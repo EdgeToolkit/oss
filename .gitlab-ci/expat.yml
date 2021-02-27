@@ -21,7 +21,7 @@ expat.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 expat.build@linux:
@@ -39,10 +39,10 @@ expat.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
     # ---------------------------------
@@ -60,7 +60,7 @@ expat.test@windows:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 expat.test@linux:
@@ -74,7 +74,7 @@ expat.test@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
 
@@ -94,11 +94,11 @@ expat.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']

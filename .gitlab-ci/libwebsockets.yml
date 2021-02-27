@@ -21,7 +21,7 @@ libwebsockets.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 libwebsockets.build@linux:
@@ -39,10 +39,10 @@ libwebsockets.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
     # ---------------------------------
@@ -60,7 +60,7 @@ libwebsockets.test@windows:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 libwebsockets.test@linux:
@@ -74,7 +74,7 @@ libwebsockets.test@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
 
@@ -94,11 +94,11 @@ libwebsockets.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']

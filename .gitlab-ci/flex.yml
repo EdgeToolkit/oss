@@ -5,24 +5,6 @@ stages:
     # ---------------------------------
     #     Build
     # ---------------------------------
-flex.build@windows:
-    stage: build
-    tags:
-    - builder
-    - Windows
-    - '@oss-0.1'
-    artifacts:
-      paths:
-      - flex/.conan/$PROFILE/$SCHEME
-      - flex/.epm
-    script:
-    - cd flex
-    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
-    parallel:
-      matrix:
-      - SCHEME: ['None']
-        PROFILE: ['vs2019']
-
 flex.build@linux:
     stage: build
     tags:
@@ -54,8 +36,5 @@ flex.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['None']
-        PROFILE: ['vs2019']
-
       - SCHEME: ['None']
         PROFILE: ['gcc5']

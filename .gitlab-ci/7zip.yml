@@ -1,6 +1,5 @@
 stages:
 - build
-- test
 - deploy
 
     # ---------------------------------
@@ -23,28 +22,6 @@ stages:
       matrix:
       - SCHEME: ['None']
         PROFILE: ['vs2019']
-
-    # ---------------------------------
-    # Test
-    # ---------------------------------
-
-7zip.test@windows:
-    stage: test
-    tags:
-    - runner
-    - Windows
-    - '@oss-0.1'
-    script:
-    - cd 7zip
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
-    parallel:
-      matrix:
-      - SCHEME: ['None']
-        PROFILE: ['vs2019']
-
-
-    
-
 
     # ---------------------------------
     #     deploy
