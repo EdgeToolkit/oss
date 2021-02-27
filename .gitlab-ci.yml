@@ -15,7 +15,7 @@ startup:
       - .gitlab-ci/.cache/tools.yml
       - .gitlab-ci/.cache/packages.yml
   rules:
-      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
+    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 
 tools:
   stage: tools
@@ -25,7 +25,8 @@ tools:
         job: startup
     strategy: depend
   rules:
-      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
+    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
+
 
 packages:
   stage: packages
@@ -35,5 +36,6 @@ packages:
         job: startup
     strategy: depend
   rules:
-      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
+    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
+
 
