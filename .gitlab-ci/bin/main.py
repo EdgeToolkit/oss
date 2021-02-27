@@ -24,18 +24,31 @@ def gitlab_ci_generate(args):
 
     j2 = Jinja2(f"{_DIR}/templates", context=context)
     if args.trigger:
-        j2.render('trigger.yml.j2', outfile=f'{out_dir}/trigger.yml')
+        j2.render('trigger-packages.yml.j2', outfile=f'{out_dir}/packages.yml')
+        j2.render('trigger-tools.yml.j2', outfile=f'{out_dir}/tools.yml')
         print('Gitlab CI trigger config file generated.')
     if args.package:
         for name, package in synthesis.package.items():
             if 'all' in args.package or name in args.package:
                 print(f"[{name}] ...")
-                j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
-                          context={'package': package})
-                if not package.config.tool and package.tool_user:
-                    print(package.name, '->', package.tool_user)
-                    j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
-                              context={'package': package, 'FOR_TOOL': True})
+                if package.config.tool:
+                    j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                              context={'package': package})
+                else:
+                    if package.tool_user:
+                        j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
+                                  context={'package': package})
+                    else:
+                        j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                                  context={'package': package})
+
+
+                #j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                #          context={'package': package})
+                #if not package.config.tool and package.tool_user:
+                #    print(package.name, '->', package.tool_user)
+                #    j2.render('tool.j2', outfile=f'{out_dir}/{name}.tool.yml',
+                #              context={'package': package, 'FOR_TOOL': True})
     return None
 
 

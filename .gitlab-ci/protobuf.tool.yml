@@ -5,7 +5,7 @@ stages:
     # ---------------------------------
     #     Build
     # ---------------------------------
-protobuf.tool.build@windows:
+protobuf.build@windows:
     stage: build
     tags:
     - builder
@@ -20,10 +20,10 @@ protobuf.tool.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
-protobuf.tool.build@linux:
+protobuf.build@linux:
     stage: build
     tags:
     - builder
@@ -38,15 +38,13 @@ protobuf.tool.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
-    
-
 
     # ---------------------------------
     #     deploy
     # ---------------------------------
-protobuf.tool.publish@linux:
+protobuf.publish@linux:
     stage: deploy
     tags:
     - '@oss-0.1'    
@@ -56,8 +54,8 @@ protobuf.tool.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['static']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['static']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']

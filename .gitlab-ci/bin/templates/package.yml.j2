@@ -1,22 +1,19 @@
 stages:
 - build
-{% if not package.config.tool and not FOR_TOOL -%}
 - test
-{% endif -%}
 - deploy
 {#  #}
-{%- set suffix = '.tool' if FOR_TOOL else ''  -%}
-{%- set MSVC = package.c_matrix('^vs20\d\d\w*$', tool=FOR_TOOL)  -%}
-{%- set GCC = package.c_matrix('^gcc\d+(\-x86)?\w?$', tool=FOR_TOOL)  -%}
-{%- set GCC_ARMv8 = package.c_matrix( '^gcc\d+\-armv8\w*$', tool=FOR_TOOL)  -%}
-{%- set GCC_ARMv7 = package.c_matrix( '^gcc\d+\-armv7\w*$', tool=FOR_TOOL)  -%}
-{%- set GCC_HiSi = package.c_matrix( '^hisiv|himix', tool=FOR_TOOL)  -%}
+{%- set MSVC = package.c_matrix('^vs20\d\d\w*$')  -%}
+{%- set GCC = package.c_matrix('^gcc\d+(\-x86)?\w?$' )  -%}
+{%- set GCC_ARMv8 = package.c_matrix( '^gcc\d+\-armv8\w*$' )  -%}
+{%- set GCC_ARMv7 = package.c_matrix( '^gcc\d+\-armv7\w*$' )  -%}
+{%- set GCC_HiSi = package.c_matrix( '^hisiv|himix' )  -%}
 {# #}
     # ---------------------------------
     #     Build
     # ---------------------------------
 {%- if MSVC  %}
-{{ package.name }}{{ suffix }}.build@windows:
+{{ package.name }}.build@windows:
     stage: build
     tags:
     - builder
@@ -39,7 +36,7 @@ stages:
 
 
 {%- if GCC + GCC_ARMv8  %}
-{{ package.name }}{{ suffix }}.build@linux:
+{{ package.name }}.build@linux:
     stage: build
     tags:
     - builder
@@ -69,7 +66,7 @@ stages:
     # Test
     # ---------------------------------
 {% if MSVC  %}
-{{ package.name }}{{ suffix }}.test@windows:
+{{ package.name }}.test@windows:
     stage: test
     tags:
     - runner
@@ -91,7 +88,7 @@ stages:
 {%- endif  -%}
 
 {% if GCC  %}
-{{ package.name }}{{ suffix }}.test@linux:
+{{ package.name }}.test@linux:
     stage: test
     tags:
     - runner
@@ -118,7 +115,7 @@ stages:
     # ---------------------------------
     #     deploy
     # ---------------------------------
-{{ package.name }}{{ suffix }}.publish@linux:
+{{ package.name }}.publish@linux:
     stage: deploy
     tags:
     - '@oss-{{ synthesis.version }}'    

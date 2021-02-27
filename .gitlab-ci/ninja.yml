@@ -40,8 +40,6 @@ ninja.build@linux:
       matrix:
       - SCHEME: ['None']
         PROFILE: ['gcc5']
-    
-
 
     # ---------------------------------
     #     deploy

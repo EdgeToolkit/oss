@@ -1,6 +1,7 @@
 stages:
   - trigger
-  - build
+  - tools
+  - packages
 
 startup:
   stage: trigger
@@ -12,10 +13,19 @@ startup:
   artifacts:
     paths:
       - .gitlab-ci/.cache/trigger.yml
-packages:
-  stage: build
+
+tools:
+  stage: tools
   trigger:
     include:
-      - artifact: .gitlab-ci/.cache/trigger.yml
+      - artifact: .gitlab-ci/.cache/tools.yml
+        job: startup
+    strategy: depend
+
+packages:
+  stage: packages
+  trigger:
+    include:
+      - artifact: .gitlab-ci/.cache/packages.yml
         job: startup
     strategy: depend

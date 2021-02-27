@@ -22,8 +22,6 @@ winflexbison.build@windows:
       matrix:
       - SCHEME: ['None']
         PROFILE: ['vs2019']
-    
-
 
     # ---------------------------------
     #     deploy
