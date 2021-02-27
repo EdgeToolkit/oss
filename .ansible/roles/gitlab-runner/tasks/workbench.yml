@@ -1,0 +1,27 @@
+- name: Inspect gitlab-runner instance info
+  gitlab_runner_command:
+    command: info
+    db: "{{gitlab_runner}}" 
+    hostname: "{{ansible_ssh_host}}"
+  delegate_to: localhost
+  register: result
+  
+- name: set_fact
+  set_fact:
+    runners: "{{ result.runners }}"
+
+- name: Linux
+  include: linux/workbench.yml
+  when: ansible_connection == 'ssh'
+
+- name: Windows
+  include: win/workbench.yml
+  when: ansible_connection == 'winrm'
+
+
+- name: Active Gitlab service runners
+  gitlab_runner_command:
+    command: active
+    db: "{{gitlab_runner}}" 
+    hostname: "{{ansible_ssh_host}}"
+  delegate_to: localhost

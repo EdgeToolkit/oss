@@ -1,0 +1,29 @@
+name: openssl
+version: 1.1.1g
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+  
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/digest
+  
+build-tools:
+  strawberryperl: 
+    version: 5.30.0.1
+    if: compiler == 'Visual Studio'
+
+  nasm: 
+    version: 2.14
+    if: compiler == 'Visual Studio'
+
+  msys2: 
+    version: 20190524
+    if: compiler == 'Visual Studio'

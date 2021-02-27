@@ -1,0 +1,20 @@
+---
+- name: Create gitlab-runner folder
+  win_file:
+    path: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+    state: directory
+
+- name: Download gitlab-runner program to ~/.gitlab-runner
+  win_get_url:
+    url: "{{mirror_repository_url | default('https://gitlab-runner-downloads.s3.amazonaws.com')}}/gitlab-runner/v{{gitlab_runner_version}}/binaries/gitlab-runner-windows-amd64.exe"
+    dest: "{{ ansible_env.USERPROFILE }}/.gitlab-runner/gitlab-runner.exe"
+
+- name: Install gitlab service
+  win_shell: |
+    Try { .\gitlab-runner.exe stop } Catch {}
+    Try { .\gitlab-runner.exe uninstall } Catch {}
+
+    .\gitlab-runner.exe install -c config.toml
+  args:
+    chdir: "{{ ansible_env.USERPROFILE }}/.gitlab-runner"
+    executable: powershell

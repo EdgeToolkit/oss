@@ -1,0 +1,5 @@
+- name: TEST
+  debug: 
+    #msg: "{{ansible_facts}}"
+    #msg: "{{hostvars}}"
+    msg: "hostname:{{inventory_hostname}} {{hostvars.server01.xxx}}"

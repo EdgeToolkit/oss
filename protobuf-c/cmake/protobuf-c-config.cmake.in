@@ -1,0 +1,7 @@
+# Imported targets
+#
+# You may need find_package to add dep librares
+# find_package(XXXXX REQUIRED)
+#
+
+include("${CMAKE_CURRENT_LIST_DIR}/protobuf-c-targets.cmake")

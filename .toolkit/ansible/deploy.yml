@@ -1,0 +1,9 @@
+- hosts: gitlab_runner
+  vars:
+    - COMMAND: deploy
+  roles:
+  - role: gitlab-runner
+    when:
+    - target == "gitlab-runner"
+#    - inventory_hostname in groups['gitlab']
+

@@ -1,0 +1,17 @@
+- name: Install GitLab-runner
+  include: install.yml
+  when:
+  - COMMAND == 'install'
+  - ansible_connection == 'ssh'
+
+- name: Install GitLab-runner for Windows
+  include: install-win.yml
+  when:
+  - COMMAND == 'install'
+  - ansible_connection == 'winrm'
+
+- name: Config GitLab-Runner
+  include: deploy.yml
+  when:
+  - COMMAND == 'deploy'
+#ansible_architecture

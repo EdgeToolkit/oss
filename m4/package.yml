@@ -1,0 +1,13 @@
+name: m4
+version: 1.4.18
+
+program:
+  - name: test
+    location: test_package
+    executable: false
+    build-tools:
+      m4: ${__version__}
+build-tools:
+  msys2:
+    version: 20190524
+    if: os == Windows

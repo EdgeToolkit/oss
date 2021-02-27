@@ -1,0 +1,14 @@
+name: re2c
+version: 1.3
+
+build-tools:
+  msys2:
+     version: 20190524
+     if: compiler == 'Visual Studio'
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package
+  build-tools:
+    re2c: ${__version__}

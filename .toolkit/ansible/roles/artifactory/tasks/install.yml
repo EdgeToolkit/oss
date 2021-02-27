@@ -1,0 +1,17 @@
+---
+- name: Create docker volume of artifactory
+  docker_volume:
+    name: "artifactory-{{ARTIFACTORY_VERSION}}"
+  become: yes
+
+- name: create artifactory container
+  docker_container:
+    name: "artifactory-{{ARTIFACTORY_VERSION}}"
+    image: docker.bintray.io/jfrog/artifactory-cpp-ce:{{ARTIFACTORY_VERSION}}
+    restart_policy: always
+    ports:
+    - "{{ ARTIFACTORY_API_PORT }}:8081"
+    - "{{ ARTIFACTORY_WEB_PORT }}:8082"
+    volumes:
+    - "artifactory-{{ARTIFACTORY_VERSION}}:/var/opt/jfrog/artifactory"
+  become: yes

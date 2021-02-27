@@ -1,0 +1,104 @@
+stages:
+- build
+- test
+- deploy
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+libiconv.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - libiconv/.conan/$PROFILE/$SCHEME
+      - libiconv/.epm
+    script:
+    - cd libiconv
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+libiconv.build@linux:
+    stage: build
+    tags:
+    - builder
+    - Linux
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - libiconv/.conan/$PROFILE/$SCHEME
+      - libiconv/.epm
+    script:
+    - cd libiconv
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc7-armv8']
+
+    # ---------------------------------
+    # Test
+    # ---------------------------------
+
+libiconv.test@windows:
+    stage: test
+    tags:
+    - runner
+    - Windows
+    - '@oss-0.1'
+    script:
+    - cd libiconv
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+libiconv.test@linux:
+    stage: test
+    tags:
+    - runner
+    - Linux
+    - '@oss-0.1'
+    script:
+    - cd libiconv
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+
+    
+
+
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+libiconv.publish@linux:
+    stage: deploy
+    tags:
+    - '@oss-0.1'    
+    - deployer
+    script:
+    - cd libiconv
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc7-armv8']

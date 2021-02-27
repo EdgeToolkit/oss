@@ -1,0 +1,12 @@
+name: meson
+version: 0.56.2
+
+program:
+- name: test_package
+  location: test_package
+  executable: build/test_package
+  build-tools:
+    meson: ${__version__}
+
+dependencies:
+  ninja: 1.10.2

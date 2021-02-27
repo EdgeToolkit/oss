@@ -1,0 +1,23 @@
+concurrent = {{gitlab_runner_concurrency | default(1)}}
+timeout = 1800
+
+{% for runner in runners %}
+{%- set kind = runner['kind'] -%}
+{%- set platform = runner['platform'] -%}
+{%- set arch = runner['arch'] -%}
+{%- set id = runner['id'] -%}
+{%- set hostname = runner['hostname'] -%}
+{%- set workbench = runner['workbench'] -%}
+{%- set token = runner['token'] -%}
+{%- set url = gitlab_url -%}
+{%- set description = runner['description'] -%}
+
+{% if kind in ['builder', 'runner', 'deployer'] %}
+{% include "epm.toml.j2" %}
+{% endif %}
+
+{% if kind in ['trigger', 'gitlab-ci.config.generator'] %}
+{% include "trigger.toml.j2" %}
+{% endif %}
+
+{% endfor %}
