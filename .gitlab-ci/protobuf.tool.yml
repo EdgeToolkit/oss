@@ -17,7 +17,7 @@ protobuf.tool.build@windows:
       - protobuf/.epm
     script:
     - cd protobuf
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['static']
@@ -35,7 +35,7 @@ protobuf.tool.build@linux:
       - protobuf/.epm
     script:
     - cd protobuf
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['static']
@@ -53,7 +53,7 @@ protobuf.tool.publish@linux:
     - deployer
     script:
     - cd protobuf
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
       - SCHEME: ['static']

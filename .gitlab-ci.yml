@@ -1,9 +1,6 @@
 stages:
   - startup
-  - init
-#- build
-#- test
-#- deploy
+  - packages
 
 startup:
   stage: startup
@@ -16,61 +13,9 @@ startup:
     paths:
       - .gitlab-ci/.cache/trigger.yml
 init:
-  stage: init
+  stage: packages
   trigger:
     include:
       - artifact: .gitlab-ci/.cache/trigger.yml
         job: startup
     strategy: depend
-#####################################
-#
-#build.Linux:
-#  stage: build
-#  tags:
-#    - Linux
-#    - '@oss-0.1'
-#    - builder
-#  parallel:
-#    matrix:
-#      - PROFILE: [gcc5, gcc5d]
-#        SCHEME: [static, shared]
-#  artifacts:
-#    paths:
-#    - zlib/.conan/$PROFILE/$SCHEME
-#    - zlib/.epm
-#  script:    
-#    - cd zlib
-#    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
-#
-#test.Linux:
-#  stage: test
-#  tags:
-#    - Linux
-#    - '@oss-0.1'
-#    - runner
-#  parallel:
-#    matrix:
-#      - PROFILE: [gcc5, gcc5d]
-#        SCHEME: [static, shared]
-#  dependencies:
-#    - build.Linux
-#  script:    
-#    - cd zlib
-#    - epm --profile $PROFILE --scheme $SCHEME --storage .conan/$PROFILE/$SCHEME download --reference .conan
-#    - epm --profile $PROFILE --scheme $SCHEME --storage .conan/$PROFILE/$SCHEME exec test_package
-#
-#
-#deploy.Linux:
-#  stage: deploy
-#  tags:
-#    - deployer
-#    - '@oss-0.1'
-#  parallel:
-#    matrix:
-#      - PROFILE: [gcc5, gcc5d]
-#        SCHEME: [static, shared]
-#  dependencies:
-#    - build.Linux
-#  script:
-#    - cd zlib
-#    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload 

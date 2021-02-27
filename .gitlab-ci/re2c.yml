@@ -17,7 +17,7 @@ re2c.build@windows:
       - re2c/.epm
     script:
     - cd re2c
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -35,7 +35,7 @@ re2c.build@linux:
       - re2c/.epm
     script:
     - cd re2c
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -53,7 +53,7 @@ re2c.publish@linux:
     - deployer
     script:
     - cd re2c
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
       - SCHEME: ['None']

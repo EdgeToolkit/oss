@@ -18,12 +18,13 @@ stages:
       - 7zip/.epm
     script:
     - cd 7zip
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
         PROFILE: ['vs2019']
-# ---------------------------------
+
+    # ---------------------------------
     # Test
     # ---------------------------------
 
@@ -35,7 +36,7 @@ stages:
     - '@oss-0.1'
     script:
     - cd 7zip
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -55,7 +56,7 @@ stages:
     - deployer
     script:
     - cd 7zip
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
       - SCHEME: ['None']

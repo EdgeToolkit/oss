@@ -18,12 +18,13 @@ pthreads4w.build@windows:
       - pthreads4w/.epm
     script:
     - cd pthreads4w
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
-# ---------------------------------
+
+    # ---------------------------------
     # Test
     # ---------------------------------
 
@@ -35,10 +36,10 @@ pthreads4w.test@windows:
     - '@oss-0.1'
     script:
     - cd pthreads4w
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
 
@@ -55,8 +56,8 @@ pthreads4w.publish@linux:
     - deployer
     script:
     - cd pthreads4w
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']

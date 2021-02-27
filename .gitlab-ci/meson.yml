@@ -17,7 +17,7 @@ meson.build@windows:
       - meson/.epm
     script:
     - cd meson
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -35,7 +35,7 @@ meson.build@linux:
       - meson/.epm
     script:
     - cd meson
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -53,7 +53,7 @@ meson.publish@linux:
     - deployer
     script:
     - cd meson
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
       - SCHEME: ['None']

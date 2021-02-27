@@ -17,7 +17,7 @@ nasm.build@windows:
       - nasm/.epm
     script:
     - cd nasm
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -35,7 +35,7 @@ nasm.build@linux:
       - nasm/.epm
     script:
     - cd nasm
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
       - SCHEME: ['None']
@@ -53,7 +53,7 @@ nasm.publish@linux:
     - deployer
     script:
     - cd nasm
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
       - SCHEME: ['None']
