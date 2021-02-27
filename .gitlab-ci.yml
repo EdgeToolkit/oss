@@ -31,7 +31,7 @@ re2c.build@windows:
       - re2c/.epm
     script:
     - cd re2c
-    - chcp
+    - chcp 65001
     - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
