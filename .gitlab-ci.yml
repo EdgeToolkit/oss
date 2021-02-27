@@ -14,6 +14,8 @@ startup:
     paths:
       - .gitlab-ci/.cache/tools.yml
       - .gitlab-ci/.cache/packages.yml
+  rules:
+      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
 
 tools:
   stage: tools
@@ -22,6 +24,8 @@ tools:
       - artifact: .gitlab-ci/.cache/tools.yml
         job: startup
     strategy: depend
+  rules:
+      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
 
 packages:
   stage: packages
@@ -30,4 +34,6 @@ packages:
       - artifact: .gitlab-ci/.cache/packages.yml
         job: startup
     strategy: depend
+  rules:
+      - if: '$CI_COMMIT_BRANCH =~ /^RC\/master/'
 

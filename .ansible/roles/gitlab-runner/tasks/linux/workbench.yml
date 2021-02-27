@@ -13,11 +13,6 @@
   with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
 
-- name: Copy mirrors.yml
-  get_url:
-    url: "{{mirror_repository_url}}/mirrors.yml"
-    dest: "{{ ansible_env.HOME }}/.epm/mirrors.yml"
-
 - name: Create workbench folders
   file:
     path: "{{ ansible_env.HOME }}/.epm/.workbench/{{item['workbench']}}/script"
@@ -66,6 +61,11 @@
     dest: "{{ansible_env.HOME}}/.epm/.workbench/{{item['workbench']}}/script/pre_build.py"
   with_list: "{{runners}}"
   when: item['kind'] != 'gitlab-ci.config.generator'
+
+- name: Copy mirrors.yml
+  get_url:
+    url: "{{mirror_repository_url}}/mirrors.yml"
+    dest: "{{ ansible_env.HOME }}/.epm/mirrors.yml"
 
 - name: Startup service
   shell: |
