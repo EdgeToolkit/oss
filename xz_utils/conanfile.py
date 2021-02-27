@@ -2,8 +2,8 @@ import glob
 import os
 from conans import ConanFile, tools, AutoToolsBuildEnvironment, MSBuild
 from conans.tools import Version
-from epm.tools.conan import as_program, delete
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_package, delete
+ConanFile = as_package(ConanFile)
 
 class XZUtils(ConanFile):
     name = "xz_utils"

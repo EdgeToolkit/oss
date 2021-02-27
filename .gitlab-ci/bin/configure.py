@@ -431,11 +431,14 @@ class Synthesis(object):
             self._tool_layout = []
             packages = set()
             for name, pkg in self.package.items():
+                
                 if not pkg.config.tool:
                     continue
+                packages.add(name)  
                 for requirements in [pkg.requirements, pkg.build_requirements]:
                     for _, detail in requirements.items():
                         packages.add(detail.ref.name)
+
             for layer in self._layout_analyze(self.holograph):
                 layer = set(layer).intersection(packages)
                 if layer:
@@ -462,7 +465,7 @@ class Synthesis(object):
             return _analyze(g, result)
 
         group = {k: set(graph.neighbors(k)) for k in graph.nodes()}
-        layout = _analyze(group, [])
+        layout = _analyze(group, [])        
         return layout
 
     def dump(self):
