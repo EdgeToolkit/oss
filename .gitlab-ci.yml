@@ -12,7 +12,8 @@ startup:
     - .gitlab-ci/bin/generate --trigger
   artifacts:
     paths:
-      - .gitlab-ci/.cache/trigger.yml
+      - .gitlab-ci/.cache/tools.yml
+      - .gitlab-ci/.cache/packages.yml
 
 tools:
   stage: tools
