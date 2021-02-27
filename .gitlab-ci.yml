@@ -3,7 +3,7 @@ stages:
   - build
 
 startup:
-  stage: startup
+  stage: trigger
   tags:
     - gitlab-ci.config.generator
   script:
