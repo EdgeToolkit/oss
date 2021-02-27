@@ -1,21 +1,38 @@
-stages:
-  - startup
-  - packages
-
-startup:
-  stage: startup
-  tags:
-    - gitlab-ci.config.generator
-  script:
-    - pip install networkx python-gitlab --user
-    - .gitlab-ci/bin/generate --trigger
-  artifacts:
-    paths:
-      - .gitlab-ci/.cache/trigger.yml
-init:
-  stage: packages
-  trigger:
-    include:
-      - artifact: .gitlab-ci/.cache/trigger.yml
-        job: startup
-    strategy: depend
+#stages:
+#  - trigger
+#  - build
+#
+#startup:
+#  stage: startup
+#  tags:
+#    - gitlab-ci.config.generator
+#  script:
+#    - pip install networkx python-gitlab --user
+#    - .gitlab-ci/bin/generate --trigger
+#  artifacts:
+#    paths:
+#      - .gitlab-ci/.cache/trigger.yml
+#packages:
+#  stage: build
+#  trigger:
+#    include:
+#      - artifact: .gitlab-ci/.cache/trigger.yml
+#        job: startup
+#    strategy: depend
+re2c.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - re2c/.conan/$PROFILE/$SCHEME
+      - re2c/.epm
+    script:
+    - cd re2c
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['vs2019']
