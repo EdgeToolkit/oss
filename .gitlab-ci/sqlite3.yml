@@ -45,9 +45,11 @@ sqlite3.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 sqlite3.test@windows:
     stage: test
@@ -57,11 +59,14 @@ sqlite3.test@windows:
     - '@oss-0.1'
     script:
     - cd sqlite3
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 sqlite3.test@linux:
     stage: test
@@ -71,7 +76,9 @@ sqlite3.test@linux:
     - '@oss-0.1'
     script:
     - cd sqlite3
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

@@ -45,9 +45,11 @@ gtest.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 gtest.test@windows:
     stage: test
@@ -57,11 +59,14 @@ gtest.test@windows:
     - '@oss-0.1'
     script:
     - cd gtest
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 gtest.test@linux:
     stage: test
@@ -71,7 +76,9 @@ gtest.test@linux:
     - '@oss-0.1'
     script:
     - cd gtest
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

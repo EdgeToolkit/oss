@@ -45,9 +45,11 @@ c-ares.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 c-ares.test@windows:
     stage: test
@@ -57,11 +59,14 @@ c-ares.test@windows:
     - '@oss-0.1'
     script:
     - cd c-ares
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 c-ares.test@linux:
     stage: test
@@ -71,7 +76,9 @@ c-ares.test@linux:
     - '@oss-0.1'
     script:
     - cd c-ares
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

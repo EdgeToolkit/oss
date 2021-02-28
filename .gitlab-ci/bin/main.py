@@ -14,7 +14,7 @@ def gitlab_ci_generate(args):
     """generate gitlab ci config file
     """
     out_dir = abspath(args.out)
-    synthesis = Synthesis('config.yml')
+    synthesis = Synthesis()
     context = {'synthesis': synthesis}
     docker_registry_url = os.getenv('DOCKER_REGISTRY_URL')
     if docker_registry_url:
@@ -35,20 +35,14 @@ def gitlab_ci_generate(args):
                     j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.yml',
                               context={'package': package})
                 else:
+                    j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                              context={'package': package})
                     if package.tool_user:
                         j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
                                   context={'package': package})
-                    else:
-                        j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
-                                  context={'package': package})
+                    
 
 
-                #j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
-                #          context={'package': package})
-                #if not package.config.tool and package.tool_user:
-                #    print(package.name, '->', package.tool_user)
-                #    j2.render('tool.j2', outfile=f'{out_dir}/{name}.tool.yml',
-                #              context={'package': package, 'FOR_TOOL': True})
     return None
 
 

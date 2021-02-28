@@ -45,9 +45,11 @@ pcre.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 pcre.test@windows:
     stage: test
@@ -57,11 +59,14 @@ pcre.test@windows:
     - '@oss-0.1'
     script:
     - cd pcre
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 pcre.test@linux:
     stage: test
@@ -71,7 +76,9 @@ pcre.test@linux:
     - '@oss-0.1'
     script:
     - cd pcre
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake, tools
 import os
 from epm.tools.conan import as_program
-ConanFile = as_program(ConanFile, test_package=True)
+ConanFile = as_program(ConanFile)
 
 
 class TestPackageConan(ConanFile):

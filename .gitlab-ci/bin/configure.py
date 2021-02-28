@@ -42,8 +42,9 @@ class Package(object):
         self._tool_user = None
         self._matrix = None
         self._matrix4tool = None
-        folder = os.path.dirname(synthesis.filename)
-        self.dir = abspath(f"{folder}/{name}")
+        self._script = None
+        #folder = os.path.dirname(synthesis.filename)
+        self.dir = abspath(f"{_DIR}/../../{name}")
 
     @property
     def meta_info(self):
@@ -63,7 +64,17 @@ class Package(object):
     @property
     def scheme(self):
         scheme = self.meta_info.get('scheme') or {}
-        return list(scheme.keys())
+        schemes = list(scheme.keys())
+        schemes.sort()
+        return schemes
+
+    @property
+    def program(self):
+        program = []
+        for p in self.meta_info.get('program') or []:
+            e = p['name'] if isinstance(p, dict) else p
+            program.append(e)
+        return program
 
     @property
     def requirements(self):
@@ -85,8 +96,15 @@ class Package(object):
             tool = config.get('tool') or False
             repack = config.get('repack') or False
             profile = config.get('profile') or []
-            self._config = namedtuple("Config", "tool repack profile")(
-                tool, repack, profile)
+
+            program = config.get('program') or {}
+            
+            if not program and self.program:
+                program = {'Windows': self.program[:1], 'Linux': self.program[:1]}
+            
+            self._config = namedtuple("Config", "tool repack profile program")(
+                tool, repack, profile, program)
+            print(self.name, '*', self._config.program)
         return self._config
 
     def _used_by(self, tool=False, repack=False):
@@ -178,81 +196,8 @@ class Package(object):
                 result.append(({pr}, schemes))
         return result
 
-
-
-
-
-
-
-
-
-
-#        def _matrix(pat):
-#            if isinstance(pat, str):
-#                pat = re.compile(pat)
-#            matrix = package.matrix4tool if tool else package.matrix
-#            profiles = {}
-#            schemes = []
-#            for pr, s in matrix.items():
-#                if re.match(pat, pr):
-#                    if s not in schemes:
-#                        schemes.append(s)
-#                    index = schemes.index(s)
-#                    if index not in profiles:
-#                        profiles[index] = set()
-#                    profiles[index].add(pr)
-#            return [(prs, schemes[i]) for i, prs in profiles.items()]
-#        mat = {}
-#        for i in [5, 6, 7, 8]:
-#            for j in ['', '-x86', '-armv7', '-armv8']:
-#                mat[f"gcc{i}"] = r'^gcc{}{}\w*$'.format(i,j)
-#        for i in [100, 200]:
-#            mat[f"himix{i}"] = r'^himix{}\w*$'.format(i)
-#        for i in [300, 400]:
-#            mat[f"hisiv{i}"] = r'^hisiv{}\w*$'.format(i)
-#        for i in [2019]:
-#            mat[f"vs{i}"] = r'^vs20\d\d\w*$'
-#
-#        matrix = {}
-#        for profile, pattern in mat.items():
-#            m = _matrix(pattern)
-#            if m:
-#                matrix[profile] = m
-#        return matrix
-#
-#
-#    @property
-#    def matrix(self):
-#        if self._matrix is None:
-#            self._matrix = {}
-#            for profile in self.config.profile:
-#                for scheme in self.scheme or ['None']:
-#                    project = Project(profile, scheme, directory=f'{self.name}')
-#                    if not project.available:
-#                        continue
-#                    if profile not in self._matrix:
-#                        self._matrix[profile] = set()
-#                    self._matrix[profile].add(scheme)
-#        return self._matrix
-#
-#    @property
-#    def matrix4tool(self, name=None):
-#        """ matrix for tool <name>
-#        """
-#        if self._matrix4tool is None:
-#            self._matrix4tool = {}
-#            for name in self.used_by(tool=True) or []:
-#                pkg = self._synthesis.package[name]
-#                for profile, schemes in pkg.matrix.items():
-#                    if profile not in self._matrix4tool:
-#                        self._matrix4tool[profile] = set()
-#                    self._matrix4tool[profile].update(schemes)
-#        return self._matrix4tool
-
-
 class Config(object):
-    def __init__(self, filename=None):
-        filename = filename or f"{_DIR}/../../config.yml"
+    def __init__(self, filename):
         self.__file__ = abspath(filename)
         assert os.path.exists(self.__file__)
         self._package = None
@@ -331,6 +276,16 @@ class Config(object):
         for i in ['name', 'version', 'tool', 'repack']:
             if i in config:
                 result[i] = config[i]
+        program = config.get('program', None)
+        if program:
+            if isinstance(program, (str)):
+                program = {'Windows': [program], 'Linux': [program]}
+            elif isinstance(program, dict):
+                pass
+            elif isinstance(program, list):
+                program = {'Windows': program, 'Linux': program}
+            result['program'] = program
+
 
         return result
 
@@ -338,7 +293,7 @@ class Config(object):
 class Synthesis(object):
 
     def __init__(self, filename=None):
-        filename = filename or f"{_DIR}/../../config.yml"
+        filename = filename or f"{_DIR}/../.config.yml"
         self._filename = abspath(filename)
         self._config = None
         self._package = None
@@ -486,7 +441,7 @@ class Synthesis(object):
 
 
 def main():
-    manager = Synthesis(f"{_DIR}/../../config.yml")
+    manager = Synthesis()
     manager.dump()
 
 

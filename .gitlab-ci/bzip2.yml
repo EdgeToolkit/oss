@@ -45,9 +45,11 @@ bzip2.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 bzip2.test@windows:
     stage: test
@@ -57,11 +59,14 @@ bzip2.test@windows:
     - '@oss-0.1'
     script:
     - cd bzip2
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package --help
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 bzip2.test@linux:
     stage: test
@@ -71,7 +76,9 @@ bzip2.test@linux:
     - '@oss-0.1'
     script:
     - cd bzip2
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package --help
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
