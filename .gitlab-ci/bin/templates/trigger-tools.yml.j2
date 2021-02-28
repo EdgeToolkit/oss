@@ -24,7 +24,7 @@ stages:
     strategy: depend  
   rules:
     - changes:
-      - {{ package.name }}
+      - {{ package.name }}/*
 {% endfor %}
 {% endfor  -%}
 
