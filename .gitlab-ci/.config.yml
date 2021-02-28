@@ -79,8 +79,8 @@
 - openssl
 - name: pcre
   program:
-    Windows: test_package \w+ Bincrafters
-    Linux: test_package \\w+ Bincrafters
+    Windows: test_package "\w+ Bincrafters"
+    Linux: test_package "\\w+ Bincrafters"
 - name: pthreads4w
   profile: *profile_msvc
 - sqlite3
