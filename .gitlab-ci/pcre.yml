@@ -60,7 +60,7 @@ pcre.test@windows:
     script:
     - cd pcre
     
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package \w+ Bincrafters
     
     parallel:
       matrix:
@@ -77,7 +77,7 @@ pcre.test@linux:
     script:
     - cd pcre
     
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package \\w+ Bincrafters
     
     parallel:
       matrix:

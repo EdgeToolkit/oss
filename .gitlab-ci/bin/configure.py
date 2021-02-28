@@ -281,7 +281,10 @@ class Config(object):
             if isinstance(program, (str)):
                 program = {'Windows': [program], 'Linux': [program]}
             elif isinstance(program, dict):
-                pass
+                prog = {}
+                for platform, value in program.items():
+                    prog[platform] = [value] if isinstance(value, str) else value
+                program = prog
             elif isinstance(program, list):
                 program = {'Windows': program, 'Linux': program}
             result['program'] = program
