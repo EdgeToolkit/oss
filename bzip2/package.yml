@@ -14,3 +14,4 @@ program:
 - name: test_package
   location: test_package
   executable: bin/test_package
+  
