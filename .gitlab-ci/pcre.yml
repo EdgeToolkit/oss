@@ -21,7 +21,7 @@ pcre.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
 pcre.build@linux:
@@ -39,10 +39,10 @@ pcre.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc7-armv8']
 
 
@@ -60,11 +60,11 @@ pcre.test@windows:
     script:
     - cd pcre
     
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package \w+ Bincrafters
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package "\w+ Bincrafters"
     
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
 
@@ -77,11 +77,11 @@ pcre.test@linux:
     script:
     - cd pcre
     
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package \\w+ Bincrafters
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package "\\w+ Bincrafters"
     
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
 
@@ -101,11 +101,11 @@ pcre.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc7-armv8']
