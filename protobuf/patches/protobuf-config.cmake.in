@@ -14,7 +14,7 @@ if(NOT DEFINED ENV{PROTOC})
       set(PROTOC_PROGRAM "protoc")
   endif()
   set(PROTOC_ENV "DYLD_LIBRARY_PATH=${Protobuf_LIB_DIRS}:${CONAN_LIB_DIRS}:${Protobuf_LIB_DIRS_RELEASE}:${Protobuf_LIB_DIRS_DEBUG}:${Protobuf_LIB_DIRS_RELWITHDEBINFO}:${Protobuf_LIB_DIRS_MINSIZEREL}")
-else
+else()
   set(PROTOC_PROGRAM $ENV{PROTOC})
   set(PROTOC_ENV "")
 endif()
