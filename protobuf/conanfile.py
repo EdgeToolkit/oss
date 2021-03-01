@@ -145,7 +145,7 @@ if(DEFINED Protobuf_SRC_ROOT_FOLDER)""",
         )
 
     def build(self):
-        self._patch_sources()
+        #self._patch_sources()
         cmake = self._configure_cmake()
         cmake.build()
 
