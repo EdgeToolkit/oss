@@ -41,11 +41,12 @@ class ProtobufConan(ConanFile):
         os.rename(extracted_folder, self._source_subfolder)
 
         #
+        import shutil
         for patch in self.conan_data.get("patches", {}).get(self.version, []):
             tools.patch(**patch)
         if tools.Version(self.version) >= "3.12.0":
             for i in ["protobuf-config.cmake.in", "protobuf-module.cmake.in"]:
-                os.copyfile(os.path.join("patches", i),
+                shutil.copyfile(os.path.join("patches", i),
                     os.path.join(self._source_subfolder, "cmake",i))
 
     def config_options(self):
