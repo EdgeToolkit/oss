@@ -45,7 +45,7 @@ class ProtobufConan(ConanFile):
             tools.patch(**patch)
         if tools.Version(self.version) >= "3.12.0":
             for i in ["protobuf-config.cmake.in", "protobuf-module.cmake.in"]:
-                os.copy(os.path.join("patches", i),
+                os.copyfile(os.path.join("patches", i),
                     os.path.join(self._source_subfolder, "cmake",i))
 
     def config_options(self):
