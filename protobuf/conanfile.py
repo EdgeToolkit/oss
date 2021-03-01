@@ -40,6 +40,13 @@ class ProtobufConan(ConanFile):
         extracted_folder = self.name + "-" + self.version
         os.rename(extracted_folder, self._source_subfolder)
 
+        #
+        for patch in self.conan_data.get("patches", {}).get(self.version, []):
+            tools.patch(**patch)
+        if tools.Version(self.version) >= "3.12.0":
+            for i in ["protobuf-config.cmake.in", "protobuf-module.cmake.in"]:
+                os.copy(os.path.join("patches", i),
+                    os.path.join(self._source_subfolder, "cmake",i))
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -199,9 +206,10 @@ if(DEFINED Protobuf_SRC_ROOT_FOLDER)""",
         self.cpp_info.components["protoc"].name = "protoc"
         self.cpp_info.components["protoc"].requires.extend(["libprotoc", "libprotobuf"])
 
-        bindir = os.path.join(self.package_folder, "bin")
-        self.output.info("Appending PATH environment variable: {}".format(bindir))
-        self.env_info.PATH.append(bindir)
+        if not tools.cross_building(self.settings, skip_x64_x86=True):
+            bindir = os.path.join(self.package_folder, "bin")
+            self.output.info("Appending PATH environment variable: {}".format(bindir))
+            self.env_info.PATH.append(bindir)
 
         if self.options.lite:
             self.cpp_info.components["libprotobuf-lite"].names["cmake_find_package"] = "libprotobuf-lite"
