@@ -1,15 +1,15 @@
-FROM edgetoolkit/gcc5
+FROM ubuntu:focal
 
 LABEL maintainer="Mingyi Zhang <mingyi.z@outlook.com>"
 
-COPY files/sources.list-ubuntu.18.04 /etc/apt/sources.list
-COPY files/pip.conf /home/conan/.pip/pip.conf
+COPY files/sources.list-ubuntu.20.04 /etc/apt/sources.list
 
-RUN sudo apt-get update \
-    && sudo apt install -y sshpass \
-    && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
-    && pip config set install.trusted-host mirrors.aliyun.com \
-    && pip install ansible docker networkx python-gitlab winrm
+RUN apt-get update \
+    && apt install -y sshpass python3 python3-pip python-is-python3 \
+    && python -m pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
+    && python -m pip config set install.trusted-host mirrors.aliyun.com \
+    && python -m pip install ansible docker networkx python-gitlab winrm
+
 
     
 
