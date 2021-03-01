@@ -48,7 +48,7 @@ class ProtobufConan(ConanFile):
             for i in ["protobuf-config.cmake.in", "protobuf-module.cmake.in"]:
                 shutil.copyfile(os.path.join("patches", i),
                     os.path.join(self._source_subfolder, "cmake",i))
-
+ 
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
