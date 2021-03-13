@@ -45,9 +45,11 @@ xz_utils.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 xz_utils.test@windows:
     stage: test
@@ -57,11 +59,14 @@ xz_utils.test@windows:
     - '@oss-0.1'
     script:
     - cd xz_utils
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 xz_utils.test@linux:
     stage: test
@@ -71,7 +76,9 @@ xz_utils.test@linux:
     - '@oss-0.1'
     script:
     - cd xz_utils
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

@@ -45,9 +45,11 @@ libcurl.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 libcurl.test@windows:
     stage: test
@@ -57,11 +59,14 @@ libcurl.test@windows:
     - '@oss-0.1'
     script:
     - cd libcurl
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 libcurl.test@linux:
     stage: test
@@ -71,7 +76,9 @@ libcurl.test@linux:
     - '@oss-0.1'
     script:
     - cd libcurl
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

@@ -62,10 +62,12 @@ stages:
 {%- endif  -%}
 
 {% if not package.config.tool and not FOR_TOOL %}
+{% set programs = package.config.program.get('Windows') or [] %}
     # ---------------------------------
     # Test
     # ---------------------------------
-{% if MSVC  %}
+
+{% if MSVC  and programs %}
 {{ package.name }}.test@windows:
     stage: test
     tags:
@@ -74,7 +76,9 @@ stages:
     - '@oss-{{ synthesis.version }}'
     script:
     - cd {{package.name}}
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    {% for p in programs %}
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec {{p}}
+    {% endfor %}
     parallel:
       matrix:
 {%- for m in [MSVC] -%}
@@ -87,7 +91,8 @@ stages:
 {%- endfor  -%}
 {%- endif  -%}
 
-{% if GCC  %}
+{% set programs = package.config.program.get('Linux') or [] %}
+{% if GCC and programs %}
 {{ package.name }}.test@linux:
     stage: test
     tags:
@@ -96,7 +101,9 @@ stages:
     - '@oss-{{ synthesis.version }}'
     script:
     - cd {{package.name}}
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    {% for p in programs %}
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec {{p}}
+    {% endfor %}
     parallel:
       matrix:
 {%- for m in [GCC] -%}

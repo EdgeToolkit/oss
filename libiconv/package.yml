@@ -9,12 +9,15 @@ scheme:
   static:
     options:
       shared: false
-
-sandbox:
-   test_package: test_package/bin/test_package
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package
 
 build-tools:
   msys2: 
     version: 20190524
     if: os == Windows
+
+
 

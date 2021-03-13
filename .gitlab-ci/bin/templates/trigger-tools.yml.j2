@@ -4,6 +4,7 @@ stages:
 {% for i in range(1, tool_layout|length + 1) %}
   - T{{ i }}
 {% endfor  %}
+  - ending
 
 # -------------------------------------
 # Build tools and deps package
@@ -21,6 +22,15 @@ stages:
   trigger:
     include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
     strategy: depend  
-
+  rules:
+    - changes:
+      - {{ package.name }}/*
 {% endfor %}
 {% endfor  -%}
+
+tools.ending:
+  stage: ending
+  tags:
+    - gitlab-ci.config.generator
+  script: echo tools ending
+

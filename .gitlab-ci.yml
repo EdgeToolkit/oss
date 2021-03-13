@@ -38,5 +38,9 @@ packages:
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 
+<<<<<<< HEAD
 # M2
 #
+=======
+#7
+>>>>>>> remotes/origin/RC/0.1

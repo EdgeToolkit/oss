@@ -45,9 +45,11 @@ openssl.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 openssl.test@windows:
     stage: test
@@ -57,11 +59,14 @@ openssl.test@windows:
     - '@oss-0.1'
     script:
     - cd openssl
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 openssl.test@linux:
     stage: test
@@ -71,7 +76,9 @@ openssl.test@linux:
     - '@oss-0.1'
     script:
     - cd openssl
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

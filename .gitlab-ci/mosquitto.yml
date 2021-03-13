@@ -45,9 +45,11 @@ mosquitto.build@linux:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
 
+
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 mosquitto.test@windows:
     stage: test
@@ -57,11 +59,14 @@ mosquitto.test@windows:
     - '@oss-0.1'
     script:
     - cd mosquitto
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 mosquitto.test@linux:
     stage: test
@@ -71,7 +76,9 @@ mosquitto.test@linux:
     - '@oss-0.1'
     script:
     - cd mosquitto
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']

@@ -1,15 +1,15 @@
 name: pkgconf
 version: 1.7.3
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
-  build-tools:
-    pkgconf: ${__version__}
-    msys2:
-      version: 20190524
-      if: os == Windows
+#program:
+#- name: test_package
+#  location: test_package
+#  executable: bin/test_package
+#  build-tools:
+#    pkgconf: ${__version__}
+#    msys2:
+#      version: 20190524
+#      if: os == Windows
 
 build-tools:
   meson: 0.56.2

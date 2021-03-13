@@ -4,7 +4,7 @@ stages:
 {% for i in range(1, layout|length + 1) %}
   - L{{ i }}
 {% endfor  %}
-
+  - ending
 # -------------------------------------
 # OSS package
 # -------------------------------------
@@ -20,7 +20,13 @@ stages:
   trigger:
     include: .gitlab-ci/{{ package.name }}.yml
     strategy: depend  
-  
+  rules:
+    - changes:
+      - {{ package.name }}/*
 {% endfor %}
 {% endfor  -%}
-
+packages.ending:
+  stage: ending
+  tags:
+    - gitlab-ci.config.generator
+  script: echo packages ending

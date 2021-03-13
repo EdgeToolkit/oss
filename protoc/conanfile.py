@@ -36,4 +36,8 @@ class ProtobufCompilerConan(ConanFile):
         bindir = os.path.join(self.package_folder, "bin")
         self.output.info("Appending PATH environment variable: {}".format(bindir))
         self.env_info.PATH.append(bindir)
+        bin_ext = ".exe" if self.settings.os == "Windows" else ""
+        protoc_bin = os.path.join(bindir, "protoc{}".format(bin_ext)).replace("\\", "/")
+        self.env_info.PROTOC = protoc_bin
+        self.output.info("Set environment variable PATH: {}".format(protoc_bin))
 

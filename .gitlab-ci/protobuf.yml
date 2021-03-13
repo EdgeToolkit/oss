@@ -21,7 +21,7 @@ protobuf.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
 protobuf.build@linux:
@@ -39,15 +39,17 @@ protobuf.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']
+
 
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 protobuf.test@windows:
     stage: test
@@ -57,11 +59,14 @@ protobuf.test@windows:
     - '@oss-0.1'
     script:
     - cd protobuf
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
+
 
 protobuf.test@linux:
     stage: test
@@ -71,10 +76,12 @@ protobuf.test@linux:
     - '@oss-0.1'
     script:
     - cd protobuf
+    
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
 
@@ -94,11 +101,11 @@ protobuf.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['shared', 'static']
+      - SCHEME: ['static', 'shared']
         PROFILE: ['gcc7-armv8']

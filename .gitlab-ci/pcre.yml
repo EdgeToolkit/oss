@@ -21,7 +21,7 @@ pcre.build@windows:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
 pcre.build@linux:
@@ -39,15 +39,17 @@ pcre.build@linux:
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc7-armv8']
+
 
     # ---------------------------------
     # Test
     # ---------------------------------
+
 
 pcre.test@windows:
     stage: test
@@ -57,11 +59,14 @@ pcre.test@windows:
     - '@oss-0.1'
     script:
     - cd pcre
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package "\w+ Bincrafters"
+    
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
+
 
 pcre.test@linux:
     stage: test
@@ -71,10 +76,12 @@ pcre.test@linux:
     - '@oss-0.1'
     script:
     - cd pcre
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package "\\w+ Bincrafters"
+    
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
 
@@ -94,11 +101,11 @@ pcre.publish@linux:
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['vs2019']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
+      - SCHEME: ['shared', 'static']
         PROFILE: ['gcc7-armv8']
