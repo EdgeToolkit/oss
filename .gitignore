@@ -25,3 +25,4 @@ excludes.yml
 .toolkit/oss_utils/oss_utils.egg-info/SOURCES.txt
 /bundle-meta-tree.yaml
 .tmp
+.mirror.yml
