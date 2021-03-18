@@ -1,5 +1,5 @@
 name: libwebsockets
-version: 4.0.15
+version: 4.1.6
 
 scheme:
   shared:
