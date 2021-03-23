@@ -40,7 +40,7 @@ class MosquittoConan(ConanFile):
     def configure(self):
         if self.options.shared:
             del self.options.fPIC
-
+    @delete
     def requirements(self):
         if self.options.with_tls:
             self.requires("openssl/1.1.1i")
