@@ -1,4 +1,4 @@
 sources:
-  "1.4.15":
-    #sha256: d4d5899a3868fbb6ae1856c3e55a32ce35913de3956d1973caccd37bd0174fa2
-    url: https://github.com/eclipse/mosquitto/archive/v1.4.15.tar.gz
+  "1.6.12":
+    sha256: 18b1f455c83645f8aaecff1f6d623898ff630eba391352fcc7a2c241a9d9556a
+    url: https://github.com/eclipse/mosquitto/archive/v1.6.12.tar.gz
