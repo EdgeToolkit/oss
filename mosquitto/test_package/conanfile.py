@@ -1,6 +1,9 @@
 from conans import ConanFile, CMake, tools
 import os
 
+from epm.tools.conan import as_program, delete
+ConanFile = as_program(ConanFile)
+
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
