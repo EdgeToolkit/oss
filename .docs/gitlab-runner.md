@@ -6,7 +6,7 @@
 
 
 
-System: Windows Linux Darwin
+System: Windows Linux macOS
 
 Arch:  x86_64,  armv7,  armv8
 
@@ -16,9 +16,9 @@ simulator= iOS, Android
 
 
 
-编译
+编译( with tag `builder`)
 
-| 编译目标\标签 | Windows                  | Linux                                | Darwin                   |
+| 编译目标\标签 | `Windows`                | `Linux`                              | `Darwin`                 |
 | ------------- | ------------------------ | ------------------------------------ | ------------------------ |
 | Windows       | VS2019:   `x86` `x86_64` |                                      |                          |
 | Linux         |                          | GCC:  `x86` `x86_64` `armv7` `armv8` |                          |
@@ -26,3 +26,6 @@ simulator= iOS, Android
 | iOS           |                          |                                      | clang: `x86_64`  `armv8` |
 | Android       |                          | clang: `x86_64`  `armv8`             |                          |
 
+
+
+运行器
