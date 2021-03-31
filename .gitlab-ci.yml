@@ -1,0 +1,56 @@
+build:
+  tags:
+    - Linux
+    - docker
+    - builder
+    - workbench:oss-0.2
+  image: edgetoolkit/gcc6
+  script:
+    - epm --profile gcc6 create
+
+#stages:
+#  - trigger
+#  - tools
+#  - packages
+#
+#startup:
+#  stage: trigger
+#  tags:
+#    - gitlab-ci.config.generator
+#  script:
+#    - pip install networkx python-gitlab --user
+#    - .gitlab-ci/bin/generate --trigger
+#  artifacts:
+#    paths:
+#      - .gitlab-ci/.cache/tools.yml
+#      - .gitlab-ci/.cache/packages.yml
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
+#
+#tools:
+#  stage: tools
+#  trigger:
+#    include:
+#      - artifact: .gitlab-ci/.cache/tools.yml
+#        job: startup
+#    strategy: depend
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
+#
+#
+#packages:
+#  stage: packages
+#  trigger:
+#    include:
+#      - artifact: .gitlab-ci/.cache/packages.yml
+#        job: startup
+#    strategy: depend
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
+#
+#<<<<<<< HEAD
+## M2
+##
+#=======
+##7
+#>>>>>>> remotes/origin/RC/0.1

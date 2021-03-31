@@ -1,0 +1,23 @@
+name: libiconv
+version: 1.16
+
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package
+
+build-tools:
+  msys2: 
+    version: 20190524
+    if: os == Windows
+
+
+

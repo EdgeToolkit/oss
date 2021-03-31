@@ -1,0 +1,3 @@
+- name: Install Artifactory
+  include: install.yml
+  when: COMMAND == 'install'

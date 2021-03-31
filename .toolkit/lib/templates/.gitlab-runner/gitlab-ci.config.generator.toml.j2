@@ -1,0 +1,23 @@
+{#  #}
+[[runners]]
+  name = "{{ hostname }}/{{ platform }}:{{ kind }}"
+  url = "{{ url }}"
+  token = "{{ token }}"
+  executor = "docker"
+  limit = 1
+  #environment = ["LC_ALL=en_US.UTF-8"]
+  pre_build_script = """set -e
+  pip config set global.index-url http://172.16.0.119:8481/repository/pypi/simple/
+  pip config set install.trusted-host 172.16.0.119
+  """
+  [runners.docker]
+    image = "edgetoolkit/gcc5"
+    tls_verify = false
+    privileged = true
+    disable_cache = false
+    volumes = ["/certs/client", "/cache"]
+    pull_policy = "if-not-present"
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+{#  #}

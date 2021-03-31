@@ -1,0 +1,31 @@
+name: libcurl
+version: 7.69.1
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package
+
+build-tools:
+  libtool: 2.4.6
+  pkgconf: 1.7.3
+  msys2:
+    version: 20190524
+    if: os == Windows
+
+
+dependencies:
+  zlib: 1.2.11
+  openssl:
+    version: 1.1.1g
+    if: options.with_ssl == openssl
+
+

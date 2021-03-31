@@ -1,0 +1,111 @@
+stages:
+- build
+- test
+- deploy
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+mosquitto.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - mosquitto/.conan/$PROFILE/$SCHEME
+      - mosquitto/.epm
+    script:
+    - cd mosquitto
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+mosquitto.build@linux:
+    stage: build
+    tags:
+    - builder
+    - Linux
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - mosquitto/.conan/$PROFILE/$SCHEME
+      - mosquitto/.epm
+    script:
+    - cd mosquitto
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc7-armv8']
+
+
+    # ---------------------------------
+    # Test
+    # ---------------------------------
+
+
+mosquitto.test@windows:
+    stage: test
+    tags:
+    - runner
+    - Windows
+    - '@oss-0.1'
+    script:
+    - cd mosquitto
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+
+mosquitto.test@linux:
+    stage: test
+    tags:
+    - runner
+    - Linux
+    - '@oss-0.1'
+    script:
+    - cd mosquitto
+    
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+
+    
+
+
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+mosquitto.publish@linux:
+    stage: deploy
+    tags:
+    - '@oss-0.1'    
+    - deployer
+    script:
+    - cd mosquitto
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    parallel:
+      matrix:
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['vs2019']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc5']
+
+      - SCHEME: ['static', 'shared']
+        PROFILE: ['gcc7-armv8']

@@ -1,0 +1,15 @@
+name: sqlite3
+version: 3.32.3
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package

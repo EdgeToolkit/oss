@@ -1,0 +1,8 @@
+name: protoc
+version: 3.13.0
+
+build-tools:
+  protobuf: 
+    version: ${__version__}
+    force_host_context: true
+#

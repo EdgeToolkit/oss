@@ -1,0 +1,17 @@
+name: automake
+version: 1.16.2
+
+program:
+- name: test_package
+  location: test_package
+  executable: test_package
+  build-tools:
+    automake: ${__version__}
+
+build-tools:
+  msys2:
+    version: 20190524
+    if: os == Windows
+
+dependencies:
+  autoconf:  2.69

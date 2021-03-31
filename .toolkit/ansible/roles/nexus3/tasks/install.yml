@@ -1,0 +1,22 @@
+---
+- name: Create docker volume of Nexus3
+  docker_volume:
+    name: "nexus3-{{NEXUS3_VERSION}}"
+  become: yes
+
+- name: create nexus3 container
+  docker_container:
+    name: "nexus3-{{NEXUS3_VERSION}}"
+    image: sonatype/nexus3:{{NEXUS3_VERSION}}
+    restart_policy: always
+    ports:
+    - "{{ NEXUS3_WEB_PORT  }}:8081"
+    - "{{ NEXUS3_WEB_PORT + 1 }}:8082"
+    - "{{ NEXUS3_WEB_PORT + 2 }}:8083"
+    - "{{ NEXUS3_WEB_PORT + 3 }}:8084"
+    - "{{ NEXUS3_WEB_PORT + 4 }}:8085"
+    - "{{ NEXUS3_WEB_PORT + 5 }}:8086"
+
+    volumes:
+    - "nexus3-{{NEXUS3_VERSION}}:/nexus-data"
+  become: yes

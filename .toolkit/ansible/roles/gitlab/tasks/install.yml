@@ -1,0 +1,40 @@
+---
+- name: Create docker volume of GitLab
+  docker_volume:
+    name: "gitlab-{{GITLAB_VERSION}}"
+  become: yes
+
+- name: Create config directory of gitlab
+  become: yes
+  file:
+    path: /etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}
+    state: directory
+    mode: 0755
+    recurse: yes
+
+- name: Generate config file of gitlab
+  become: yes
+  template:
+    src: config/{{item}}.j2
+    dest: /etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/{{item}}
+    mode: 0755
+    #mode: "u=rw,g=r,o=r"
+  with_items:
+    - gitlab.rb
+    - sshd_config
+
+
+- name: Create gitlab docker container
+  docker_container:
+    name: "gitlab-{{GITLAB_VERSION}}"
+    image: "{{ GITLAB_DOCKER_IMAGE }}"
+    restart_policy: always
+    container_default_behavior: compatibility
+    ports:
+    - "{{ GITLAB_HTTP_PORT }}:{{GITLAB_HTTP_PORT}}"
+    - "{{ GITLAB_SSH_PORT }}:{{GITLAB_SSH_PORT}}"
+    volumes:
+    - "/etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/sshd_config:/assets/sshd_config"
+    - "/etc/edgetoolkit/gitlab/{{GITLAB_VERSION}}/gitlab.rb:/etc/gitlab/gitlab.rb"
+    - "gitlab-{{GITLAB_VERSION}}:/var/opt/gitlab"
+  become: yes

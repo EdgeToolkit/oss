@@ -1,0 +1,32 @@
+{% set tool_layout = synthesis.tool_layout %}
+{% set layout = synthesis.layout -%}
+stages:
+{% for i in range(1, layout|length + 1) %}
+  - L{{ i }}
+{% endfor  %}
+  - ending
+# -------------------------------------
+# OSS package
+# -------------------------------------
+{% for i in range(layout|length) -%}
+{%- set layer = layout[i] -%}
+{%- set index = i + 1 -%}
+{% for name in layer -%}
+
+{%- set package = synthesis.package[name] -%}
+{# % #}
+{{ package.name }}:
+  stage: L{{ index }}
+  trigger:
+    include: .gitlab-ci/{{ package.name }}.yml
+    strategy: depend  
+  rules:
+    - changes:
+      - {{ package.name }}/*
+{% endfor %}
+{% endfor  -%}
+packages.ending:
+  stage: ending
+  tags:
+    - gitlab-ci.config.generator
+  script: echo packages ending

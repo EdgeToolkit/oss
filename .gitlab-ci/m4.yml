@@ -1,0 +1,61 @@
+stages:
+- build
+- deploy
+
+    # ---------------------------------
+    #     Build
+    # ---------------------------------
+m4.build@windows:
+    stage: build
+    tags:
+    - builder
+    - Windows
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - m4/.conan/$PROFILE/$SCHEME
+      - m4/.epm
+    script:
+    - cd m4
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['vs2019']
+
+m4.build@linux:
+    stage: build
+    tags:
+    - builder
+    - Linux
+    - '@oss-0.1'
+    artifacts:
+      paths:
+      - m4/.conan/$PROFILE/$SCHEME
+      - m4/.epm
+    script:
+    - cd m4
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['gcc5']
+
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+m4.publish@linux:
+    stage: deploy
+    tags:
+    - '@oss-0.1'    
+    - deployer
+    script:
+    - cd m4
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    parallel:
+      matrix:
+      - SCHEME: ['None']
+        PROFILE: ['vs2019']
+
+      - SCHEME: ['None']
+        PROFILE: ['gcc5']
