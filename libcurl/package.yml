@@ -5,9 +5,11 @@ scheme:
   shared:
     options:
       shared: true
+      with_ssl: false
   static:
     options:
       shared: false
+
 
 program:
 - name: test_package
@@ -15,11 +17,16 @@ program:
   executable: bin/test_package
 
 build-tools:
-  libtool: 2.4.6
-  pkgconf: 1.7.3
-  msys2:
-    version: 20190524
-    if: os == Windows
+  libtool: 
+    version: 2.4.6
+    if: os != Windows
+  pkgconf: 
+    version: 1.7.3
+    if: os != Windows
+  
+#  msys2:
+#    version: 20190524
+#    if: os == Windows
 
 
 dependencies:
