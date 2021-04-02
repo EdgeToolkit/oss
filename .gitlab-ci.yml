@@ -1,28 +1,34 @@
-stages:
-  - build
-build:
-  stage: build
-  tags:
-    - Linux
-    - docker
-    - builder
-    - workbench:oss-0.2
-  image: edgetoolkit/gcc6
-  script:
-    - cd zlib
-    - epm --profile gcc6 create
-
 #stages:
-#  - trigger
+#  - build
+#build:
+#  stage: build
+#  tags:
+#    - Linux
+#    - docker
+#    - builder
+#    - workbench:oss-0.2
+#  image: edgetoolkit/gcc6
+#  script:
+#    - cd zlib
+#    - epm --profile gcc6 create
+
+stages:
+  - init
 #  - tools
 #  - packages
 #
-#startup:
-#  stage: trigger
-#  tags:
-#    - gitlab-ci.config.generator
-#  script:
-#    - pip install networkx python-gitlab --user
+startup:
+  stage: init
+  tags:
+    - Linux
+    - docker
+    - runner
+    - workbench:oss-0.2
+  image: edgetoolkit/gcc5
+  script:
+    - uname -a
+    - cat /etc/issue
+    - Install pip install networkx python-gitlab --user
 #    - .gitlab-ci/bin/generate --trigger
 #  artifacts:
 #    paths:
