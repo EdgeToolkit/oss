@@ -1,5 +1,6 @@
-{#
 stages:
+  - ending
+{#
 {% for i in range(1, synthesis.tool_layout|length + 1) %}
   - T{{ i }}
 {% endfor  %}
@@ -29,3 +30,14 @@ stages:
 {% endfor  -%}
 
 #}
+
+tools.ending:
+  stage: ending
+  tags:
+    - Linux
+    - docker
+    - runner
+    - workbench:oss-0.2
+  image: alpine
+  script:    
+    - echo tools build done
