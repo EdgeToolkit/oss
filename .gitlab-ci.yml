@@ -14,10 +14,10 @@
 
 stages:
   - init
-#  - tools
+  - tools
 #  - packages
 #
-startup:
+init:
   stage: init
   tags:
     - Linux
@@ -42,7 +42,7 @@ tools:
     include:
       - artifact: .gitlab-ci/.cache/tools.yml
         job: startup
-    strategy: depend
+    strategy: init
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
