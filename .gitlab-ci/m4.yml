@@ -50,7 +50,7 @@ m4.publish@linux:
     - workbench:oss-0.2
     script:
     - cd m4
-    - epm --profile gcc5 upload --storage .conan
+    - epm --profile gcc5 upload --storage .conan -remote oss
 #    parallel:
 #      matrix:
 #      - SCHEME: ['None']
