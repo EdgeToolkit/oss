@@ -26,8 +26,8 @@ startup:
     - workbench:oss-0.2
   image: edgetoolkit/gcc5
   script:
-    - uname -a
-    - cat /etc/issue
+    
+    - Install pip install conan
     - Install pip install networkx
     # python-gitlab --user
 #    - .gitlab-ci/bin/generate --trigger
