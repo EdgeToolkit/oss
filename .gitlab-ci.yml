@@ -41,8 +41,8 @@ tools:
   trigger:
     include:
       - artifact: .gitlab-ci/.cache/tools.yml
-        job: startup
-    strategy: init
+        job: init
+    strategy: depend
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
