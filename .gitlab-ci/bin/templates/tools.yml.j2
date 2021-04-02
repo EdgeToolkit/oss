@@ -1,0 +1,31 @@
+{#
+stages:
+{% for i in range(1, synthesis.tool_layout|length + 1) %}
+  - T{{ i }}
+{% endfor  %}
+
+
+# -------------------------------------
+# Build tools and deps package
+# -------------------------------------
+{% set layout = synthesis.tool_layout %}
+{% for i in range(layout | length) -%}
+{%- set layer = layout[i] -%}
+{%- set index = i + 1 -%}
+{% for name in layer -%}
+
+{%- set package = synthesis.package[name] -%}
+{%- set suffix = '' if package.config.tool else '.tool' -%}
+
+{{ package.name }}{{ suffix }}:
+  stage: T{{ index }}  
+  trigger:
+    include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
+    strategy: depend  
+  rules:
+    - changes:
+      - {{ package.name }}/*
+{% endfor %}
+{% endfor  -%}
+
+#}

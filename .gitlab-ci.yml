@@ -25,26 +25,24 @@ startup:
     - runner
     - workbench:oss-0.2
   image: edgetoolkit/gcc5
-  script:
-    
-    - Install pip install conan
-    - Install pip install networkx
+  script:    
+    - Install pip networkx
     # python-gitlab --user
-#    - .gitlab-ci/bin/generate --trigger
-#  artifacts:
-#    paths:
-#      - .gitlab-ci/.cache/tools.yml
+    - .gitlab-ci/bin/generate --trigger
+  artifacts:
+    paths:
+    - .gitlab-ci/.cache/tools.yml
 #      - .gitlab-ci/.cache/packages.yml
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
-#tools:
-#  stage: tools
-#  trigger:
-#    include:
-#      - artifact: .gitlab-ci/.cache/tools.yml
-#        job: startup
-#    strategy: depend
+tools:
+  stage: tools
+  trigger:
+    include:
+      - artifact: .gitlab-ci/.cache/tools.yml
+        job: startup
+    strategy: depend
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #

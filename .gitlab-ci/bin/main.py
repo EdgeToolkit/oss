@@ -24,9 +24,11 @@ def gitlab_ci_generate(args):
 
     j2 = Jinja2(f"{_DIR}/templates", context=context)
     if args.trigger:
-        j2.render('trigger-packages.yml.j2', outfile=f'{out_dir}/packages.yml')
-        j2.render('trigger-tools.yml.j2', outfile=f'{out_dir}/tools.yml')
+        #j2.render('trigger-packages.yml.j2', outfile=f'{out_dir}/packages.yml')
+        #j2.render('trigger-tools.yml.j2', outfile=f'{out_dir}/tools.yml')
+        j2.render('tools.yml.j2', outfile=f'{out_dir}/tools.yml')
         print('Gitlab CI trigger config file generated.')
+        
     if args.package:
         for name, package in synthesis.package.items():
             if 'all' in args.package or name in args.package:
