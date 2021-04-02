@@ -28,7 +28,8 @@ startup:
   script:
     - uname -a
     - cat /etc/issue
-    - Install pip install networkx python-gitlab --user
+    - Install pip install networkx
+    # python-gitlab --user
 #    - .gitlab-ci/bin/generate --trigger
 #  artifacts:
 #    paths:
