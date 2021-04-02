@@ -39,17 +39,18 @@ m4.build@linux:
     - epm --profile gcc5 create --archive .conan
 
 
-#    # ---------------------------------
-#    #     deploy
-#    # ---------------------------------
-#m4.publish@linux:
-#    stage: deploy
-#    tags:
-#    - '@oss-0.1'    
-#    - deployer
-#    script:
-#    - cd m4
-#    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    # ---------------------------------
+    #     deploy
+    # ---------------------------------
+m4.publish@linux:
+    stage: deploy
+    tags:
+    - deployer
+    - conan
+    - workbench:oss-0.2
+    script:
+    - cd m4
+    - epm --profile gcc5 upload --storage .conan
 #    parallel:
 #      matrix:
 #      - SCHEME: ['None']
