@@ -34,6 +34,7 @@ m4.build@linux:
     artifacts:
       paths:
       - m4/.conan
+      - m4/.epm
     script:
     - cd m4
     - epm --profile gcc5 create --archive .conan
@@ -42,17 +43,19 @@ m4.build@linux:
     # ---------------------------------
     #     deploy
     # ---------------------------------
-m4.publish@linux:
-    stage: deploy
-    tags:
-    - deployer
-    - conan
-    - workbench:oss-0.2
-    script:
-    - ls ~/.epm/.conan -la
-    - cat ~/.epm/.conan/remotes.json
-    - cd m4
-    - epm --profile gcc5 upload --storage .conan
+m4.deploy@linux:
+  stage: deploy
+  tags:
+  - deployer
+  - conan
+  - workbench:oss-0.2
+  dependencies:
+  - m4.build@linux
+  script:
+  - ls ~/.epm/.conan -la
+  - cat ~/.epm/.conan/remotes.json
+  - cd m4
+  - epm --profile gcc5 upload --storage .conan
 
 #    parallel:
 #      matrix:
