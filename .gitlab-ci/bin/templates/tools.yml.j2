@@ -1,9 +1,8 @@
 stages:
-  - ending
-{#
-{% for i in range(1, synthesis.tool_layout|length + 1) %}
+{% for i in range(1, synthesis.tool_layout|length + 1) -%}
   - T{{ i }}
-{% endfor  %}
+{% endfor  -%}
+  - done
 
 
 # -------------------------------------
@@ -23,16 +22,14 @@ stages:
   trigger:
     include: .gitlab-ci/{{ package.name }}{{ suffix }}.yml
     strategy: depend  
-  rules:
-    - changes:
-      - {{ package.name }}/*
+#  rules:
+#    - changes:
+#      - {{ package.name }}
 {% endfor %}
 {% endfor  -%}
 
-#}
-
-tools.ending:
-  stage: ending
+done:
+  stage: done
   tags:
     - Linux
     - docker

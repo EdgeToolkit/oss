@@ -373,7 +373,8 @@ class Synthesis(object):
                             self._holograph.add_edge(name, pkg.name)
                         else:
                             print(f"{name} require {detail} but {pkg.name}/{pkg.version} in bundle.")
-            self._holograph.remove_edge('protobuf', 'protoc')
+                            
+            #self._holograph.remove_edge('protobuf', 'protoc')
         return self._holograph
 
     @property
