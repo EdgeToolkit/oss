@@ -49,9 +49,11 @@ m4.publish@linux:
     - conan
     - workbench:oss-0.2
     script:
+    - ls ~/.epm/.conan -la
     - cat ~/.epm/.conan/remotes.json
     - cd m4
-    - epm --profile gcc5 upload --storage .conan --remote oss
+    - epm --profile gcc5 upload --storage .conan
+
 #    parallel:
 #      matrix:
 #      - SCHEME: ['None']
