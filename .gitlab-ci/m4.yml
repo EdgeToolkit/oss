@@ -52,15 +52,5 @@ m4.deploy@linux:
   dependencies:
   - m4.build@linux
   script:
-  - ls ~/.epm/.conan -la
-  - cat ~/.epm/.conan/remotes.json
   - cd m4
   - epm --profile gcc5 upload --storage .conan
-
-#    parallel:
-#      matrix:
-#      - SCHEME: ['None']
-#        PROFILE: ['vs2019']
-#
-#      - SCHEME: ['None']
-#        PROFILE: ['gcc5']
