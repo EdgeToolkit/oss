@@ -30,6 +30,7 @@ m4.build@linux:
     - builder
     - docker
     - workbench:oss-0.2
+    image: edgetoolkit/gcc5
     artifacts:
       paths:
       - m4/.conan
