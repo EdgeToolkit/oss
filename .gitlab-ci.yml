@@ -26,7 +26,7 @@ init:
     - workbench:oss-0.2
   image: edgetoolkit/gcc5
   script:    
-    - Install pip networkx
+    - Install pip install networkx
     # python-gitlab --user
     - .gitlab-ci/bin/generate --trigger
   artifacts:
