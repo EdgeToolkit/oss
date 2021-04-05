@@ -39,7 +39,19 @@ m4.build@linux:
     - cd m4
     - epm --profile gcc5 create --archive .conan
 
-
+m4.build@windows:
+    stage: build
+    tags:
+    - Windows
+    - docker
+    - workbench:oss-0.2
+    artifacts:
+      paths:
+      - m4/.conan
+      - m4/.epm
+    script:
+    - cd m4
+    - epm --profile vs2019 create --archive .conan
     # ---------------------------------
     #     deploy
     # ---------------------------------
@@ -54,3 +66,4 @@ m4.deploy@linux:
   script:
   - cd m4
   - epm --profile gcc5 upload --storage .conan
+  - epm --profile vs2019 upload --storage .conan
