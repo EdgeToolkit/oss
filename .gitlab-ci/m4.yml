@@ -75,7 +75,7 @@ m4.deploy@windows:
   - conan
   - workbench:oss-0.2
   dependencies:
-  - m4.build@win
+  - m4.build@windows
   script:
   - cd m4
   - epm --profile vs2019 upload --storage .conan -r oss
