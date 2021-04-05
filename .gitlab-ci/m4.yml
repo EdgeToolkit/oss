@@ -43,7 +43,7 @@ m4.build@windows:
     stage: build
     tags:
     - Windows
-    - docker
+    - builder
     - workbench:oss-0.2
     artifacts:
       paths:
