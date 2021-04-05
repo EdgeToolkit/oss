@@ -67,4 +67,15 @@ m4.deploy@linux:
   script:
   - cd m4
   - epm --profile gcc5 upload --storage .conan -r oss
-#  - epm --profile vs2019 upload --storage .conan -r oss
+
+m4.deploy@windows:
+  stage: deploy
+  tags:
+  - deployer
+  - conan
+  - workbench:oss-0.2
+  dependencies:
+  - m4.build@win
+  script:
+  - cd m4
+  - epm --profile vs2019 upload --storage .conan -r oss
