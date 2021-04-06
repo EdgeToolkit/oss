@@ -38,11 +38,12 @@ zlib.build@gcc5:
       - zlib/.epm
     script:
     - cd zlib
-    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
+    - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['gcc5']
+      - EPM_SCHEME: ['static', 'shared']
+        EPM_PROFILE: ['gcc5']
 
 
     # ---------------------------------
@@ -79,9 +80,10 @@ zlib.test@gcc5:
     - zlib.build@gcc5
     script:
     - cd zlib    
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
-    - ls -l .epm/$PROFILE@$SCHEME/sandbox/test_package
-    - export EPM_SANDBOX_STORAGE=.conan/$PROFILE/$SCHEME && ./.epm/$PROFILE@$SCHEME/sandbox/test_package/run
+#    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+#    - ls -l .epm/$PROFILE@$SCHEME/sandbox/test_package
+    - export EPM_SANDBOX_STORAGE=.conan/$PROFILE/$SCHEME 
+    - ./.epm/$PROFILE@$SCHEME/sandbox/test_package/run
     
     parallel:
       matrix:
@@ -105,14 +107,15 @@ zlib.deploy@linux:
     - zlib.build@gcc5
     script:
     - cd zlib
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+#    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm upload --storage .conan/$EPM_PROFILE/$EPM_SCHEME
     parallel:
       matrix:
 #      - SCHEME: ['static', 'shared']
 #        PROFILE: ['vs2019']
 
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['gcc5']
+      - EPM_SCHEME: ['static', 'shared']
+        EPM_PROFILE: ['gcc5']
 
 #      - SCHEME: ['static', 'shared']
 #        PROFILE: ['gcc7-armv8']
