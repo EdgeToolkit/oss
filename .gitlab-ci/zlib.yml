@@ -38,7 +38,7 @@ zlib.build@gcc5:
 #      - zlib/.epm
     script:
     - cd zlib
-    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
+    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
@@ -80,7 +80,7 @@ zlib.test@gcc5:
     image: ubuntu:xenial
     script:
     - cd zlib    
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     
     parallel:
       matrix:
@@ -102,7 +102,7 @@ zlib.deploy@linux:
     - 'workbench:oss-0.2'
     script:
     - cd zlib
-    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
 #      - SCHEME: ['static', 'shared']
