@@ -44,9 +44,6 @@ zlib.build@gcc5:
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['gcc7-armv8']
-
 
     # ---------------------------------
     # Test
