@@ -22,16 +22,16 @@ def gitlab_ci_generate(args):
             docker_registry_url = '/'
         context['DOCKER_REGISTRY_URL'] = docker_registry_url
 
-    j2 = Jinja2(f"{_DIR}/templates", context=context)
+    
     if args.trigger:
-        #j2.render('trigger-packages.yml.j2', outfile=f'{out_dir}/packages.yml')
-        #j2.render('trigger-tools.yml.j2', outfile=f'{out_dir}/tools.yml')
+        j2 = Jinja2(f"{_DIR}/templates", context=context)
         j2.render('tools.yml.j2', outfile=f'{out_dir}/tools.yml')
         j2.render('packages.yml.j2', outfile=f'{out_dir}/packages.yml')
 
         print('Gitlab CI trigger config file generated.')
-        
+
     if args.package:
+        j2 = Jinja2(f"{_DIR}/templates/config", context=context)
         for name, package in synthesis.package.items():
             if 'all' in args.package or name in args.package:
                 print(f"[{name}] ...")
@@ -42,7 +42,7 @@ def gitlab_ci_generate(args):
                     j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
                               context={'package': package})
                     if package.tool_user:
-                        j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
+                        j2.render('package.tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
                                   context={'package': package})
                     
 

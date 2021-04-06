@@ -1,47 +1,42 @@
 - version: 0.2
+  # ====================================
+  # TOOL PROFILE 
+  # ====================================
   _profile.tool: &profile_tool
   - gcc5
+  - vs2019
   _tool_setting: &tool_setting
     profile: *profile_tool
     tool: true
-
-#- name: m4
-#  <<: *tool_setting
-
-# - version: 0.1
-#   _profile.tool: &profile_tool
-#   - vs2019
-#   - gcc5
-#  _profile.msvc: &profile_msvc
-#   - vs20{19}
-#   - vs20{19|19-x86}
-#   - vs20{19|19-x86}d
-  _profile.gcc: &profile_gcc
-  - gcc{5|5d}
-# #  - gcc{5|6|7|8}
-# #  - gcc{5|6|7|8}d
-#   _profile.arm: &profile_arm
-#    - gcc{7}-armv8
-# #  - gcc{5|6|7|8}-armv7
-# #  - gcc{5|6|7|8}-armv7d
-# #  - gcc{5|6|7|8}-armv8
-# #  - gcc{5|6|7|8}-armv8d
+  # ====================================
+  # PACKAGE PROFILE DEFINATION 
+  # ====================================
+  _profile.msvc: &profile_msvc
+  - vs20{19|19-x86}
+  - vs20{19|19-x86}d
+  _profile.gcc: &profile_amd64
+  - gcc{5|6|7}
+  - gcc{5|6|7}d
+  _profile.arm: &profile_arm
+  - gcc{5|6|7}-armv7
+  - gcc{5|6|7}-armv7d
+  _profile.arm: &profile_arm64
+  - gcc{5|6|7}-armv8
+  - gcc{5|6|7}-armv8d
 #   _profile.hisi: &profile_hisi
 #   - hisiv{300|300d|400|400d}
 #   - himix{100|100d}
-#   _tool_setting: &tool_setting
-#    profile: *profile_tool
-#    tool: true
-# 
-# 
+
+
   profile:
-#   - *profile_msvc
-  - *profile_gcc
-#   - *profile_arm
-# 
-# 
-# 
-#    
+  - *profile_msvc
+  - *profile_amd64
+  - *profile_arm
+  - *profile_arm64
+
+# ======================================
+# TOOL PACKAGE SETTING definations 
+# ======================================
 # - name: msys2
 #   profile: vs2019
 #   repack: true
@@ -50,60 +45,60 @@
 #   profile: vs2019
 #   repack: true
 #   
-# - name: 7zip
-#   profile: vs2019
-#   tool: true
-# - name: winflexbison
-#   profile: vs2019
-#   tool: true
-# - name: bison
-#   profile: gcc5
-#   tool: true
-# - name: flex
-#   profile: gcc5
-#   tool: true
-# - name: pkgconf
-#   <<: *tool_setting
-# - name: m4
-#   <<: *tool_setting
-# - name: autoconf
-#   <<: *tool_setting
-# - name: automake
-#   <<: *tool_setting
-# - name: libtool
-#   <<: *tool_setting
-# - name: re2c
-#   <<: *tool_setting
-# - name: ninja
-#   <<: *tool_setting
-# - name: meson
-#   <<: *tool_setting
-# - name: nasm
-#   <<: *tool_setting
+- name: 7zip
+  profile: vs2019
+  tool: true
+- name: winflexbison
+  profile: vs2019
+  tool: true
+- name: bison
+  profile: gcc5
+  tool: true
+- name: flex
+  profile: gcc5
+  tool: true
+- name: pkgconf
+  <<: *tool_setting
+#- name: m4
+#  <<: *tool_setting
+- name: autoconf
+  <<: *tool_setting
+- name: automake
+  <<: *tool_setting
+- name: libtool
+  <<: *tool_setting
+- name: re2c
+  <<: *tool_setting
+- name: ninja
+  <<: *tool_setting
+- name: meson
+  <<: *tool_setting
+- name: nasm
+  <<: *tool_setting
 #   
-- zlib
-# - brotli
-# - name: bzip2
-#   program: test_package --help
-# - expat
-# - openssl
-# - name: pcre
-#   program:
-#     Windows: test_package "\w+ Bincrafters"
-#     Linux: test_package "\\w+ Bincrafters"
-# - name: pthreads4w
-#   profile: *profile_msvc
-# - sqlite3
-# - gtest
-# - libiconv
-# - xz_utils
-# - protobuf
-# - protobuf-c
-# - name: protoc
-#   <<: *tool_setting
-# - libcurl
-# - libwebsockets
-# - mosquitto
-# - c-ares
-# #- name: iperf
-# #  -profile: *profile_msvc
+# - zlib
+- brotli
+- name: bzip2
+  program: test_package --help
+- expat
+- openssl
+- name: pcre
+  program:
+    Windows: test_package "\w+ Bincrafters"
+    Linux: test_package "\\w+ Bincrafters"
+- name: pthreads4w
+  profile: *profile_msvc
+- sqlite3
+- gtest
+- libiconv
+- xz_utils
+- protobuf
+- protobuf-c
+- name: protoc
+  <<: *tool_setting
+- libcurl
+- libwebsockets
+- mosquitto
+- c-ares
+#- name: iperf
+#  -profile: *profile_msvc
