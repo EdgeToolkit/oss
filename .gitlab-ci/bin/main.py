@@ -27,6 +27,8 @@ def gitlab_ci_generate(args):
         #j2.render('trigger-packages.yml.j2', outfile=f'{out_dir}/packages.yml')
         #j2.render('trigger-tools.yml.j2', outfile=f'{out_dir}/tools.yml')
         j2.render('tools.yml.j2', outfile=f'{out_dir}/tools.yml')
+        j2.render('packages.yml.j2', outfile=f'{out_dir}/packages.yml')
+
         print('Gitlab CI trigger config file generated.')
         
     if args.package:

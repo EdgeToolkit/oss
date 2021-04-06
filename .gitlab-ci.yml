@@ -15,7 +15,7 @@
 stages:
   - init
   - tools
-#  - packages
+  - packages
 #
 init:
   stage: init
@@ -47,13 +47,13 @@ tools:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
 #
-#packages:
-#  stage: packages
-#  trigger:
-#    include:
-#      - artifact: .gitlab-ci/.cache/packages.yml
-#        job: startup
-#    strategy: depend
+packages:
+  stage: packages
+  trigger:
+    include:
+      - artifact: .gitlab-ci/.cache/packages.yml
+        job: startup
+    strategy: depend
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
