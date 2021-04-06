@@ -13,8 +13,6 @@ stages:
 {%- set layer = layout[i] -%}
 {%- set index = i + 1 -%}
 {% for name in layer -%}
-{{layout}}
-{{layer}}
 {%- set package = synthesis.package[name] -%}
 {{ package.name }}{{ suffix }}:
   stage: L{{ index }}  

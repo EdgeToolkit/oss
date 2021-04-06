@@ -2,8 +2,8 @@
   _profile.tool: &profile_tool
   - gcc5
   _tool_setting: &tool_setting
-   profile: *profile_tool
-   tool: true
+    profile: *profile_tool
+    tool: true
 
 #- name: m4
 #  <<: *tool_setting
@@ -34,9 +34,9 @@
 #    tool: true
 # 
 # 
-#   profile:
+  profile:
 #   - *profile_msvc
-#   - *profile_gcc
+  - *profile_gcc
 #   - *profile_arm
 # 
 # 
@@ -81,7 +81,7 @@
 # - name: nasm
 #   <<: *tool_setting
 #   
-  - zlib
+- zlib
 # - brotli
 # - name: bzip2
 #   program: test_package --help

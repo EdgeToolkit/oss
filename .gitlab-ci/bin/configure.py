@@ -203,6 +203,7 @@ class Config(object):
         self._package = None
         with open(self.__file__) as f:
             self._data = yaml.safe_load(f) or []
+        print(self._data)
         self._base = self._data[0]
 
     def __contains__(self, name):
@@ -225,6 +226,7 @@ class Config(object):
         for conf in self._data[1:]:
             conf = conf if isinstance(conf, dict) else {'name': conf}
             name = conf['name']
+            print('===>', name)
             package[name] = self._parse_config(conf, base)
         return package
 
@@ -320,6 +322,7 @@ class Synthesis(object):
     def package(self):
         if self._package is None:
             self._package = {}
+            print('-------------->>>>>>', self.config.package)
             for name in self.config.package:
                 pkg = Package(name, self)
                 if pkg.config.repack:
