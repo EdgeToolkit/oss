@@ -32,10 +32,10 @@ zlib.build@gcc5:
     - docker
     - 'workbench:oss-0.2'
     image: edgetoolkit/gcc5
-#    artifacts:
-#      paths:
-#      - zlib/.conan/$PROFILE/$SCHEME
-#      - zlib/.epm
+    artifacts:
+      paths:
+      - zlib/.conan/$PROFILE/$SCHEME
+      - zlib/.epm
     script:
     - cd zlib
     - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
@@ -75,9 +75,12 @@ zlib.test@gcc5:
     - docker
     - 'workbench:oss-0.2'
     image: ubuntu:xenial
+    dependencies:
+    - zlib.build@gcc5
     script:
     - cd zlib    
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - export EPM_SANDBOX_STORAGE=.conan/$PROFILE/$PROFILE && .epm/$PROFILE@$PROFILE/program/test_package
     
     parallel:
       matrix:
@@ -97,6 +100,8 @@ zlib.deploy@linux:
     - conan  
     - deployer
     - 'workbench:oss-0.2'
+    dependencies:
+    - zlib.build@gcc5
     script:
     - cd zlib
     - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
