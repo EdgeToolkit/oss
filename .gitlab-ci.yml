@@ -32,7 +32,7 @@ init:
   artifacts:
     paths:
     - .gitlab-ci/.cache/tools.yml
-#      - .gitlab-ci/.cache/packages.yml
+    - .gitlab-ci/.cache/packages.yml
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
 #
