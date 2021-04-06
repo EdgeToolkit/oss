@@ -105,17 +105,25 @@ zlib.deploy@linux:
     - 'workbench:oss-0.2'
     dependencies:
     - zlib.build@gcc5
-    script:
-    - cd zlib
+    script: |
+      cd zlib
+      for profile in gcc5
+      do
+        for scheme in static shared
+        do
+          epm --profile $profile --scheme $scheme upload --storage .conan/$profile/$scheme
+        done
+      done
+#    - cd zlib
 #    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
-    - epm upload --storage .conan/$EPM_PROFILE/$EPM_SCHEME
-    parallel:
-      matrix:
+#    - epm upload --storage .conan/$EPM_PROFILE/$EPM_SCHEME
+#    parallel:
+#      matrix:
 #      - SCHEME: ['static', 'shared']
 #        PROFILE: ['vs2019']
 
-      - EPM_SCHEME: ['static', 'shared']
-        EPM_PROFILE: ['gcc5']
+#      - EPM_SCHEME: ['static', 'shared']
+#        EPM_PROFILE: ['gcc5']
 
 #      - SCHEME: ['static', 'shared']
 #        PROFILE: ['gcc7-armv8']
