@@ -80,7 +80,7 @@ zlib.test@gcc5:
     script:
     - cd zlib    
     - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
-    - export EPM_SANDBOX_STORAGE=.conan/$PROFILE/$SCHEME && ./.epm/$PROFILE@$PROFILE/program/test_package/run
+    - export EPM_SANDBOX_STORAGE=.conan/$PROFILE/$SCHEME && ./.epm/$PROFILE@$SCHEME/program/test_package/run
     
     parallel:
       matrix:
