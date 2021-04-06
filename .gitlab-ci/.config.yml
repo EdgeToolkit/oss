@@ -81,7 +81,7 @@
 # - name: nasm
 #   <<: *tool_setting
 #   
- - zlib
+  - zlib
 # - brotli
 # - name: bzip2
 #   program: test_package --help
