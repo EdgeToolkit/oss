@@ -106,6 +106,7 @@ zlib.deploy@linux:
     dependencies:
     - zlib.build@gcc5
     script: |
+      set -e
       cd zlib
       for profile in gcc5
       do
