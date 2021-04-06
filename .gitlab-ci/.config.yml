@@ -5,19 +5,19 @@
    profile: *profile_tool
    tool: true
 
-- name: m4
-  <<: *tool_setting
+#- name: m4
+#  <<: *tool_setting
 
 # - version: 0.1
 #   _profile.tool: &profile_tool
 #   - vs2019
 #   - gcc5
-#   _profile.msvc: &profile_msvc
-#    - vs20{19}
-# #  - vs20{19|19-x86}
-# #  - vs20{19|19-x86}d
-#   _profile.gcc: &profile_gcc
-#    - gcc{5}
+  _profile.msvc: &profile_msvc
+   - vs20{19}
+   - vs20{19|19-x86}
+   - vs20{19|19-x86}d
+   _profile.gcc: &profile_gcc
+   - gcc{5|5d}
 # #  - gcc{5|6|7|8}
 # #  - gcc{5|6|7|8}d
 #   _profile.arm: &profile_arm
@@ -81,7 +81,7 @@
 # - name: nasm
 #   <<: *tool_setting
 #   
-# - zlib
+ - zlib
 # - brotli
 # - name: bzip2
 #   program: test_package --help

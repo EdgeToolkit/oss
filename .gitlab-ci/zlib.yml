@@ -6,37 +6,39 @@ stages:
     # ---------------------------------
     #     Build
     # ---------------------------------
-zlib.build@windows:
-    stage: build
-    tags:
-    - builder
-    - Windows
-    - '@oss-0.1'
-    artifacts:
-      paths:
-      - zlib/.conan/$PROFILE/$SCHEME
-      - zlib/.epm
-    script:
-    - cd zlib
-    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
-    parallel:
-      matrix:
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['vs2019']
+#zlib.build@msvc:
+#    stage: build
+#    tags:
+#    - builder
+#    - Windows
+#    - '@oss-0.1'
+#    artifacts:
+#      paths:
+#      - zlib/.conan/$PROFILE/$SCHEME
+#      - zlib/.epm
+#    script:
+#    - cd zlib
+#    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+#    parallel:
+#      matrix:
+#      - SCHEME: ['static', 'shared']
+#        PROFILE: ['vs2019']
 
-zlib.build@linux:
+zlib.build@gcc5:
     stage: build
     tags:
+    - Linux  
     - builder
-    - Linux
-    - '@oss-0.1'
-    artifacts:
-      paths:
-      - zlib/.conan/$PROFILE/$SCHEME
-      - zlib/.epm
+    - docker
+    - 'workbench:oss-0.2'
+    image: edgetoolkit/gcc5
+#    artifacts:
+#      paths:
+#      - zlib/.conan/$PROFILE/$SCHEME
+#      - zlib/.epm
     script:
     - cd zlib
-    - epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME
+    - echo epm --profile $PROFILE --scheme $SCHEME  create --archive .conan/$PROFILE/$SCHEME --with-deps
     parallel:
       matrix:
       - SCHEME: ['static', 'shared']
@@ -51,33 +53,34 @@ zlib.build@linux:
     # ---------------------------------
 
 
-zlib.test@windows:
-    stage: test
-    tags:
-    - runner
-    - Windows
-    - '@oss-0.1'
-    script:
-    - cd zlib
-    
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
-    
-    parallel:
-      matrix:
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['vs2019']
+#zlib.test@windows:
+#    stage: test
+#    tags:
+#    - runner
+#    - Windows
+#    - '@oss-0.1'
+#    script:
+#    - cd zlib
+#    
+#    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+#    
+#    parallel:
+#      matrix:
+#      - SCHEME: ['static', 'shared']
+#        PROFILE: ['vs2019']
 
 
-zlib.test@linux:
+zlib.test@gcc5:
     stage: test
     tags:
+    - Linux  
     - runner
-    - Linux
-    - '@oss-0.1'
+    - docker
+    - 'workbench:oss-0.2'
+    image: ubuntu:xenial
     script:
-    - cd zlib
-    
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
+    - cd zlib    
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME exec test_package
     
     parallel:
       matrix:
@@ -91,21 +94,22 @@ zlib.test@linux:
     # ---------------------------------
     #     deploy
     # ---------------------------------
-zlib.publish@linux:
+zlib.deploy@linux:
     stage: deploy
     tags:
-    - '@oss-0.1'    
+    - conan  
     - deployer
+    - 'workbench:oss-0.2'
     script:
     - cd zlib
-    - epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
+    - echo epm --profile $PROFILE --scheme $SCHEME  --storage .conan/$PROFILE/$SCHEME upload
     parallel:
       matrix:
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['vs2019']
+#      - SCHEME: ['static', 'shared']
+#        PROFILE: ['vs2019']
 
       - SCHEME: ['static', 'shared']
         PROFILE: ['gcc5']
 
-      - SCHEME: ['static', 'shared']
-        PROFILE: ['gcc7-armv8']
+#      - SCHEME: ['static', 'shared']
+#        PROFILE: ['gcc7-armv8']
