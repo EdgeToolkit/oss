@@ -1,0 +1,38 @@
+stages:
+{% for i in range(1, synthesis.layout|length + 1) -%}
+  - L{{ i }}
+{% endfor  -%}
+  - done
+
+
+# -------------------------------------
+# Build  packages
+# -------------------------------------
+{% set layout = synthesis.layout %}
+{% for i in range(layout | length) -%}
+{%- set layer = layout[i] -%}
+{%- set index = i + 1 -%}
+{% for name in layer -%}
+
+{%- set package = synthesis.package[name] -%}
+{{ package.name }}{{ suffix }}:
+  stage: L{{ index }}  
+  trigger:
+    include: .gitlab-ci/{{ package.name }}.yml
+    strategy: depend
+#  rules:
+#    - changes:
+#      - {{ package.name }}
+{% endfor %}
+{% endfor  -%}
+
+done:
+  stage: done
+  tags:
+    - Linux
+    - docker
+    - runner
+    - workbench:oss-0.2
+  image: alpine
+  script:    
+    - echo packages build complete
