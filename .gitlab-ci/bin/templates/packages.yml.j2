@@ -17,7 +17,7 @@ stages:
 {{ package.name }}{{ suffix }}:
   stage: L{{ index }}  
   trigger:
-    include: .gitlab-ci/{{ package.name }}.yml
+    include: .gitlab-ci/package/{{ package.name }}.yml
     strategy: depend
 #  rules:
 #    - changes:
