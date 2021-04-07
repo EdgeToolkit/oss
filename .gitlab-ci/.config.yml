@@ -78,8 +78,8 @@
 #   
 - zlib
 #- brotli
-#- name: bzip2
-#  program: test_package --help
+- name: bzip2
+  program: test_package --help
 #- expat
 #- openssl
 - name: pcre
