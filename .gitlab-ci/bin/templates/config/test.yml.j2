@@ -31,7 +31,7 @@
     # =========================================
     # {{name}} {{matrix.arch}} test
     # =========================================
-{{uname| default(package.name, true)}}:{{gcc}}@build:
+{{uname| default(package.name, true)}}:{{name}}@test:
   stage: build
   tags:
   - Linux

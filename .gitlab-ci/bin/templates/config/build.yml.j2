@@ -29,14 +29,14 @@
     # =========================================
     # {{name}} {{matrix.arch}} build
     # =========================================
-{{uname| default(package.name, true)}}:{{gcc}}@build:
+{{uname| default(package.name, true)}}:{{name}}@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
-  image: edgetoolkit/{{gcc}}
+  image: 172.16.0.119:8482/edgetoolkit/{{name}}
   artifacts:
     paths:
     - {{package.name}}/.conan/$EPM_PROFILE/$EPM_SCHEME
