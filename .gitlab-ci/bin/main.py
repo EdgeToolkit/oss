@@ -33,19 +33,13 @@ def gitlab_ci_generate(args):
     if args.package:
         j2 = Jinja2(f"{_DIR}/templates/config", context=context)
         for name, package in synthesis.package.items():
-            if 'all' in args.package or name in args.package:
+            if 'all' in args.package or name in args.package:                
                 print(f"[{name}] ...")
-                if package.config.tool:
-                    j2.render('tool.yml.j2', outfile=f'{out_dir}/{name}.yml',
-                              context={'package': package})
-                else:
-                    j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
-                              context={'package': package})
-                    if package.tool_user:
-                        j2.render('package.tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
-                                  context={'package': package})
-                    
-
+                j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
+                    context={'package': package})
+                if not package.config.tool and package.tool_user:
+                    j2.render('package4tool.yml.j2', outfile=f'{out_dir}/{name}.tool.yml',
+                        context={'package': package})
 
     return None
 

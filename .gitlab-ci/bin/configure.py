@@ -201,7 +201,17 @@ class Package(object):
             for name, m in matrix.items():
                 self._matrix4tool[name] = namedtuple("Profile", "profile scheme")(m[0], m[1])
                         
-        return _matrix4tool
+        return self._matrix4tool
+
+    @staticmethod
+    def union(matrix):
+        P = set()
+        S = set()
+        for name, m in matrix.items():
+            P.update(m.profile)
+            S.update(m.scheme)
+        return (P, S)
+
 
 #
 #
