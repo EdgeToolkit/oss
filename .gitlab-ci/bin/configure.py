@@ -213,7 +213,6 @@ class Config(object):
         for conf in self._data[1:]:
             conf = conf if isinstance(conf, dict) else {'name': conf}
             name = conf['name']
-            print('===>', name)
             package[name] = self._parse_config(conf, base)
         return package
 
@@ -362,8 +361,8 @@ class Synthesis(object):
                             self._holograph.add_edge(name, pkg.name)
                         else:
                             print(f"{name} require {detail} but {pkg.name}/{pkg.version} in bundle.")
-                            
-            #self._holograph.remove_edge('protobuf', 'protoc')
+            if 'protoc' in self._holograph:
+                self._holograph.remove_edge('protobuf', 'protoc')
         return self._holograph
 
     @property

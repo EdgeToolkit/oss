@@ -37,68 +37,68 @@
 # ======================================
 # TOOL PACKAGE SETTING definations 
 # ======================================
-# - name: msys2
-#   profile: vs2019
-#   repack: true
-# 
-# - name: strawberryperl
-#   profile: vs2019
-#   repack: true
-#   
-- name: 7zip
+- name: msys2
   profile: vs2019
-  tool: true
-- name: winflexbison
+  repack: true
+
+- name: strawberryperl
   profile: vs2019
-  tool: true
-- name: bison
-  profile: gcc5
-  tool: true
-- name: flex
-  profile: gcc5
-  tool: true
-- name: pkgconf
-  <<: *tool_setting
+  repack: true
+   
+#- name: 7zip
+#  profile: vs2019
+#  tool: true
+#- name: winflexbison
+#  profile: vs2019
+#  tool: true
+#- name: bison
+#  profile: gcc5
+#  tool: true
+#- name: flex
+#  profile: gcc5
+#  tool: true
+#- name: pkgconf
+#  <<: *tool_setting
 #- name: m4
 #  <<: *tool_setting
-- name: autoconf
-  <<: *tool_setting
-- name: automake
-  <<: *tool_setting
-- name: libtool
-  <<: *tool_setting
-- name: re2c
-  <<: *tool_setting
-- name: ninja
-  <<: *tool_setting
-- name: meson
-  <<: *tool_setting
-- name: nasm
-  <<: *tool_setting
+#- name: autoconf
+#  <<: *tool_setting
+#- name: automake
+#  <<: *tool_setting
+#- name: libtool
+#  <<: *tool_setting
+#- name: re2c
+#  <<: *tool_setting
+#- name: ninja
+#  <<: *tool_setting
+#- name: meson
+#  <<: *tool_setting
+#- name: nasm
+#  <<: *tool_setting
 #   
-# - zlib
-- brotli
-- name: bzip2
-  program: test_package --help
-- expat
-- openssl
+- zlib
+#- brotli
+#- name: bzip2
+#  program: test_package --help
+#- expat
+#- openssl
 - name: pcre
   program:
     Windows: test_package "\w+ Bincrafters"
     Linux: test_package "\\w+ Bincrafters"
-- name: pthreads4w
-  profile: *profile_msvc
-- sqlite3
-- gtest
-- libiconv
-- xz_utils
-- protobuf
-- protobuf-c
-- name: protoc
-  <<: *tool_setting
-- libcurl
-- libwebsockets
-- mosquitto
-- c-ares
+#- name: pthreads4w
+#  profile: *profile_msvc
+#- sqlite3
+#- gtest
+#- libiconv
+#- xz_utils
+#- protobuf
+#- protobuf-c
+#- name: protoc
+#  <<: *tool_setting
+#- libcurl
+#- libwebsockets
+#- mosquitto
+#- c-ares
 #- name: iperf
 #  -profile: *profile_msvc
