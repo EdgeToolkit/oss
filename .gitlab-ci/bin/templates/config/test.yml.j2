@@ -5,7 +5,7 @@
     # MSVC test
     # =================================
 {{uname| default(package.name, true)}}:MSVC@test:
-  stage: build
+  stage: test
   tags:
   - Windows
   - runner
@@ -14,8 +14,10 @@
   - {{package.name}}:MSVC@build
   script: |
     cd {{package.name}}
-    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{package.config.program['Windows']}}
+    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
+{% for program in package.config.program['Windows'] %}        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
+{% endfor %}    
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}
@@ -32,7 +34,7 @@
     # {{name}} {{matrix.arch}} test
     # =========================================
 {{uname| default(package.name, true)}}:{{name}}@test:
-  stage: build
+  stage: test
   tags:
   - Linux
   - runner
@@ -44,7 +46,9 @@
   script:
     cd {{package.name}}
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{package.config.program['Linux']}}
+{% for program in package.config.program['Linux'] %}        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
+{% endfor %}    
     
   parallel:
     matrix:

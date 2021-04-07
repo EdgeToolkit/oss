@@ -71,10 +71,12 @@ class Package(object):
 
     @property
     def program(self):
+       
         program = []
         for p in self.meta_info.get('program') or []:
             e = p['name'] if isinstance(p, dict) else p
             program.append(e)
+
         return program
 
     @property
@@ -102,6 +104,7 @@ class Package(object):
             
             if not program and self.program:
                 program = {'Windows': self.program[:1], 'Linux': self.program[:1]}
+            print(self.name, '->', program)    
             
             self._config = namedtuple("Config", "tool repack profile program")(
                 tool, repack, profile, program)
