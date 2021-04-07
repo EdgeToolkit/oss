@@ -26,16 +26,7 @@ _DIR = os.path.dirname(abspath(__file__))
 
 P_MSVC =re.compile(r'^(?P<name>vs20(17|19))d?$')
 P_GCC=re.compile(r'^(?P<name>gcc\d(-x86|-armv7|-armv8)?)d?$')
-#for i in ['vs2016', 'vs2017d', 'vs2019', 'vs2019d', 'gcc5', 'gcc6-armv7', 'gcc7-armv8']:
-#    print('*', i)
-#    m = P_MSVC.match(i)
-#    if m:
-#        print('->', m.group('name'))
-#    m = P_GCC.match(i)
-#    if m:
-#        print('->', m.group('name'))
-#
-#sys.exit(0)    
+
 class Package(object):
     MANIFEST = 'package.yml'
 
@@ -46,16 +37,15 @@ class Package(object):
         self._build_requirements = None
         self._profile = None
         self._meta_info = None
+        self._ctree = None
+        self._ctree4tool = None
 
         self._config = None
-        self._cmatrix = None
         self._user = None
         self._tool_user = None
-        self._matrix = None
-        self._matrix4tool = None
         self._script = None
-        #folder = os.path.dirname(synthesis.filename)
         self.dir = abspath(f"{_DIR}/../../{name}")
+
 
     @property
     def meta_info(self):
@@ -115,7 +105,7 @@ class Package(object):
             
             self._config = namedtuple("Config", "tool repack profile program")(
                 tool, repack, profile, program)
-            print(self.name, '*', self._config.program)
+            
         return self._config
 
     def _used_by(self, tool=False, repack=False):
@@ -124,10 +114,11 @@ class Package(object):
         for name in graph:
             if name == self.name:
                 continue
-            pkg = self._synthesis.package[name]
-            if bool(tool) == bool(pkg.config.tool):
+            
+            pkg = self._synthesis.package[name]            
+            if pkg.config.tool:
                 if nx.has_path(graph, name, self.name):
-                    result.add(name)
+                    result.add(name)        
         return list(result)
 
     @property
@@ -142,143 +133,56 @@ class Package(object):
             self._tool_user = self._used_by(tool=True)
         return self._tool_user
 
-
-    def _format_profiles(self):
-        profiles = {}    
-        for profile in self.config.profile:
-            for scheme in self.scheme or ['None']:
-                project = Project(profile, scheme, directory=f'{self.name}')
-                if not project.available:
-                    continue
-                name = None
-                msvc = P_MSVC.match(profile)
-                gcc = P_GCC.match(profile)
-                
-                if msvc:
-                    name = 'MSVC'
-                for p in [P_GCC]:
-                    m = p.match(profile)
-                    if m:
-                        name = m.group('name')
-                        break
-                if name:
-                    if name not in profiles:
-                        profiles[name] = {}
-                    if profile not in profiles[name]:
-                        profiles[name][profile] = set()
-                    profiles[name][profile].add(scheme)
-        matrix = {}
-        for name, config in profiles.items():
-            P = set()
-            S = set()
-            for p, s in config.items():
-                P.add(p)
-                S.update(s)
-            matrix[name] = namedtuple("Profile", "profile scheme")(P, S)
-                        
-        return profiles, matrix
+    @property
+    def ctree(self):
+        if self._ctree is None:
+            tree = {}    
+            for profile in self.config.profile:
+                for scheme in self.scheme or ['None']:
+                    project = Project(profile, scheme, directory=f'{self.name}')
+                    if not project.available:
+                        continue
+                    name = None
+                    msvc = P_MSVC.match(profile)
+                    gcc = P_GCC.match(profile)
+                    
+                    if msvc:
+                        name = 'MSVC'
+                    for p in [P_GCC]:
+                        m = p.match(profile)
+                        if m:
+                            name = m.group('name')
+                            break
+                    if name:
+                        if name not in tree:
+                            tree[name] = dict() 
+                        if profile not in tree[name]:
+                            tree[name][profile] = set()
+                        tree[name][profile].add(scheme)
+            self._ctree = tree
+            
+        return self._ctree
 
     @property
-    def matrix(self):
-        if self._cmatrix is None:
-            flat, matrix = self._format_profiles()
-            self._cmatrix = matrix
-        return self._cmatrix
-    @property
-    def matrix4tool(self):
-        if self._matrix4tool is None:
-            matrix = {}
+    def ctree4tool(self):
+        if self._ctree4tool is None:            
+            tree = {}
             for name in self.tool_user:
                 pkg = self._synthesis.package[name]
                 if not pkg.config.tool:
                     continue
-                for name, m in pkg.matrix.items():
-                    if name not in matrix:
-                        matrix[name] = (set(), set())
-                    matrix[name][0].update(m.profile)
-                    matrix[name][1].update(m.scheme)
-            self._matrix4tool={}
-            for name, m in matrix.items():
-                self._matrix4tool[name] = namedtuple("Profile", "profile scheme")(m[0], m[1])
-                        
-        return self._matrix4tool
-
-    @staticmethod
-    def union(matrix):
-        P = set()
-        S = set()
-        for name, m in matrix.items():
-            P.update(m.profile)
-            S.update(m.scheme)
-        return (P, S)
-
-
-#
-#
-#    ######################################
-#    @property
-#    def matrix(self):
-#        if self._cmatrix is None:
-#            self._cmatrix = []
-#            for profile in self.config.profile:
-#                for scheme in self.scheme or ['None']:
-#                    project = Project(profile, scheme, directory=f'{self.name}')
-#                    if not project.available:
-#                        continue
-#                    self._cmatrix.append(namedtuple("CMatrix", "profile scheme")(
-#                        profile, scheme))
-#        return self._cmatrix
-#
-#    @property
-#    def matrix4tool(self):
-#        if self._matrix4tool is None:
-#            self._matrix4tool = []
-#            for name in self.tool_user:
-#                pkg = self._synthesis.package[name]
-#                if not pkg.config.tool:
-#                    continue
-#                for c in pkg.matrix:
-#                    config = 'static' if c.scheme == 'None' else config
-#                    c = self.find_matrix(c.profile, config)
-#                    if c:
-#                        self._matrix4tool += c
-#        return self._matrix4tool
-#
-#    def match_matrix(self, profile, scheme=None, tool=False):
-#        P = re.compile(profile) if profile else None
-#        S = re.compile(scheme) if scheme else None
-#        matrix = []
-#        for c in self.matrix4tool if tool else self.matrix:
-#            if P is None or P.match(c.profile):
-#                if S is None or S.match(c.scheme):
-#                    matrix.append(c)
-#        return matrix
-#
-#    def find_matrix(self, profile, scheme=None, tool=False):
-#        matrix = []
-#        for c in self.matrix4tool if tool else self.matrix:
-#            if profile is None or c.profile == profile:
-#                if scheme is None or scheme == c.scheme:
-#                    matrix.append(c)
-#        return matrix
-#
-#
-#    def c_matrix(self, profile, scheme=None, tool=False):
-#        matrix = {}
-#        for c in self.match_matrix(profile, scheme, tool=tool):
-#            if c.profile not in matrix:
-#                matrix[c.profile] = set()
-#            matrix[c.profile].add(c.scheme)
-#        S = []
-#        result = []
-#        for pr, schemes in matrix.items():
-#            for p, s in result:
-#                if s == schemes:
-#                    p.add(pr)
-#                    break
-#            else:
-#                result.append(({pr}, schemes))
-#        return result
+                
+                for group, config in pkg.ctree.items():                    
+                    c = tree[group] if group in tree else {}
+                    for profile, schemes in config.items():
+                        if profile not in c:
+                            c[profile] = schemes
+                        else:
+                            c[profile].update(schemes)
+                    if c:
+                        tree[group] = c
+            self._ctree4tool = tree
+        return self._ctree4tool
 
 class Config(object):
     def __init__(self, filename):
@@ -286,8 +190,7 @@ class Config(object):
         assert os.path.exists(self.__file__)
         self._package = None
         with open(self.__file__) as f:
-            self._data = yaml.safe_load(f) or []
-        print(self._data)
+            self._data = yaml.safe_load(f) or []        
         self._base = self._data[0]
 
     def __contains__(self, name):
