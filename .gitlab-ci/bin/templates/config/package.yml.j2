@@ -1,0 +1,19 @@
+
+{%- set CTree = package.ctree -%}
+{%- set Matrix = CTree | cmatrix -%}
+{%- if package.config.tool %}
+stages:
+- build
+- deploy
+
+{% include 'build.yml.j2' %}
+{% include 'deploy.yml.j2' %}
+{%- else -%}
+stages:
+- build
+- test
+- deploy
+{% include 'build.yml.j2' %}
+{% include 'test.yml.j2' %}
+{% include 'deploy.yml.j2' %}
+{%- endif -%}

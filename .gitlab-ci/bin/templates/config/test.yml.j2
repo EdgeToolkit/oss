@@ -1,0 +1,56 @@
+
+{%- if 'MSVC' in CTree -%}
+{% set matrix = CTree | cmatrix('MSVC') %}
+    # =================================
+    # MSVC test
+    # =================================
+{{uname| default(package.name, true)}}:MSVC@test:
+  stage: build
+  tags:
+  - Windows
+  - runner
+  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  dependencies:
+  - {{package.name}}:MSVC@build
+  script: |
+    cd {{package.name}}
+    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{package.config.program['Windows']}}
+  parallel:
+    matrix:
+    - EPM_PROFILE: {{ matrix.profile | list }}
+      EPM_SCHEME: {{ matrix.scheme | list }}
+{%- endif -%}
+
+
+
+{%- for name, config in CTree.items() -%}
+{%- if name !=  'MSVC' %}
+{% set matrix = CTree | cmatrix(name) %}
+{% if matrix.image %}
+    # =========================================
+    # {{name}} {{matrix.arch}} test
+    # =========================================
+{{uname| default(package.name, true)}}:{{gcc}}@build:
+  stage: build
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  image: edgetoolkit/{{matrix.image}}
+  dependencies:
+  - {{package.name}}:{{name}}@build
+  script:
+    cd {{package.name}}
+    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{package.config.program['Linux']}}
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: {{ matrix.profile | list }}
+      EPM_SCHEME: {{ matrix.scheme | list }}
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+

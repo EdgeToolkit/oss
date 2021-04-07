@@ -1,0 +1,8 @@
+{%- set CTree = package.ctree4tool -%}
+{%- set Matrix = package.ctree4tool | cmatrix -%}
+stages:
+- build
+- deploy
+
+{% include 'build.yml.j2' %}
+{% include 'deploy.yml.j2' %}

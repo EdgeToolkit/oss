@@ -1,0 +1,33 @@
+{% set Matrix = CTree | cmatrix %}
+    # =================================
+    # Deploy to conan repo
+    # =================================
+{{package.name}}@deploy:
+  stage: deploy
+  tags:
+  - conan
+  - deployer
+  - workbench:oss-{{ synthesis.version }}
+  dependencies:
+{%- for m in Matrix %}
+  - {{package.name}}:{{m.group}}@build
+{%- endfor %}
+  script: |
+    set -e
+    cd {{package.name}}
+    PROFILES=(
+{%- for m in Matrix %}
+      {{ m.profile | join(' ') }}
+{%- endfor %}
+    )
+
+    for profile in $PROFILES
+    do
+      for scheme in {{ CTree | scheme_filter | join(' ') }}
+      do
+        export EPM_PROFILE=$profile
+        export EPM_FPROFILE=$scheme
+        echo [{{package.name}}] - Upload...  $profile $shcme
+        epm upload .conan/$porofile/$scheme
+      done
+    done 
