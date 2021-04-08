@@ -6,7 +6,7 @@ stages:
     # =================================
     # MSVC build
     # =================================
-zlib:MSVC@build:
+expat:MSVC@build:
   stage: build
   tags:
   - Windows
@@ -14,10 +14,10 @@ zlib:MSVC@build:
   - workbench:oss-0.2
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -27,7 +27,7 @@ zlib:MSVC@build:
     # =========================================
     # gcc6 x86_64 build
     # =========================================
-zlib:gcc6@build:
+expat:gcc6@build:
   stage: build
   tags:
   - Linux
@@ -37,10 +37,10 @@ zlib:gcc6@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -50,7 +50,7 @@ zlib:gcc6@build:
     # =========================================
     # gcc7-armv7 armv7 build
     # =========================================
-zlib:gcc7-armv7@build:
+expat:gcc7-armv7@build:
   stage: build
   tags:
   - Linux
@@ -60,10 +60,10 @@ zlib:gcc7-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7-armv7
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -73,7 +73,7 @@ zlib:gcc7-armv7@build:
     # =========================================
     # gcc5-armv7 armv7 build
     # =========================================
-zlib:gcc5-armv7@build:
+expat:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
@@ -83,10 +83,10 @@ zlib:gcc5-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -96,7 +96,7 @@ zlib:gcc5-armv7@build:
     # =========================================
     # gcc7-armv8 armv8 build
     # =========================================
-zlib:gcc7-armv8@build:
+expat:gcc7-armv8@build:
   stage: build
   tags:
   - Linux
@@ -106,10 +106,10 @@ zlib:gcc7-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -119,7 +119,7 @@ zlib:gcc7-armv8@build:
     # =========================================
     # gcc5 x86_64 build
     # =========================================
-zlib:gcc5@build:
+expat:gcc5@build:
   stage: build
   tags:
   - Linux
@@ -129,10 +129,10 @@ zlib:gcc5@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -142,7 +142,7 @@ zlib:gcc5@build:
     # =========================================
     # gcc7 x86_64 build
     # =========================================
-zlib:gcc7@build:
+expat:gcc7@build:
   stage: build
   tags:
   - Linux
@@ -152,10 +152,10 @@ zlib:gcc7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -165,7 +165,7 @@ zlib:gcc7@build:
     # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
-zlib:gcc5-armv8@build:
+expat:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
@@ -175,10 +175,10 @@ zlib:gcc5-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -188,7 +188,7 @@ zlib:gcc5-armv8@build:
     # =========================================
     # gcc6-armv8 armv8 build
     # =========================================
-zlib:gcc6-armv8@build:
+expat:gcc6-armv8@build:
   stage: build
   tags:
   - Linux
@@ -198,10 +198,10 @@ zlib:gcc6-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -211,7 +211,7 @@ zlib:gcc6-armv8@build:
     # =========================================
     # gcc6-armv7 armv7 build
     # =========================================
-zlib:gcc6-armv7@build:
+expat:gcc6-armv7@build:
   stage: build
   tags:
   - Linux
@@ -221,10 +221,10 @@ zlib:gcc6-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6-armv7
   artifacts:
     paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
   script:
-  - cd zlib
+  - cd expat
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -234,16 +234,16 @@ zlib:gcc6-armv7@build:
     # =================================
     # MSVC test
     # =================================
-zlib:MSVC@test:
+expat:MSVC@test:
   stage: test
   tags:
   - Windows
   - runner
   - workbench:oss-0.2
   dependencies:
-  - zlib:MSVC@build
+  - expat:MSVC@build
   script: |
-    cd zlib
+    cd expat
     $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
         
     .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
@@ -257,7 +257,7 @@ zlib:MSVC@test:
     # =========================================
     # gcc6 x86_64 test
     # =========================================
-zlib:gcc6@test:
+expat:gcc6@test:
   stage: test
   tags:
   - Linux
@@ -266,9 +266,9 @@ zlib:gcc6@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - zlib:gcc6@build
+  - expat:gcc6@build
   script:
-    cd zlib
+    cd expat
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
     .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
@@ -289,7 +289,7 @@ zlib:gcc6@test:
     # =========================================
     # gcc5 x86_64 test
     # =========================================
-zlib:gcc5@test:
+expat:gcc5@test:
   stage: test
   tags:
   - Linux
@@ -298,9 +298,9 @@ zlib:gcc5@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - zlib:gcc5@build
+  - expat:gcc5@build
   script:
-    cd zlib
+    cd expat
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
     .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
@@ -315,7 +315,7 @@ zlib:gcc5@test:
     # =========================================
     # gcc7 x86_64 test
     # =========================================
-zlib:gcc7@test:
+expat:gcc7@test:
   stage: test
   tags:
   - Linux
@@ -324,9 +324,9 @@ zlib:gcc7@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - zlib:gcc7@build
+  - expat:gcc7@build
   script:
-    cd zlib
+    cd expat
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
     .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
@@ -346,26 +346,26 @@ zlib:gcc7@test:
     # =================================
     # Deploy to conan repo
     # =================================
-zlib@deploy:
+expat@deploy:
   stage: deploy
   tags:
   - conan
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - zlib:MSVC@build
-  - zlib:gcc6@build
-  - zlib:gcc7-armv7@build
-  - zlib:gcc5-armv7@build
-  - zlib:gcc7-armv8@build
-  - zlib:gcc5@build
-  - zlib:gcc7@build
-  - zlib:gcc5-armv8@build
-  - zlib:gcc6-armv8@build
-  - zlib:gcc6-armv7@build
+  - expat:MSVC@build
+  - expat:gcc6@build
+  - expat:gcc7-armv7@build
+  - expat:gcc5-armv7@build
+  - expat:gcc7-armv8@build
+  - expat:gcc5@build
+  - expat:gcc7@build
+  - expat:gcc5-armv8@build
+  - expat:gcc6-armv8@build
+  - expat:gcc6-armv7@build
   script: |
     set -e
-    cd zlib
+    cd expat
     PROFILES=(
       vs2019d vs2019
       gcc6d gcc6
@@ -385,7 +385,7 @@ zlib@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [zlib] - Upload...  $profile $shcme
+        echo [expat] - Upload...  $profile $shcme
         epm upload --storage .conan/$profile/$scheme
       done
     done 

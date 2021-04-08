@@ -58,14 +58,14 @@ nasm@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - nasm:MSVC@build
   - nasm:gcc5@build
+  - nasm:MSVC@build
   script: |
     set -e
     cd nasm
     PROFILES=(
-      vs2019
       gcc5
+      vs2019
     )
 
     for profile in ${PROFILES[*]}

@@ -1,4 +1,3 @@
-
 stages:
 - build
 - deploy
@@ -7,7 +6,7 @@ stages:
     # =================================
     # MSVC build
     # =================================
-ninja:MSVC@build:
+protobuf:MSVC@build:
   stage: build
   tags:
   - Windows
@@ -15,10 +14,10 @@ ninja:MSVC@build:
   - workbench:oss-0.2
   artifacts:
     paths:
-    - ninja/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - ninja/.epm
+    - protobuf/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - protobuf/.epm
   script:
-  - cd ninja
+  - cd protobuf
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -28,7 +27,7 @@ ninja:MSVC@build:
     # =========================================
     # gcc5 x86_64 build
     # =========================================
-ninja:gcc5@build:
+protobuf:gcc5@build:
   stage: build
   tags:
   - Linux
@@ -38,10 +37,10 @@ ninja:gcc5@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
-    - ninja/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - ninja/.epm
+    - protobuf/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - protobuf/.epm
   script:
-  - cd ninja
+  - cd protobuf
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -51,18 +50,18 @@ ninja:gcc5@build:
     # =================================
     # Deploy to conan repo
     # =================================
-ninja@deploy:
+protobuf@deploy:
   stage: deploy
   tags:
   - conan
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - ninja:gcc5@build
-  - ninja:MSVC@build
+  - protobuf:gcc5@build
+  - protobuf:MSVC@build
   script: |
     set -e
-    cd ninja
+    cd protobuf
     PROFILES=(
       gcc5
       vs2019
@@ -74,7 +73,7 @@ ninja@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [ninja] - Upload...  $profile $shcme
+        echo [protobuf] - Upload...  $profile $shcme
         epm upload --storage .conan/$profile/$scheme
       done
     done 

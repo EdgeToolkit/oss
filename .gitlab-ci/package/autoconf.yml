@@ -58,14 +58,14 @@ autoconf@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - autoconf:MSVC@build
   - autoconf:gcc5@build
+  - autoconf:MSVC@build
   script: |
     set -e
     cd autoconf
     PROFILES=(
-      vs2019
       gcc5
+      vs2019
     )
 
     for profile in ${PROFILES[*]}

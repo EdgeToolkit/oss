@@ -58,14 +58,14 @@ libtool@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - libtool:MSVC@build
   - libtool:gcc5@build
+  - libtool:MSVC@build
   script: |
     set -e
     cd libtool
     PROFILES=(
-      vs2019
       gcc5
+      vs2019
     )
 
     for profile in ${PROFILES[*]}

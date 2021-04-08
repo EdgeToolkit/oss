@@ -77,28 +77,28 @@
   <<: *tool_setting
    
 - zlib
-#- brotli
+- brotli
 - name: bzip2
   program: test_package --help
-#- expat
-#- openssl
+- expat
+- openssl
 - name: pcre
   program:
     Windows: test_package "\w+ Bincrafters"
     Linux: test_package "\\w+ Bincrafters"
-#- name: pthreads4w
-#  profile: *profile_msvc
-#- sqlite3
-#- gtest
-#- libiconv
-#- xz_utils
-#- protobuf
-#- protobuf-c
-#- name: protoc
-#  <<: *tool_setting
-#- libcurl
-#- libwebsockets
-#- mosquitto
+- name: pthreads4w
+  profile: *profile_msvc
+- sqlite3
+- gtest
+- libiconv
+- xz_utils
+- protobuf
+- protobuf-c
+- name: protoc
+  <<: *tool_setting
+- libcurl
+- libwebsockets
+- mosquitto
 #- c-ares
 #- name: iperf
 #  -profile: *profile_msvc
