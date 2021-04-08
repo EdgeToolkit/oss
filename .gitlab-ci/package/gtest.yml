@@ -25,6 +25,29 @@ gtest:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
+    # gcc6-armv8 armv8 build
+    # =========================================
+gtest:gcc6-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
+  artifacts:
+    paths:
+    - gtest/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - gtest/.epm
+  script:
+  - cd gtest
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc6-armv8', 'gcc6-armv8d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
     # gcc6 x86_64 build
     # =========================================
 gtest:gcc6@build:
@@ -44,7 +67,7 @@ gtest:gcc6@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -67,53 +90,7 @@ gtest:gcc7-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7-armv7']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5-armv7 armv7 build
-    # =========================================
-gtest:gcc5-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
-  artifacts:
-    paths:
-    - gtest/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - gtest/.epm
-  script:
-  - cd gtest
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5-armv7']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7-armv8 armv8 build
-    # =========================================
-gtest:gcc7-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
-  artifacts:
-    paths:
-    - gtest/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - gtest/.epm
-  script:
-  - cd gtest
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv8']
+    - EPM_PROFILE: ['gcc7-armv7', 'gcc7-armv7d']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -182,20 +159,20 @@ gtest:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8']
+    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc6-armv8 armv8 build
+    # gcc5-armv7 armv7 build
     # =========================================
-gtest:gcc6-armv8@build:
+gtest:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
     - gtest/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -205,7 +182,7 @@ gtest:gcc6-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv8']
+    - EPM_PROFILE: ['gcc5-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -228,7 +205,30 @@ gtest:gcc6-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv7']
+    - EPM_PROFILE: ['gcc6-armv7', 'gcc6-armv7d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc7-armv8 armv8 build
+    # =========================================
+gtest:gcc7-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
+  artifacts:
+    paths:
+    - gtest/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - gtest/.epm
+  script:
+  - cd gtest
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7-armv8d', 'gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -254,6 +254,8 @@ gtest:MSVC@test:
       EPM_SCHEME: ['shared', 'static']
 
 
+
+
     # =========================================
     # gcc6 x86_64 test
     # =========================================
@@ -276,12 +278,8 @@ gtest:gcc6@test:
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
       EPM_SCHEME: ['shared', 'static']
-
-
-
-
 
 
 
@@ -343,6 +341,8 @@ gtest:gcc7@test:
 
 
 
+
+
     # =================================
     # Deploy to conan repo
     # =================================
@@ -353,30 +353,30 @@ gtest@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - gtest:MSVC@build
+  - gtest:gcc6-armv8@build
   - gtest:gcc6@build
+  - gtest:MSVC@build
   - gtest:gcc7-armv7@build
-  - gtest:gcc5-armv7@build
-  - gtest:gcc7-armv8@build
   - gtest:gcc5@build
   - gtest:gcc7@build
   - gtest:gcc5-armv8@build
-  - gtest:gcc6-armv8@build
+  - gtest:gcc5-armv7@build
   - gtest:gcc6-armv7@build
+  - gtest:gcc7-armv8@build
   script: |
     set -e
     cd gtest
     PROFILES=(
+      gcc6-armv8 gcc6-armv8d
+      gcc6 gcc6d
       vs2019d vs2019
-      gcc6d gcc6
-      gcc7-armv7
-      gcc5-armv7
-      gcc7-armv8
+      gcc7-armv7 gcc7-armv7d
       gcc5 gcc5d
       gcc7d gcc7
-      gcc5-armv8
-      gcc6-armv8
-      gcc6-armv7
+      gcc5-armv8d gcc5-armv8
+      gcc5-armv7
+      gcc6-armv7 gcc6-armv7d
+      gcc7-armv8d gcc7-armv8
     )
 
     for profile in ${PROFILES[*]}
