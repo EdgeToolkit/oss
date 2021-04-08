@@ -21,7 +21,7 @@
 {%- endfor %}
     )
 
-    for profile in $PROFILES
+    for profile in ${PROFILES[*]}
     do
       for scheme in {{ CTree | scheme_filter | join(' ') }}
       do

@@ -58,17 +58,17 @@ re2c@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - re2c:gcc5@build
   - re2c:MSVC@build
+  - re2c:gcc5@build
   script: |
     set -e
     cd re2c
     PROFILES=(
-      gcc5
       vs2019
+      gcc5
     )
 
-    for profile in $PROFILES
+    for profile in ${PROFILES[*]}
     do
       for scheme in None
       do

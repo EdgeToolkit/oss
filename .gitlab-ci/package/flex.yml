@@ -46,7 +46,7 @@ flex@deploy:
       gcc5
     )
 
-    for profile in $PROFILES
+    for profile in ${PROFILES[*]}
     do
       for scheme in None
       do
