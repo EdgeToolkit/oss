@@ -25,16 +25,16 @@ bzip2:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc7-armv8 armv8 build
+    # gcc5-armv8 armv8 build
     # =========================================
-bzip2:gcc7-armv8@build:
+bzip2:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
     - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -44,30 +44,7 @@ bzip2:gcc7-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc6 x86_64 build
-    # =========================================
-bzip2:gcc6@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc6
-  artifacts:
-    paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
-  script:
-  - cd bzip2
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6', 'gcc6d']
+    - EPM_PROFILE: ['gcc5-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -94,16 +71,16 @@ bzip2:gcc7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv7 armv7 build
+    # gcc6 x86_64 build
     # =========================================
-bzip2:gcc5-armv7@build:
+bzip2:gcc6@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  image: 172.16.0.119:8482/edgetoolkit/gcc6
   artifacts:
     paths:
     - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -113,30 +90,7 @@ bzip2:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5 x86_64 build
-    # =========================================
-bzip2:gcc5@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-  artifacts:
-    paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
-  script:
-  - cd bzip2
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -159,7 +113,30 @@ bzip2:gcc6-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv7', 'gcc6-armv7d']
+    - EPM_PROFILE: ['gcc6-armv7']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc5-armv7 armv7 build
+    # =========================================
+bzip2:gcc5-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  artifacts:
+    paths:
+    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - bzip2/.epm
+  script:
+  - cd bzip2
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -182,20 +159,20 @@ bzip2:gcc7-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7-armv7', 'gcc7-armv7d']
+    - EPM_PROFILE: ['gcc7-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv8 armv8 build
+    # gcc5 x86_64 build
     # =========================================
-bzip2:gcc5-armv8@build:
+bzip2:gcc5@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
     - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -205,7 +182,7 @@ bzip2:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -228,7 +205,30 @@ bzip2:gcc6-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv8', 'gcc6-armv8d']
+    - EPM_PROFILE: ['gcc6-armv8']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc7-armv8 armv8 build
+    # =========================================
+bzip2:gcc7-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
+  artifacts:
+    paths:
+    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - bzip2/.epm
+  script:
+  - cd bzip2
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -257,6 +257,32 @@ bzip2:MSVC@test:
 
 
     # =========================================
+    # gcc7 x86_64 test
+    # =========================================
+bzip2:gcc7@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:oss-0.2
+  image: edgetoolkit/ubuntu:xenial
+  dependencies:
+  - bzip2:gcc7@build
+  script:
+    cd bzip2
+    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
+    
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7', 'gcc7d']
+      EPM_SCHEME: ['shared', 'static']
+
+
+    # =========================================
     # gcc6 x86_64 test
     # =========================================
 bzip2:gcc6@test:
@@ -282,30 +308,8 @@ bzip2:gcc6@test:
       EPM_SCHEME: ['shared', 'static']
 
 
-    # =========================================
-    # gcc7 x86_64 test
-    # =========================================
-bzip2:gcc7@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:oss-0.2
-  image: edgetoolkit/ubuntu:xenial
-  dependencies:
-  - bzip2:gcc7@build
-  script:
-    cd bzip2
-    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-        
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
-    
-    
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7', 'gcc7d']
-      EPM_SCHEME: ['shared', 'static']
+
+
 
 
 
@@ -332,12 +336,8 @@ bzip2:gcc5@test:
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
       EPM_SCHEME: ['shared', 'static']
-
-
-
-
 
 
 
@@ -353,30 +353,30 @@ bzip2@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - bzip2:gcc7-armv8@build
-  - bzip2:gcc6@build
+  - bzip2:gcc5-armv8@build
   - bzip2:gcc7@build
-  - bzip2:gcc5-armv7@build
-  - bzip2:gcc5@build
+  - bzip2:gcc6@build
   - bzip2:gcc6-armv7@build
+  - bzip2:gcc5-armv7@build
   - bzip2:gcc7-armv7@build
   - bzip2:MSVC@build
-  - bzip2:gcc5-armv8@build
+  - bzip2:gcc5@build
   - bzip2:gcc6-armv8@build
+  - bzip2:gcc7-armv8@build
   script: |
     set -e
     cd bzip2
     PROFILES=(
-      gcc7-armv8 gcc7-armv8d
-      gcc6 gcc6d
+      gcc5-armv8
       gcc7 gcc7d
-      gcc5-armv7d gcc5-armv7
-      gcc5d gcc5
-      gcc6-armv7 gcc6-armv7d
-      gcc7-armv7 gcc7-armv7d
+      gcc6 gcc6d
+      gcc6-armv7
+      gcc5-armv7
+      gcc7-armv7
       vs2019 vs2019d
-      gcc5-armv8d gcc5-armv8
-      gcc6-armv8 gcc6-armv8d
+      gcc5 gcc5d
+      gcc6-armv8
+      gcc7-armv8
     )
 
     for profile in $PROFILES

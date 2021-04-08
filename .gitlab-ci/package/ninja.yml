@@ -58,14 +58,14 @@ ninja@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - ninja:MSVC@build
   - ninja:gcc5@build
+  - ninja:MSVC@build
   script: |
     set -e
     cd ninja
     PROFILES=(
-      vs2019
       gcc5
+      vs2019
     )
 
     for profile in $PROFILES

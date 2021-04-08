@@ -58,14 +58,14 @@ meson@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - meson:MSVC@build
   - meson:gcc5@build
+  - meson:MSVC@build
   script: |
     set -e
     cd meson
     PROFILES=(
-      vs2019
       gcc5
+      vs2019
     )
 
     for profile in $PROFILES
