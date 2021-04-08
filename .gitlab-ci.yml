@@ -1,17 +1,3 @@
-#stages:
-#  - build
-#build:
-#  stage: build
-#  tags:
-#    - Linux
-#    - docker
-#    - builder
-#    - workbench:oss-0.2
-#  image: edgetoolkit/gcc6
-#  script:
-#    - cd zlib
-#    - epm --profile gcc6 create
-
 stages:
   - init
   - tools
@@ -33,9 +19,12 @@ init:
     paths:
     - .gitlab-ci/.cache/tools.yml
     - .gitlab-ci/.cache/packages.yml
-#  rules:
-#    - if: '$CI_COMMIT_BRANCH =~ /^RC\//'
-#
+  rules:
+  - if: '$CI_TARGET == "package" || $CI_TARGET == "tool"'
+    when: manual
+  - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+  - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
+
 tools:
   stage: tools
   trigger:
