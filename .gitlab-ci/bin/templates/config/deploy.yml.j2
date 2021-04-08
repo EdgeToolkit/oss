@@ -27,7 +27,7 @@
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [{{package.name}}] - Upload...  $profile $shcme
-        epm upload .conan/$porofile/$scheme
+        echo -e [36;1m[{{package.name}}][0;m - Upload...  $profile $shcme
+        epm upload .conan/$profile/$scheme
       done
     done 

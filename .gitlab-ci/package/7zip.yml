@@ -49,7 +49,7 @@ stages:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [7zip] - Upload...  $profile $shcme
-        epm upload .conan/$porofile/$scheme
+        echo -e [36;1m[7zip][0;m - Upload...  $profile $shcme
+        epm upload .conan/$profile/$scheme
       done
     done 

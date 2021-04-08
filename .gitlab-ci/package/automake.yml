@@ -74,7 +74,7 @@ automake@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [automake] - Upload...  $profile $shcme
-        epm upload .conan/$porofile/$scheme
+        echo -e [36;1m[automake][0;m - Upload...  $profile $shcme
+        epm upload .conan/$profile/$scheme
       done
     done 
