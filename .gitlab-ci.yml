@@ -61,3 +61,4 @@ packages:
   - if: '$CI_TARGET == "package"'
     when: manual
   - if: '$CI_COMMIT_BRANCH =~ /^release\// || $CI_COMMIT_BRANCH == "testing" || $CI_COMMIT_BRANCH'
+
