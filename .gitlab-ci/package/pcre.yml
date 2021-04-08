@@ -25,6 +25,29 @@ pcre:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+pcre:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
+  script:
+  - cd pcre
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
 pcre:gcc5-armv8@build:
@@ -45,29 +68,6 @@ pcre:gcc5-armv8@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5-armv8']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7-armv8 armv8 build
-    # =========================================
-pcre:gcc7-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
-  artifacts:
-    paths:
-    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre/.epm
-  script:
-  - cd pcre
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -117,16 +117,16 @@ pcre:gcc7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv7 armv7 build
+    # gcc7-armv8 armv8 build
     # =========================================
-pcre:gcc5-armv7@build:
+pcre:gcc7-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -136,20 +136,20 @@ pcre:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7']
+    - EPM_PROFILE: ['gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5 x86_64 build
+    # gcc6-armv8 armv8 build
     # =========================================
-pcre:gcc5@build:
+pcre:gcc6-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -159,7 +159,7 @@ pcre:gcc5@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc6-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -186,16 +186,16 @@ pcre:gcc6-armv7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc6-armv8 armv8 build
+    # gcc5-armv7 armv7 build
     # =========================================
-pcre:gcc6-armv8@build:
+pcre:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -205,7 +205,7 @@ pcre:gcc6-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv8']
+    - EPM_PROFILE: ['gcc5-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -254,6 +254,30 @@ pcre:MSVC@test:
       EPM_SCHEME: ['shared', 'static']
 
 
+    # =========================================
+    # gcc5 x86_64 test
+    # =========================================
+pcre:gcc5@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:oss-0.2
+  image: edgetoolkit/ubuntu:xenial
+  dependencies:
+  - pcre:gcc5@build
+  script:
+    cd pcre
+    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
+    
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
 
 
 
@@ -312,30 +336,6 @@ pcre:gcc7@test:
 
 
 
-    # =========================================
-    # gcc5 x86_64 test
-    # =========================================
-pcre:gcc5@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:oss-0.2
-  image: edgetoolkit/ubuntu:xenial
-  dependencies:
-  - pcre:gcc5@build
-  script:
-    cd pcre
-    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-        
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
-    
-    
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
 
 
 
@@ -353,30 +353,30 @@ pcre@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
+  - pcre:gcc5@build
   - pcre:gcc5-armv8@build
-  - pcre:gcc7-armv8@build
   - pcre:gcc6@build
   - pcre:gcc7@build
-  - pcre:gcc5-armv7@build
-  - pcre:MSVC@build
-  - pcre:gcc5@build
-  - pcre:gcc6-armv7@build
+  - pcre:gcc7-armv8@build
   - pcre:gcc6-armv8@build
+  - pcre:gcc6-armv7@build
+  - pcre:gcc5-armv7@build
   - pcre:gcc7-armv7@build
+  - pcre:MSVC@build
   script: |
     set -e
     cd pcre
     PROFILES=(
+      gcc5 gcc5d
       gcc5-armv8
-      gcc7-armv8
       gcc6d gcc6
       gcc7 gcc7d
-      gcc5-armv7
-      vs2019d vs2019
-      gcc5d gcc5
-      gcc6-armv7
+      gcc7-armv8
       gcc6-armv8
+      gcc6-armv7
+      gcc5-armv7
       gcc7-armv7
+      vs2019d vs2019
     )
 
     for profile in $PROFILES
@@ -385,7 +385,7 @@ pcre@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo -e [36;1m[pcre][0;m - Upload...  $profile $shcme
+        echo [pcre] - Upload...  $profile $shcme
         epm upload .conan/$profile/$scheme
       done
     done 

@@ -74,7 +74,7 @@ autoconf@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo -e [36;1m[autoconf][0;m - Upload...  $profile $shcme
+        echo [autoconf] - Upload...  $profile $shcme
         epm upload .conan/$profile/$scheme
       done
     done 

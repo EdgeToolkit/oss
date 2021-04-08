@@ -25,6 +25,29 @@ zlib:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+zlib:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/.epm
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
 zlib:gcc5-armv8@build:
@@ -45,29 +68,6 @@ zlib:gcc5-armv8@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5-armv8']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7-armv8 armv8 build
-    # =========================================
-zlib:gcc7-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/.epm
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -117,16 +117,16 @@ zlib:gcc7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv7 armv7 build
+    # gcc7-armv8 armv8 build
     # =========================================
-zlib:gcc5-armv7@build:
+zlib:gcc7-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
   artifacts:
     paths:
     - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -136,20 +136,20 @@ zlib:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7']
+    - EPM_PROFILE: ['gcc7-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5 x86_64 build
+    # gcc6-armv8 armv8 build
     # =========================================
-zlib:gcc5@build:
+zlib:gcc6-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
   artifacts:
     paths:
     - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -159,7 +159,7 @@ zlib:gcc5@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc6-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -186,16 +186,16 @@ zlib:gcc6-armv7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc6-armv8 armv8 build
+    # gcc5-armv7 armv7 build
     # =========================================
-zlib:gcc6-armv8@build:
+zlib:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
     - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -205,7 +205,7 @@ zlib:gcc6-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv8']
+    - EPM_PROFILE: ['gcc5-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -254,6 +254,30 @@ zlib:MSVC@test:
       EPM_SCHEME: ['shared', 'static']
 
 
+    # =========================================
+    # gcc5 x86_64 test
+    # =========================================
+zlib:gcc5@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:oss-0.2
+  image: edgetoolkit/ubuntu:xenial
+  dependencies:
+  - zlib:gcc5@build
+  script:
+    cd zlib
+    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
+    
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
 
 
 
@@ -312,30 +336,6 @@ zlib:gcc7@test:
 
 
 
-    # =========================================
-    # gcc5 x86_64 test
-    # =========================================
-zlib:gcc5@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:oss-0.2
-  image: edgetoolkit/ubuntu:xenial
-  dependencies:
-  - zlib:gcc5@build
-  script:
-    cd zlib
-    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-        
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
-    
-    
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
 
 
 
@@ -353,30 +353,30 @@ zlib@deploy:
   - deployer
   - workbench:oss-0.2
   dependencies:
+  - zlib:gcc5@build
   - zlib:gcc5-armv8@build
-  - zlib:gcc7-armv8@build
   - zlib:gcc6@build
   - zlib:gcc7@build
-  - zlib:gcc5-armv7@build
-  - zlib:MSVC@build
-  - zlib:gcc5@build
-  - zlib:gcc6-armv7@build
+  - zlib:gcc7-armv8@build
   - zlib:gcc6-armv8@build
+  - zlib:gcc6-armv7@build
+  - zlib:gcc5-armv7@build
   - zlib:gcc7-armv7@build
+  - zlib:MSVC@build
   script: |
     set -e
     cd zlib
     PROFILES=(
+      gcc5 gcc5d
       gcc5-armv8
-      gcc7-armv8
       gcc6d gcc6
       gcc7 gcc7d
-      gcc5-armv7
-      vs2019d vs2019
-      gcc5d gcc5
-      gcc6-armv7
+      gcc7-armv8
       gcc6-armv8
+      gcc6-armv7
+      gcc5-armv7
       gcc7-armv7
+      vs2019d vs2019
     )
 
     for profile in $PROFILES
@@ -385,7 +385,7 @@ zlib@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo -e [36;1m[zlib][0;m - Upload...  $profile $shcme
+        echo [zlib] - Upload...  $profile $shcme
         epm upload .conan/$profile/$scheme
       done
     done 
