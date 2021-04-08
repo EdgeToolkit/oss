@@ -6,7 +6,7 @@ stages:
     # =================================
     # MSVC build
     # =================================
-bzip2:MSVC@build:
+pcre:MSVC@build:
   stage: build
   tags:
   - Windows
@@ -14,10 +14,10 @@ bzip2:MSVC@build:
   - workbench:oss-0.2
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -27,7 +27,7 @@ bzip2:MSVC@build:
     # =========================================
     # gcc7-armv8 armv8 build
     # =========================================
-bzip2:gcc7-armv8@build:
+pcre:gcc7-armv8@build:
   stage: build
   tags:
   - Linux
@@ -37,10 +37,10 @@ bzip2:gcc7-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -50,7 +50,7 @@ bzip2:gcc7-armv8@build:
     # =========================================
     # gcc6 x86_64 build
     # =========================================
-bzip2:gcc6@build:
+pcre:gcc6@build:
   stage: build
   tags:
   - Linux
@@ -60,10 +60,10 @@ bzip2:gcc6@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -73,7 +73,7 @@ bzip2:gcc6@build:
     # =========================================
     # gcc7 x86_64 build
     # =========================================
-bzip2:gcc7@build:
+pcre:gcc7@build:
   stage: build
   tags:
   - Linux
@@ -83,10 +83,10 @@ bzip2:gcc7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -96,7 +96,7 @@ bzip2:gcc7@build:
     # =========================================
     # gcc5-armv7 armv7 build
     # =========================================
-bzip2:gcc5-armv7@build:
+pcre:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
@@ -106,10 +106,10 @@ bzip2:gcc5-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -119,7 +119,7 @@ bzip2:gcc5-armv7@build:
     # =========================================
     # gcc5 x86_64 build
     # =========================================
-bzip2:gcc5@build:
+pcre:gcc5@build:
   stage: build
   tags:
   - Linux
@@ -129,10 +129,10 @@ bzip2:gcc5@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -142,7 +142,7 @@ bzip2:gcc5@build:
     # =========================================
     # gcc6-armv7 armv7 build
     # =========================================
-bzip2:gcc6-armv7@build:
+pcre:gcc6-armv7@build:
   stage: build
   tags:
   - Linux
@@ -152,10 +152,10 @@ bzip2:gcc6-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6-armv7
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -165,7 +165,7 @@ bzip2:gcc6-armv7@build:
     # =========================================
     # gcc7-armv7 armv7 build
     # =========================================
-bzip2:gcc7-armv7@build:
+pcre:gcc7-armv7@build:
   stage: build
   tags:
   - Linux
@@ -175,10 +175,10 @@ bzip2:gcc7-armv7@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc7-armv7
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -188,7 +188,7 @@ bzip2:gcc7-armv7@build:
     # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
-bzip2:gcc5-armv8@build:
+pcre:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
@@ -198,10 +198,10 @@ bzip2:gcc5-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -211,7 +211,7 @@ bzip2:gcc5-armv8@build:
     # =========================================
     # gcc6-armv8 armv8 build
     # =========================================
-bzip2:gcc6-armv8@build:
+pcre:gcc6-armv8@build:
   stage: build
   tags:
   - Linux
@@ -221,10 +221,10 @@ bzip2:gcc6-armv8@build:
   image: 172.16.0.119:8482/edgetoolkit/gcc6-armv8
   artifacts:
     paths:
-    - bzip2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bzip2/.epm
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
   script:
-  - cd bzip2
+  - cd pcre
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
@@ -234,19 +234,19 @@ bzip2:gcc6-armv8@build:
     # =================================
     # MSVC test
     # =================================
-bzip2:MSVC@test:
+pcre:MSVC@test:
   stage: test
   tags:
   - Windows
   - runner
   - workbench:oss-0.2
   dependencies:
-  - bzip2:MSVC@build
+  - pcre:MSVC@build
   script: |
-    cd bzip2
+    cd pcre
     $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
         
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\w+ Bincrafters"
     
   parallel:
     matrix:
@@ -259,7 +259,7 @@ bzip2:MSVC@test:
     # =========================================
     # gcc6 x86_64 test
     # =========================================
-bzip2:gcc6@test:
+pcre:gcc6@test:
   stage: test
   tags:
   - Linux
@@ -268,12 +268,12 @@ bzip2:gcc6@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - bzip2:gcc6@build
+  - pcre:gcc6@build
   script:
-    cd bzip2
+    cd pcre
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
     
   parallel:
@@ -285,7 +285,7 @@ bzip2:gcc6@test:
     # =========================================
     # gcc7 x86_64 test
     # =========================================
-bzip2:gcc7@test:
+pcre:gcc7@test:
   stage: test
   tags:
   - Linux
@@ -294,12 +294,12 @@ bzip2:gcc7@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - bzip2:gcc7@build
+  - pcre:gcc7@build
   script:
-    cd bzip2
+    cd pcre
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
     
   parallel:
@@ -313,7 +313,7 @@ bzip2:gcc7@test:
     # =========================================
     # gcc5 x86_64 test
     # =========================================
-bzip2:gcc5@test:
+pcre:gcc5@test:
   stage: test
   tags:
   - Linux
@@ -322,12 +322,12 @@ bzip2:gcc5@test:
   - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
-  - bzip2:gcc5@build
+  - pcre:gcc5@build
   script:
-    cd bzip2
+    cd pcre
     export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package --help
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
     
   parallel:
@@ -346,26 +346,26 @@ bzip2:gcc5@test:
     # =================================
     # Deploy to conan repo
     # =================================
-bzip2@deploy:
+pcre@deploy:
   stage: deploy
   tags:
   - conan
   - deployer
   - workbench:oss-0.2
   dependencies:
-  - bzip2:gcc7-armv8@build
-  - bzip2:gcc6@build
-  - bzip2:gcc7@build
-  - bzip2:gcc5-armv7@build
-  - bzip2:gcc5@build
-  - bzip2:gcc6-armv7@build
-  - bzip2:gcc7-armv7@build
-  - bzip2:MSVC@build
-  - bzip2:gcc5-armv8@build
-  - bzip2:gcc6-armv8@build
+  - pcre:gcc7-armv8@build
+  - pcre:gcc6@build
+  - pcre:gcc7@build
+  - pcre:gcc5-armv7@build
+  - pcre:gcc5@build
+  - pcre:gcc6-armv7@build
+  - pcre:gcc7-armv7@build
+  - pcre:MSVC@build
+  - pcre:gcc5-armv8@build
+  - pcre:gcc6-armv8@build
   script: |
     set -e
-    cd bzip2
+    cd pcre
     PROFILES=(
       gcc7-armv8 gcc7-armv8d
       gcc6 gcc6d
@@ -385,7 +385,7 @@ bzip2@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [bzip2] - Upload...  $profile $shcme
+        echo [pcre] - Upload...  $profile $shcme
         epm upload .conan/$porofile/$scheme
       done
     done 
