@@ -18,33 +18,34 @@ class NinjaConan(ConanFile):
     _source_subfolder = "source_subfolder"
     _cmake = None
 
+    def package_id(self):
+        del self.info.settings.compiler
 
-    @property
-    def _is_msvc(self):
-        return self.settings.compiler == "Visual Studio"
+    def _configure_cmake(self):
+        if self._cmake:
+            return self._cmake
+
+        self._cmake = CMake(self)
+        self._cmake.definitions["BUILD_TESTING"] = "OFF"
+        self._cmake.configure()
+        return self._cmake
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
         os.rename("ninja-%s" % self.version, self._source_subfolder)
 
     def build(self):
-        with tools.chdir(self._source_subfolder):
-            with tools.vcvars(self.settings, filter_known_paths=False) if self._is_msvc else tools.no_op():
-                self.run("python configure.py --bootstrap")
+        for patch in self.conan_data.get("patches", {}).get(self.version, []):
+            tools.patch(**patch)
+
+        cmake = self._configure_cmake()
+        cmake.build()
 
     def package(self):
         self.copy(pattern="COPYING", dst="licenses", src=self._source_subfolder)
-        self.copy(pattern="ninja*", dst="bin", src=self._source_subfolder)
-
-    def package_id(self):
-        del self.info.settings.compiler
-        del self.info.settings.build_type
+        cmake = self._configure_cmake()
+        cmake.install()
 
     def package_info(self):
-        # ensure ninja is executable
-        if str(self.settings.os) in ["Linux", "Macosx"]:
-            name = os.path.join(self.package_folder, "bin", "ninja")
-            os.chmod(name, os.stat(name).st_mode | 0o111)
         self.env_info.PATH.append(os.path.join(self.package_folder, "bin"))
         self.env_info.CONAN_CMAKE_GENERATOR = "Ninja"
-

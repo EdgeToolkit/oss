@@ -1,5 +1,5 @@
 name: sqlite3
-version: 3.32.3
+version: 3.35.4
 
 scheme:
   shared:

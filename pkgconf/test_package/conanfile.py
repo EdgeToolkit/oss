@@ -22,7 +22,6 @@ class TestPackageConan(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
-        self.test()
 
     def test(self):
         if not tools.cross_building(self.settings):

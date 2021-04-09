@@ -65,7 +65,6 @@ class TestPackageConan(ConanFile):
 
         self._build_scripts()
         self._build_autotools()
-        self.test()
 
     def test(self):
         if self._system_cc:

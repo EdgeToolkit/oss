@@ -11,7 +11,6 @@ class TestPackageConan(ConanFile):
         meson = Meson(self)
         meson.configure(build_folder="build")
         meson.build()
-        self.test()
 
     def test(self):
         bin_path = os.path.join("build", "test_package")

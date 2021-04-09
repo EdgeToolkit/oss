@@ -1,5 +1,5 @@
 name: meson
-version: 0.56.2
+version: 0.57.1
 
 program:
 - name: test_package

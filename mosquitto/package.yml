@@ -1,5 +1,5 @@
 name: mosquitto
-version: 1.6.12
+version: 2.0.7
 
 scheme:
   shared:
@@ -16,7 +16,7 @@ scheme:
 
 dependencies:
   openssl:
-    version: 1.1.1g
+    version: 1.1.1i
     if: options.with_tls
   libwebsockets:
     version: 4.1.6

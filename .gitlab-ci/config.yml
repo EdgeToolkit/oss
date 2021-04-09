@@ -84,7 +84,7 @@
 - name: pthreads4w
   profile: *profile_msvc
 - sqlite3
-- gtest
+#- gtest
 - libiconv
 - xz_utils
 - protobuf
