@@ -12,21 +12,16 @@
   # PACKAGE PROFILE DEFINATION 
   # ====================================
   _profile.msvc: &profile_msvc
-  - vs20{19|19-x86}
-  - vs20{19|19d}
+  - vs20{19}
+  - vs20{19}d
   _profile.gcc: &profile_amd64
-  - gcc{5|6|7}
-  - gcc{5|6|7}d
+  - gcc{5|5d}
   _profile.arm: &profile_arm
-  - gcc{5|6|7}-armv7
-  - gcc{6|7}-armv7d
+  - gcc{5}-armv7
+  - gcc{5}-armv7d
   _profile.arm: &profile_arm64
-  - gcc{5|6|7}-armv8
-  - gcc{5|6|7}-armv8d
-#   _profile.hisi: &profile_hisi
-#   - hisiv{300|300d|400|400d}
-#   - himix{100|100d}
-
+  - gcc{5}-armv8
+  - gcc{5}-armv8d
 
   profile:
   - *profile_msvc
@@ -37,17 +32,17 @@
 # ======================================
 # TOOL PACKAGE SETTING definations 
 # ======================================
-- name: msys2
-  profile: vs2019
-  repack: true
-
-- name: strawberryperl
-  profile: vs2019
-  repack: true
-   
-- name: 7zip
-  profile: vs2019
-  tool: true
+#- name: msys2
+#  profile: vs2019
+#  repack: true
+#
+#- name: strawberryperl
+#  profile: vs2019
+#  repack: true
+#   
+#- name: 7zip
+#  profile: vs2019
+#  tool: true
 - name: winflexbison
   profile: vs2019
   tool: true
@@ -93,7 +88,6 @@
 - libiconv
 - xz_utils
 - protobuf
-- protobuf-c
 - name: protoc
   <<: *tool_setting
 - libcurl

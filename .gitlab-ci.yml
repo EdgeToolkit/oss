@@ -14,7 +14,7 @@ init:
   script:    
     - Install pip install networkx
     # python-gitlab --user
-    - .gitlab-ci/bin/generate --trigger
+    - .gitlab-ci/script/generate --trigger
   artifacts:
     paths:
     - .gitlab-ci/.cache/tools.yml

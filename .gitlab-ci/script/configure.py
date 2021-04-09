@@ -287,7 +287,7 @@ class Config(object):
 class Synthesis(object):
 
     def __init__(self, filename=None):
-        filename = filename or f"{_DIR}/../.config.yml"
+        filename = filename or f"{_DIR}/../config.yml"
         self._filename = abspath(filename)
         self._config = None
         self._package = None
