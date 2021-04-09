@@ -1,0 +1,58 @@
+
+stages:
+- build
+- deploy
+
+
+
+    # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+bison:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - bison/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - bison/.epm
+  script:
+  - cd bison
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5']
+      EPM_SCHEME: ['None']
+
+    # =================================
+    # Deploy to conan repo
+    # =================================
+bison@deploy:
+  stage: deploy
+  tags:
+  - conan
+  - deployer
+  - workbench:oss-0.2
+  dependencies:
+  - bison:gcc5@build
+  script: |
+    set -e
+    cd bison
+    PROFILES=(
+      gcc5
+    )
+
+    for profile in ${PROFILES[*]}
+    do
+      for scheme in None
+      do
+        export EPM_PROFILE=$profile
+        export EPM_FPROFILE=$scheme
+        echo [bison] - Upload...  $profile $shcme
+        epm upload --storage .conan/$profile/$scheme
+      done
+    done 
