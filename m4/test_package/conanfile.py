@@ -26,7 +26,6 @@ class TestPackageConan(ConanFile):
 
     def build(self):
         tools.save(self._m4_input_path, M4_CONTENTS)
-        self.test()
 
     def test(self):
         m4_bin = tools.get_env("M4")

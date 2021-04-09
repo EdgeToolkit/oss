@@ -13,7 +13,7 @@ program:
 
 build-tools:
   msys2: 
-    version: 20190524
+    version: 20200517
     if: compiler == 'Visual Studio'
   automake: 
     version: 1.16.2

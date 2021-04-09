@@ -18,6 +18,6 @@ program:
   executable: bin/test_package
   
 build-tools:
-    msys2: 20190524
+    msys2: 20200517
 
 

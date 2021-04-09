@@ -9,7 +9,7 @@ program:
     libtool: ${__version__}
 build-tools:
     msys2:
-        version: 2020517
+        version: 20200517
         if: os == Windows
 
 dependencies:

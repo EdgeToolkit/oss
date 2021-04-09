@@ -8,7 +8,7 @@ program:
   build-tools:
     pkgconf: ${__version__}
     msys2:
-      version: 2020517
+      version: 20200517
       if: os == Windows
 
 build-tools:

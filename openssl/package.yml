@@ -25,5 +25,5 @@ build-tools:
     if: compiler == 'Visual Studio'
 
   msys2: 
-    version: 20190524
+    version: 20200517
     if: compiler == 'Visual Studio'
