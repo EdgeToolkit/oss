@@ -12,7 +12,7 @@ winflexbison:MSVC@build:
   tags:
   - Windows
   - builder
-  - workbench:oss-0.2
+  - workbench:Z1
   artifacts:
     paths:
     - winflexbison/.conan/$EPM_PROFILE/$EPM_SCHEME
