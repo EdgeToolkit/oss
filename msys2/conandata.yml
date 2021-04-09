@@ -32,7 +32,3 @@ sources:
              "https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-base-x86_64-20200517.tar.xz",
       ]
       sha256: "c4443113497acb2d2e285d40b929fc55f33f8f669902595ecdf66a655b63dc60"
-
-
-7z-1900:
-   url: https://github.com/epmkit/downloads/releases/download/7z-1900/7z-1900.zip

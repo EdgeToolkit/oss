@@ -1,3 +1,0 @@
-- hosts: gitlab_runner
-  roles:
-  - role: pyenv

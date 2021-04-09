@@ -1,3 +1,0 @@
-- name: Install GitLab
-  include: install.yml
-  when: COMMAND == 'install'

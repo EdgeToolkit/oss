@@ -1,4 +1,0 @@
-{
-    "registry-mirrors": ["http://172.16.0.119:8050", "https://ru8upqqy.mirror.aliyuncs.com"],
-    "insecure-registries": ["172.16.0.121:8840" ]
-}

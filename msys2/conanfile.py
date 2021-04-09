@@ -21,26 +21,12 @@ class MSYS2Conan(ConanFile):
                        "packages": "base-devel,binutils,gcc",
                        "additional_packages": None}
     settings = "os", "arch"
+    
+    _bsdtar = None
 
     def configure(self):
         if self.settings.os != "Windows":
             raise ConanInvalidConfiguration("Only Windows supported")
-
-    def _add_msys2_mirror(self):
-        mirror = os.getenv('EPM_MIRROR_MSYS2')
-        if not mirror:
-            return
-
-        with tools.chdir(os.path.join(self._msys_dir, "etc", "pacman.d")):
-            for i in ['msys', 'mingw32', 'mingw64']:
-                if i == 'msys':
-                    mirror += '/msys/$arch'
-                else:
-                    mirror += '/mingw/%s' % ('x86_64' if i == 'mingw64' else 'i686')
-
-                mirror = '## msys2.org\nServer = ' + mirror
-
-                tools.replace_in_file('mirrorlist.' + i, '## msys2.org', mirror)
 
     def source(self):
         # build tools have to download files in build method when the
@@ -56,17 +42,44 @@ class MSYS2Conan(ConanFile):
     @property
     def _msys_dir(self):
         return "msys64" if self.settings.arch == "x86_64" else "msys32"
+    
+    @property
+    def tar(self):
+        ver = '3.5.1'
+        url = f'https://github.com/libarchive/libarchive/releases/download/{ver}/libarchive-v{ver}-win64.zip'
+        if self._bsdtar is None:
+            tools.get(url, destination='.')
+            self._bsdtar = os.path.abspath(os.path.join('libarchive', 'bin', 'bsdtar.exe'))
+        return self._bsdtar
+    
+    def _pre_install(self):
+        mirror = os.getenv('MSYS2_VERSION_MIRROR')
+        if mirror:
+            with tools.chdir(os.path.join(self._msys_dir)):
+                mirrorlist = os.path.join('etc','pacman.d', 'mirrorlist.msys')
+                os.rename(mirrorlist, mirrorlist + '.backup')
+                with open(mirrorlist, 'w') as f:
+                    f.write(f"Server = {mirror}/{self.version}/$arch/\n")
+                    
+
+    def _post_install(self):
+        mirror = os.getenv('MSYS2_VERSION_MIRROR')
+        if mirror:
+            with tools.chdir(os.path.join(self._msys_dir)):
+                mirrorlist = os.path.join('etc','pacman.d', 'mirrorlist.msys')
+                backup = f"{mirrorlist}.backup"
+                if os.path.exists(backup):
+                    os.remove(mirrorlist)
+                    os.rename(backup, mirrorlist)
+        import shutil
+        shutil.rmtree(os.path.join(self._msys_dir, 'var', 'cache'))
 
     def build(self):
-        tools.get(**self.conan_data["7z-1900"])
-
         arch = 0 if self.settings.arch == "x86" else 1  # index in the sources list
         filename = self._download(**self.conan_data["sources"][self.version][arch])
         tar_name = filename.replace(".xz", "")
-        self.run("7za.exe x {0}".format(filename))
-        self.run("7za.exe x {0}".format(tar_name))
+        self.run(f"{self.tar} -vxf {filename}")
         os.unlink(filename)
-        os.unlink(tar_name)
 
         packages = []
         if self.options.packages:
@@ -74,9 +87,9 @@ class MSYS2Conan(ConanFile):
         if self.options.additional_packages:
             packages.extend(str(self.options.additional_packages).split(","))
 
-        self._add_msys2_mirror()
+        self._pre_install()
 
-        with tools.chdir(os.path.join(self._msys_dir, "usr", "bin")):
+        with tools.chdir(os.path.join(self._msys_dir, "usr", "bin")):            
             for package in packages:
                 self.run('bash -l -c "pacman -S %s --noconfirm"' % package)
 
@@ -92,6 +105,8 @@ class MSYS2Conan(ConanFile):
         # Prepend the PKG_CONFIG_PATH environment variable with an eventual PKG_CONFIG_PATH environment variable
         tools.replace_in_file(os.path.join(self._msys_dir, "etc", "profile"),
                               'PKG_CONFIG_PATH="', 'PKG_CONFIG_PATH="$PKG_CONFIG_PATH:')
+        
+        self._post_install()
 
     def package(self):
         excludes = None

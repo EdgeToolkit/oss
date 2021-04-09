@@ -1,0 +1,19 @@
+workbench:
+  name: Z1
+
+conan:
+  storage: ${workbench}/data
+  short_path: ${workbench}/_data
+  remotes:
+  - name: Z1
+    url: http://172.16.0.119:8060/artifactory/api/conan/Z1
+
+  - name: Z1-T
+    url: http://172.16.0.119:8060/artifactory/api/conan/Z1-T
+
+  # repo for redistrubtion package Msys2 strawberryperl
+  - name: Z0
+    url: http://172.16.0.119:8060/artifactory/api/conan/Z0
+
+environment:
+  EPM_MIRROR_RULES: http://172.16.0.119/mirror/mirror.yml

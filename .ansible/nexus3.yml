@@ -1,4 +1,0 @@
-- hosts: nexus3
-  roles:
-  - role: nexus3
-
