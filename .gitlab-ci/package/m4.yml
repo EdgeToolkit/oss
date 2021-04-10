@@ -63,8 +63,6 @@ m4@deploy:
   - m4:MSVC@build
   script: |
     set -e
-    echo FUCK
-    exit 22
     cd m4
     PROFILES=(
       gcc5
