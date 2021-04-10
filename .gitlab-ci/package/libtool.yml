@@ -34,7 +34,7 @@ libtool:gcc5@build:
   - Linux
   - builder
   - docker
-  - workbench:oss-0.2
+  - workbench:Z1
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
@@ -59,14 +59,14 @@ libtool@deploy:
   - workbench:Z1
 
   dependencies:
-  - libtool:gcc5@build
   - libtool:MSVC@build
+  - libtool:gcc5@build
   script: |
     set -e
     cd libtool
     PROFILES=(
-      gcc5
       vs2019
+      gcc5
     )
 
     for profile in ${PROFILES[*]}

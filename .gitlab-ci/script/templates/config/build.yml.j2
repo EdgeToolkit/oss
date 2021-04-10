@@ -35,7 +35,7 @@
   - Linux
   - builder
   - docker
-  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
   image: 172.16.0.119:8482/edgetoolkit/{{name}}
   artifacts:
     paths:

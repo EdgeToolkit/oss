@@ -39,7 +39,7 @@
   - Linux
   - runner
   - docker
-  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
   image: edgetoolkit/{{matrix.image}}
   dependencies:
   - {{package.name}}:{{name}}@build

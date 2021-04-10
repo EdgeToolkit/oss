@@ -34,7 +34,7 @@ m4:gcc5@build:
   - Linux
   - builder
   - docker
-  - workbench:oss-0.2
+  - workbench:Z1
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
@@ -59,17 +59,14 @@ m4@deploy:
   - workbench:Z1
 
   dependencies:
-  - m4:gcc5@build
   - m4:MSVC@build
+  - m4:gcc5@build
   script: |
-    #!/bin/bash
     set -e
-    set -u
-    set -x
     cd m4
     PROFILES=(
-      gcc5
       vs2019
+      gcc5
     )
 
     for profile in ${PROFILES[*]}
@@ -78,9 +75,7 @@ m4@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [m4] - Upload...  $profile $scheme
-        command="epm upload --storage .conan/$profile/$scheme"
-        echo "-> $command"
-        $command
+        echo [m4] - Upload...  $profile $shcme
+        epm upload --storage .conan/$profile/$scheme
       done
-    done
+    done 

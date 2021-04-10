@@ -21,54 +21,8 @@ expat:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5-armv7 armv7 build
-    # =========================================
-expat:gcc5-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
-  artifacts:
-    paths:
-    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - expat/.epm
-  script:
-  - cd expat
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5 x86_64 build
-    # =========================================
-expat:gcc5@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:oss-0.2
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-  artifacts:
-    paths:
-    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - expat/.epm
-  script:
-  - cd expat
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
+      EPM_SCHEME: ['static', 'shared']
 
     # =========================================
     # gcc5-armv8 armv8 build
@@ -79,7 +33,7 @@ expat:gcc5-armv8@build:
   - Linux
   - builder
   - docker
-  - workbench:oss-0.2
+  - workbench:Z1
   image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
@@ -91,7 +45,53 @@ expat:gcc5-armv8@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
-      EPM_SCHEME: ['shared', 'static']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+expat:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
+  script:
+  - cd expat
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5-armv7 armv7 build
+    # =========================================
+expat:gcc5-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  artifacts:
+    paths:
+    - expat/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - expat/.epm
+  script:
+  - cd expat
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
+      EPM_SCHEME: ['static', 'shared']
 
     # =================================
     # MSVC test
@@ -112,8 +112,8 @@ expat:MSVC@test:
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
+      EPM_SCHEME: ['static', 'shared']
 
 
 
@@ -127,7 +127,7 @@ expat:gcc5@test:
   - Linux
   - runner
   - docker
-  - workbench:oss-0.2
+  - workbench:Z1
   image: edgetoolkit/ubuntu:xenial
   dependencies:
   - expat:gcc5@build
@@ -141,7 +141,7 @@ expat:gcc5@test:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
+      EPM_SCHEME: ['static', 'shared']
 
 
 
@@ -156,23 +156,23 @@ expat@deploy:
   - workbench:Z1
 
   dependencies:
-  - expat:gcc5-armv7@build
-  - expat:gcc5@build
   - expat:gcc5-armv8@build
+  - expat:gcc5@build
+  - expat:gcc5-armv7@build
   - expat:MSVC@build
   script: |
     set -e
     cd expat
     PROFILES=(
-      gcc5-armv7d gcc5-armv7
-      gcc5d gcc5
       gcc5-armv8 gcc5-armv8d
-      vs2019d vs2019
+      gcc5d gcc5
+      gcc5-armv7d gcc5-armv7
+      vs2019 vs2019d
     )
 
     for profile in ${PROFILES[*]}
     do
-      for scheme in shared static
+      for scheme in static shared
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
