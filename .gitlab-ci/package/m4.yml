@@ -62,7 +62,10 @@ m4@deploy:
   - m4:gcc5@build
   - m4:MSVC@build
   script: |
+    #!/bin/bash
     set -e
+    set -u
+    set -x
     cd m4
     PROFILES=(
       gcc5
