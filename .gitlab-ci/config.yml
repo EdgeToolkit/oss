@@ -64,7 +64,7 @@
 #- name: libtool
 #  <<: *tool_setting
 #- name: re2c
-  <<: *tool_setting
+#  <<: *tool_setting
 #- name: ninja
 #  <<: *tool_setting
 #- name: meson
