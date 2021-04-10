@@ -7,7 +7,8 @@
   tags:
   - conan
   - deployer
-  - workbench:oss-{{ synthesis.version }}
+  - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
+
   dependencies:
 {%- for m in Matrix %}
   - {{package.name}}:{{m.group}}@build

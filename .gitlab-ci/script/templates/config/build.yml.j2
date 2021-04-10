@@ -9,7 +9,7 @@
   tags:
   - Windows
   - builder
-  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
   artifacts:
     paths:
     - {{package.name}}/.conan/$EPM_PROFILE/$EPM_SCHEME

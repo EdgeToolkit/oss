@@ -25,16 +25,16 @@ pcre:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv8 armv8 build
+    # gcc5-armv7 armv7 build
     # =========================================
-pcre:gcc5-armv8@build:
+pcre:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -44,7 +44,7 @@ pcre:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -56,7 +56,7 @@ pcre:gcc5@build:
   - Linux
   - builder
   - docker
-  - workbench:Z1
+  - workbench:oss-0.2
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
@@ -67,20 +67,20 @@ pcre:gcc5@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5', 'gcc5d']
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv7 armv7 build
+    # gcc5-armv8 armv8 build
     # =========================================
-pcre:gcc5-armv7@build:
+pcre:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  - workbench:oss-0.2
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -90,7 +90,7 @@ pcre:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -127,7 +127,7 @@ pcre:gcc5@test:
   - Linux
   - runner
   - docker
-  - workbench:Z1
+  - workbench:oss-0.2
   image: edgetoolkit/ubuntu:xenial
   dependencies:
   - pcre:gcc5@build
@@ -140,7 +140,7 @@ pcre:gcc5@test:
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5', 'gcc5d']
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['shared', 'static']
 
 
@@ -153,20 +153,21 @@ pcre@deploy:
   tags:
   - conan
   - deployer
-  - workbench:oss-0.2
+  - workbench:Z1
+
   dependencies:
-  - pcre:gcc5-armv8@build
-  - pcre:gcc5@build
-  - pcre:MSVC@build
   - pcre:gcc5-armv7@build
+  - pcre:gcc5@build
+  - pcre:gcc5-armv8@build
+  - pcre:MSVC@build
   script: |
     set -e
     cd pcre
     PROFILES=(
+      gcc5-armv7d gcc5-armv7
+      gcc5d gcc5
       gcc5-armv8 gcc5-armv8d
-      gcc5 gcc5d
       vs2019d vs2019
-      gcc5-armv7 gcc5-armv7d
     )
 
     for profile in ${PROFILES[*]}

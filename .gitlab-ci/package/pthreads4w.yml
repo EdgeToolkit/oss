@@ -54,7 +54,8 @@ pthreads4w@deploy:
   tags:
   - conan
   - deployer
-  - workbench:oss-0.2
+  - workbench:Z1
+
   dependencies:
   - pthreads4w:MSVC@build
   script: |

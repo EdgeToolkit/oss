@@ -208,7 +208,10 @@ class Config(object):
     @property
     def version(self):
         return self._base.get('version')
-
+    @property
+    def workbench(self):
+        return self._base.get('workbench', None) or None
+        
     def _parse(self):
         base = self._parse_config(self._base)
 

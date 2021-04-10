@@ -9,7 +9,7 @@
   tags:
   - Windows
   - runner
-  - workbench:{{workbench | default('oss-{}'.format(synthesis.version)) }}
+  - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
   dependencies:
   - {{package.name}}:MSVC@build
   script: |

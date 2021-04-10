@@ -34,7 +34,7 @@ re2c:gcc5@build:
   - Linux
   - builder
   - docker
-  - workbench:Z1
+  - workbench:oss-0.2
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
@@ -56,7 +56,8 @@ re2c@deploy:
   tags:
   - conan
   - deployer
-  - workbench:oss-0.2
+  - workbench:Z1
+
   dependencies:
   - re2c:gcc5@build
   - re2c:MSVC@build
