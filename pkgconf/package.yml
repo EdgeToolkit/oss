@@ -12,5 +12,5 @@ program:
       if: os == Windows
 
 build-tools:
-  meson: 0.56.2
+  meson: 0.57.1
   automake: 1.16.2
