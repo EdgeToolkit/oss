@@ -87,9 +87,9 @@
 #- gtest
 - libiconv
 - xz_utils
-- protobuf
-- name: protoc
-  <<: *tool_setting
+#- protobuf
+#- name: protoc
+#  <<: *tool_setting
 - libcurl
 - libwebsockets
 - mosquitto
