@@ -78,7 +78,7 @@ m4@deploy:
       do
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
-        echo [m4] - Upload...  $profile $shcme
+        echo [m4] - Upload...  $profile $scheme
         command="epm upload --storage .conan/$profile/$scheme"
         echo "-> $command"
         $command
