@@ -1,0 +1,80 @@
+
+stages:
+- build
+- deploy
+
+
+    # =================================
+    # MSVC build
+    # =================================
+m4:MSVC@build:
+  stage: build
+  tags:
+  - Windows
+  - builder
+  - workbench:Z1
+  artifacts:
+    paths:
+    - m4/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - m4/.epm
+  script:
+  - cd m4
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['vs2019']
+      EPM_SCHEME: ['None']
+
+    # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+m4:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - m4/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - m4/.epm
+  script:
+  - cd m4
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5']
+      EPM_SCHEME: ['None']
+
+    # =================================
+    # Deploy to conan repo
+    # =================================
+m4@deploy:
+  stage: deploy
+  tags:
+  - conan
+  - deployer
+  - workbench:oss-0.2
+  dependencies:
+  - m4:gcc5@build
+  - m4:MSVC@build
+  script: |
+    set -e
+    cd m4
+    PROFILES=(
+      gcc5
+      vs2019
+    )
+
+    for profile in ${PROFILES[*]}
+    do
+      for scheme in None
+      do
+        export EPM_PROFILE=$profile
+        export EPM_FPROFILE=$scheme
+        echo [m4] - Upload...  $profile $shcme
+        epm upload --storage .conan/$profile/$scheme
+      done
+    done 

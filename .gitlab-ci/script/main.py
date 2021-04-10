@@ -65,7 +65,7 @@ def gitlab_ci_generate(args):
     """
     out_dir = abspath(args.out)
     synthesis = Synthesis()
-    context = {'synthesis': synthesis}
+    context = {'synthesis': synthesis, 'workbench': 'Z1'}
     docker_registry_url = os.getenv('DOCKER_REGISTRY_URL')
     if docker_registry_url:
         if not docker_registry_url.endswith('/'):

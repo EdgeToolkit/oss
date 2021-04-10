@@ -9,7 +9,7 @@ init:
     - Linux
     - docker
     - runner
-    - workbench:oss-0.2
+    - workbench:Z1
   image: 172.16.0.119:8482/edgetoolkit/gcc5
   script:    
     - Install pip install networkx

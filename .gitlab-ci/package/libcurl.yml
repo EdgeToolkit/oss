@@ -1,0 +1,181 @@
+stages:
+- build
+- test
+- deploy
+
+    # =================================
+    # MSVC build
+    # =================================
+libcurl:MSVC@build:
+  stage: build
+  tags:
+  - Windows
+  - builder
+  - workbench:Z1
+  artifacts:
+    paths:
+    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libcurl/.epm
+  script:
+  - cd libcurl
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc5-armv8 armv8 build
+    # =========================================
+libcurl:gcc5-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  artifacts:
+    paths:
+    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libcurl/.epm
+  script:
+  - cd libcurl
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+libcurl:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libcurl/.epm
+  script:
+  - cd libcurl
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc5-armv7 armv7 build
+    # =========================================
+libcurl:gcc5-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  artifacts:
+    paths:
+    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libcurl/.epm
+  script:
+  - cd libcurl
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =================================
+    # MSVC test
+    # =================================
+libcurl:MSVC@test:
+  stage: test
+  tags:
+  - Windows
+  - runner
+  - workbench:Z1
+  dependencies:
+  - libcurl:MSVC@build
+  script: |
+    cd libcurl
+    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
+        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['shared', 'static']
+
+
+
+
+    # =========================================
+    # gcc5 x86_64 test
+    # =========================================
+libcurl:gcc5@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/ubuntu:xenial
+  dependencies:
+  - libcurl:gcc5@build
+  script:
+    cd libcurl
+    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+        
+    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
+    
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+
+
+    # =================================
+    # Deploy to conan repo
+    # =================================
+libcurl@deploy:
+  stage: deploy
+  tags:
+  - conan
+  - deployer
+  - workbench:oss-0.2
+  dependencies:
+  - libcurl:gcc5-armv8@build
+  - libcurl:gcc5@build
+  - libcurl:MSVC@build
+  - libcurl:gcc5-armv7@build
+  script: |
+    set -e
+    cd libcurl
+    PROFILES=(
+      gcc5-armv8 gcc5-armv8d
+      gcc5 gcc5d
+      vs2019d vs2019
+      gcc5-armv7 gcc5-armv7d
+    )
+
+    for profile in ${PROFILES[*]}
+    do
+      for scheme in shared static
+      do
+        export EPM_PROFILE=$profile
+        export EPM_FPROFILE=$scheme
+        echo [libcurl] - Upload...  $profile $shcme
+        epm upload --storage .conan/$profile/$scheme
+      done
+    done 
