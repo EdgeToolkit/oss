@@ -63,6 +63,8 @@ m4@deploy:
   - m4:MSVC@build
   script: |
     set -e
+    echo FUCK
+    exit 22
     cd m4
     PROFILES=(
       gcc5
@@ -76,7 +78,7 @@ m4@deploy:
         export EPM_PROFILE=$profile
         export EPM_FPROFILE=$scheme
         echo [m4] - Upload...  $profile $shcme
-        command=epm upload --storage .conan/$profile/$scheme
+        command="epm upload --storage .conan/$profile/$scheme"
         echo "-> $command"
         $command
       done
