@@ -26,6 +26,7 @@ class ZlibConan(ConanFile):
     @property
     def _build_subfolder(self):
         return "build_subfolder"
+
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
@@ -42,6 +43,7 @@ class ZlibConan(ConanFile):
 
     def package_id(self):
         del self.info.options.minizip
+
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
         os.rename("{}-{}".format(self.name, self.version), self._source_subfolder)
