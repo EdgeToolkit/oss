@@ -10,6 +10,7 @@ program:
     msys2:
       version: 20200517
       if: os == Windows
+    automake: 1.16.2
 
 build-tools:
   meson: 0.57.1
