@@ -1,6 +1,0 @@
-name: 7zip
-version: '19.00'
-
-program:
-- name: 7z
-  executable: bin/7z
