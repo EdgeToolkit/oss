@@ -44,7 +44,7 @@ class PkgConfConan(ConanFile):
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
-        os.rename("pkgconf-{}".format(self.version), self._source_subfolder)
+        os.rename("pkgconf-pkgconf-{}".format(self.version), self._source_subfolder)
     
     @delete
     def build_requirements(self):
