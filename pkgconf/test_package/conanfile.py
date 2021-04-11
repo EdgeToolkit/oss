@@ -13,7 +13,7 @@ class TestPackageConan(ConanFile):
         self.build_requires("automake/1.16.2")
         if tools.os_info.is_windows and not tools.get_env("CONAN_BASH_PATH") \
                 and tools.os_info.detect_windows_subsystem() != "msys2":
-            self.build_requires("msys2/2020517")
+            self.build_requires("msys2/20200517")
 
     def build(self):
         # Test pkg.m4 integration into automake
