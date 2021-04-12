@@ -2,7 +2,7 @@ from conans import AutoToolsBuildEnvironment, CMake, ConanFile, tools, RunEnviro
 from conans.errors import ConanException
 import os
 import shutil
-from epm.tools.conan import as_program, delete
+from epm.tools.conan import as_program, delete, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
@@ -14,7 +14,7 @@ class TestPackageConan(ConanFile):
         if tools.os_info.is_windows and not tools.get_env("CONAN_BASH_PATH") \
                 and tools.os_info.detect_windows_subsystem() != "msys2":
             self.build_requires("msys2/20190524")
-
+    @append_test
     def build(self):
         # Test pkg.m4 integration into automake
         shutil.copy(os.path.join(self.source_folder, "configure.ac"),

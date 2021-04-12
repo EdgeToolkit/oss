@@ -2,13 +2,13 @@ from conans import ConanFile, CMake, tools
 import os
 import subprocess
 import re
-from epm.tools.conan import as_program
+from epm.tools.conan import as_program, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake", "cmake_find_package"
-
+    @append_test
     def build(self):
         if tools.cross_building(self.settings) and self.settings.os in ["iOS"]:
             return  # on iOS I do not even need to build, it will just give am a and error about unsigned binaries       

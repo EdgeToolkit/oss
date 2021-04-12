@@ -1,12 +1,12 @@
 from conans import ConanFile, CMake, tools
 import os
-from epm.tools.conan import as_program
+from epm.tools.conan import as_program, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-
+    @append_test
     def build(self):
         if not tools.cross_building(self.settings):
             cmake = CMake(self)

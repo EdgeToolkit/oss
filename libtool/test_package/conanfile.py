@@ -2,7 +2,7 @@ from conans import AutoToolsBuildEnvironment, CMake, ConanFile, tools
 from contextlib import contextmanager
 import os
 import shutil
-from epm.tools.conan import as_program, delete
+from epm.tools.conan import as_program, delete, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
@@ -81,7 +81,7 @@ class TestPackageConan(ConanFile):
             libdir = "bin" if self.settings.os == "Windows" else "lib"
             lib_path = os.path.join(libdir, "liba.{}".format(lib_suffix))
             self.run("{} {}".format(bin_path, lib_path), run_environment=True)
-
+    @append_test
     def build(self):
         self._build_autotools()
         self._build_ltdl()

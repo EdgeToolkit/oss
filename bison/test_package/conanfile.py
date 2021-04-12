@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake, tools
 import os
 
-from epm.tools.conan import as_program, delete
+from epm.tools.conan import as_program, delete, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
@@ -17,7 +17,7 @@ class TestPackageConan(ConanFile):
     @property
     def _mc_parser_source(self):
         return os.path.join(self.source_folder, "mc_parser.yy")
-
+    @append_test
     def build(self):
         if not tools.cross_building(self.settings, skip_x64_x86=True):
             # verify bison may run

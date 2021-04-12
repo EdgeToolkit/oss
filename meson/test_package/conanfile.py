@@ -1,12 +1,12 @@
 from conans import ConanFile, Meson, tools
 import os
-from epm.tools.conan import as_program
+from epm.tools.conan import as_program, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "pkg_config"
-
+    @append_test
     def build(self):
         meson = Meson(self)
         meson.configure(build_folder="build")

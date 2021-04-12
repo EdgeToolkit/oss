@@ -2,7 +2,7 @@ from conans import AutoToolsBuildEnvironment, ConanFile, tools
 from contextlib import contextmanager
 import os
 import shutil
-from epm.tools.conan import as_program, delete
+from epm.tools.conan import as_program, delete, append_test
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
@@ -58,7 +58,7 @@ class TestPackageConan(ConanFile):
         with self._build_context():
             autotools.configure()
             autotools.make()
-
+    @append_test
     def build(self):
         for src in self.exports_sources:
             shutil.copy(os.path.join(self.source_folder, src), self.build_folder)

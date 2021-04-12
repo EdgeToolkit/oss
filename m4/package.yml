@@ -11,5 +11,5 @@ program:
     location: test_package
     executable: false
     build-tools:
-      m4: ${__version__}
       msys2: *MSYS2
+      m4: ${__version__}

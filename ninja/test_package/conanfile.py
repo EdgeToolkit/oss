@@ -6,5 +6,5 @@ ConanFile = as_program(ConanFile)
 
 class TestPackage(ConanFile):
 
-    def test(self):
+    def build(self):
         self.run("ninja --version", run_environment=True)

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake, tools, append_test
 from epm.tools.conan import as_program
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake", "cmake_find_package"
-
+    @append_test
     def build(self):
         cmake = CMake(self)
         cmake.definitions['WITH_GMOCK'] = self.options['gtest'].build_gmock
