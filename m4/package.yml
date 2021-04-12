@@ -1,13 +1,15 @@
 name: m4
 version: 1.4.18
 
+build-tools:
+  msys2: &MSYS2
+    version: 20200517
+    if: os == Windows
+
 program:
   - name: test
     location: test_package
     executable: false
     build-tools:
       m4: ${__version__}
-build-tools:
-  msys2:
-    version: 20200517
-    if: os == Windows
+      msys2: *MSYS2

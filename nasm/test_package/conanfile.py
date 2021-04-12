@@ -6,7 +6,7 @@ ConanFile = as_program(ConanFile)
 
 class DefaultNameConan(ConanFile):
     settings = "os", "arch"
-    def build(self):
+    def test(self):
         if not tools.cross_building(self.settings, skip_x64_x86=True):
             self.run("nasm --version", run_environment=True)
             if self.settings.os == "Linux" and self.settings.arch == "x86_64":

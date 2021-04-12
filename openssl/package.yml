@@ -10,11 +10,6 @@ scheme:
       shared: false
   
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/digest
-  
 build-tools:
   strawberryperl: 
     version: 5.30.0.1
@@ -27,3 +22,8 @@ build-tools:
   msys2: 
     version: 20200517
     if: compiler == 'Visual Studio'
+
+program:
+- name: test_package
+  location: test_package
+  executable: bin/digest

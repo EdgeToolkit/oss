@@ -1,19 +1,20 @@
 name: autoconf
 version: 2.69
 
+build-tools:
+  msys2: &MSYS2
+    version: 20200517
+    if: os == Windows
+
+dependencies:
+  m4: 1.4.18
+
 
 program:
 - name: test_package
   location: test_package
   executable: test_package
   build-tools:
+    msys2: *MSYS2
     autoconf: ${__version__}
 
-build-tools:
-  msys2:
-    version: 20200517
-    if: os == Windows
-
-dependencies:
-  m4: 1.4.18
-  

@@ -1,4 +1,3 @@
-import os
 from conans import ConanFile, CMake, tools
 import os
 import textwrap

@@ -9,12 +9,6 @@ scheme:
     options:
       shared: false
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
-
-
 dependencies:
   zlib: 
     version: 1.2.11
@@ -23,4 +17,7 @@ dependencies:
     version: 1.0.8
     if: options.with_bzip2  
 
-##
+program:
+- name: test_package
+  location: test_package
+  executable: bin/test_package

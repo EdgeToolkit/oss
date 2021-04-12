@@ -1,16 +1,19 @@
 name: libtool
 version: 2.4.6
 
+dependencies:
+    automake: 1.16.2
+
+build-tools:
+    msys2: &MSYS2
+        version: 20200517
+        if: os == Windows
+
+
 program:
 - name: test_package
   location: test_package
   executable: bin/test_package
   build-tools:
     libtool: ${__version__}
-build-tools:
-    msys2:
-        version: 20200517
-        if: os == Windows
-
-dependencies:
-    automake: 1.16.2
+    msys2: *MSYS2

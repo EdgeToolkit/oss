@@ -2,13 +2,17 @@ from conans import AutoToolsBuildEnvironment, CMake, ConanFile, tools
 from contextlib import contextmanager
 import os
 import shutil
-from epm.tools.conan import as_program
+from epm.tools.conan import as_program, delete
 ConanFile = as_program(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-
+    @delete
+    def build_requirements(self):
+        if tools.os_info.is_windows and "CONAN_BASH_PATH" not in os.environ \
+                and tools.os_info.detect_windows_subsystem() != "msys2":
+            self.build_requires("msys2/20190524")
 
     @contextmanager
     def _build_context(self):
