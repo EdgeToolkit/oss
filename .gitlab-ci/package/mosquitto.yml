@@ -25,16 +25,16 @@ mosquitto:MSVC@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5 x86_64 build
+    # gcc5-armv8 armv8 build
     # =========================================
-mosquitto:gcc5@build:
+mosquitto:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
   artifacts:
     paths:
     - mosquitto/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -44,7 +44,7 @@ mosquitto:gcc5@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -71,16 +71,16 @@ mosquitto:gcc5-armv7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv8 armv8 build
+    # gcc5 x86_64 build
     # =========================================
-mosquitto:gcc5-armv8@build:
+mosquitto:gcc5@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
   artifacts:
     paths:
     - mosquitto/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -90,7 +90,7 @@ mosquitto:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -106,12 +106,16 @@ mosquitto:MSVC@test:
   - mosquitto:MSVC@build
   script:
   - cd mosquitto
-  - $EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
+  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
     
   parallel:
     matrix:
     - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['shared', 'static']
+
+
+
+
 
 
     # =========================================
@@ -124,7 +128,7 @@ mosquitto:gcc5@test:
   - runner
   - docker
   - workbench:Z1
-  image: edgetoolkit/ubuntu:xenial
+  image: ubuntu:xenial
   dependencies:
   - mosquitto:gcc5@build
   script:
@@ -135,10 +139,6 @@ mosquitto:gcc5@test:
     matrix:
     - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['shared', 'static']
-
-
-
-
 
     # =================================
     # Deploy to conan repo
@@ -153,24 +153,24 @@ mosquitto@deploy:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
 
   dependencies:
-  - mosquitto:gcc5@build
-  - mosquitto:MSVC@build
-  - mosquitto:gcc5-armv7@build
   - mosquitto:gcc5-armv8@build
+  - mosquitto:gcc5-armv7@build
+  - mosquitto:MSVC@build
+  - mosquitto:gcc5@build
   script:
-  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
-  - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
-  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
-  - epm -p gcc5 -s static upload --storage .conan/gcc5/static
-  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
-  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
-  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
-  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
+  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
+  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
+  - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
+  - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
   - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
   - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
   - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
   - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
-  - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
-  - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
-  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
-  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
+  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
+  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
+  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
+  - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
+  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
+  - epm -p gcc5 -s static upload --storage .conan/gcc5/static

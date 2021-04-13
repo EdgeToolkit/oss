@@ -14,9 +14,9 @@
   - {{package.name}}:MSVC@build
   script:
   - cd {{package.name}}
-  - $EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
+  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
 {% for program in package.config.program['Windows'] %}        
-  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
+  - . .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
 {% endfor %}    
   parallel:
     matrix:
@@ -40,7 +40,7 @@
   - runner
   - docker
   - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
-  image: edgetoolkit/{{matrix.image}}
+  image: {{matrix.image}}
   dependencies:
   - {{package.name}}:{{name}}@build
   script:
