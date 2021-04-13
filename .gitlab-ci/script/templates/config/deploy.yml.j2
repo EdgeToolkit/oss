@@ -16,6 +16,7 @@
   - {{package.name}}:{{m.group}}@build
 {%- endfor %}
   script:
+  - cd {{package.name}}
 {%- for m in Matrix -%}
 {%- for profile in m.profile -%}
 {%- for scheme in CTree | scheme_filter %}
