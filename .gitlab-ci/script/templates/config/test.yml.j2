@@ -29,14 +29,15 @@
 {%- for name, config in CTree.items() -%}
 {%- if name !=  'MSVC' %}
 {% set matrix = CTree | cmatrix(name) %}
+
 {% if matrix.image %}
     # =========================================
     # {{name}} {{matrix.arch}} test
-    # =========================================
+    # =========================================   
 {{uname| default(package.name, true)}}:{{name}}@test:
   stage: test
   tags:
-  - Linux
+  - {{"Linux/aarch64" if matrix.arch == "armv8" else "Linux"}}
   - runner
   - docker
   - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}

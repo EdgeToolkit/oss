@@ -17,7 +17,11 @@ _IMAGES = {
     'gcc5': 'ubuntu:xenial', 
     'gcc6': 'ubuntu:xenial', 
     'gcc7': 'ubuntu:xenial', 
-    'gcc8': 'ubuntu:bionic',    
+    'gcc8': 'ubuntu:bionic',
+    'gcc5-armv8': 'arm64v8/ubuntu:xenial', 
+    'gcc6-armv8': 'arm64v8/ubuntu:xenial', 
+    'gcc7-armv8': 'arm64v8/ubuntu:xenial', 
+    'gcc8-armv8': 'arm64v8/ubuntu:bionic',    
 }
 def _make_matrix(group, config):
     P = set(config.keys())
