@@ -64,5 +64,6 @@ meson@deploy:
   - meson:MSVC@build
   - meson:gcc5@build
   script:
+  - cd meson
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None

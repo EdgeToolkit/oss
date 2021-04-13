@@ -64,5 +64,6 @@ ninja@deploy:
   - ninja:MSVC@build
   - ninja:gcc5@build
   script:
+  - cd ninja
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None

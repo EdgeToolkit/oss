@@ -43,4 +43,5 @@ flex@deploy:
   dependencies:
   - flex:gcc5@build
   script:
+  - cd flex
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None

@@ -16,4 +16,4 @@ program:
   location: test_package
   executable: bin/test
 
-# CI: 10
+# CI: 11

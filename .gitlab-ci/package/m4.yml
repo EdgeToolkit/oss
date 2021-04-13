@@ -64,5 +64,6 @@ m4@deploy:
   - m4:MSVC@build
   - m4:gcc5@build
   script:
+  - cd m4
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None

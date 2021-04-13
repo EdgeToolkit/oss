@@ -21,54 +21,8 @@ libwebsockets:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019', 'vs2019d']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5-armv8 armv8 build
-    # =========================================
-libwebsockets:gcc5-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
-  artifacts:
-    paths:
-    - libwebsockets/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libwebsockets/.epm
-  script:
-  - cd libwebsockets
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc5-armv7 armv7 build
-    # =========================================
-libwebsockets:gcc5-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
-  artifacts:
-    paths:
-    - libwebsockets/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libwebsockets/.epm
-  script:
-  - cd libwebsockets
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
-      EPM_SCHEME: ['shared', 'static']
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['static', 'shared']
 
     # =========================================
     # gcc5 x86_64 build
@@ -91,7 +45,53 @@ libwebsockets:gcc5@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5-armv7 armv7 build
+    # =========================================
+libwebsockets:gcc5-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  artifacts:
+    paths:
+    - libwebsockets/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libwebsockets/.epm
+  script:
+  - cd libwebsockets
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5-armv8 armv8 build
+    # =========================================
+libwebsockets:gcc5-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  artifacts:
+    paths:
+    - libwebsockets/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - libwebsockets/.epm
+  script:
+  - cd libwebsockets
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+      EPM_SCHEME: ['static', 'shared']
 
     # =================================
     # MSVC test
@@ -112,12 +112,8 @@ libwebsockets:MSVC@test:
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019', 'vs2019d']
-      EPM_SCHEME: ['shared', 'static']
-
-
-
-
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['static', 'shared']
 
 
     # =========================================
@@ -142,7 +138,11 @@ libwebsockets:gcc5@test:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['shared', 'static']
+      EPM_SCHEME: ['static', 'shared']
+
+
+
+
 
     # =================================
     # Deploy to conan repo
@@ -157,24 +157,25 @@ libwebsockets@deploy:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
 
   dependencies:
-  - libwebsockets:gcc5-armv8@build
-  - libwebsockets:gcc5-armv7@build
   - libwebsockets:MSVC@build
   - libwebsockets:gcc5@build
+  - libwebsockets:gcc5-armv7@build
+  - libwebsockets:gcc5-armv8@build
   script:
-  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
-  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
-  - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
-  - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
-  - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
-  - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
-  - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
-  - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
-  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
-  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
-  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - cd libwebsockets
   - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
-  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
+  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
   - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
-  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
+  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
   - epm -p gcc5 -s static upload --storage .conan/gcc5/static
+  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
+  - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
+  - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
+  - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
+  - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
+  - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
+  - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
+  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
+  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared

@@ -40,4 +40,5 @@ winflexbison@deploy:
   dependencies:
   - winflexbison:MSVC@build
   script:
+  - cd winflexbison
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None

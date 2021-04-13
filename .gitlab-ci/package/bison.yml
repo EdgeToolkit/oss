@@ -43,4 +43,5 @@ bison@deploy:
   dependencies:
   - bison:gcc5@build
   script:
+  - cd bison
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None

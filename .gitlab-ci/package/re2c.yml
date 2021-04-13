@@ -64,5 +64,6 @@ re2c@deploy:
   - re2c:MSVC@build
   - re2c:gcc5@build
   script:
+  - cd re2c
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None
   - epm -p gcc5 -s None upload --storage .conan/gcc5/None
