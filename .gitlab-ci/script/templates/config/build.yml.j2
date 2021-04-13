@@ -16,7 +16,7 @@
     - {{package.name}}/.epm
   script:
   - cd {{package.name}}
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  {{'' if package.config.tool else '--with-deps'}} --clear
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}
@@ -36,14 +36,14 @@
   - builder
   - docker
   - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
-  image: 172.16.0.119:8482/edgetoolkit/{{name}}
+  image: {{docker_registry_prefix | default('', true)}}edgetoolkit/{{name}}
   artifacts:
     paths:
     - {{package.name}}/.conan/$EPM_PROFILE/$EPM_SCHEME
     - {{package.name}}/.epm
   script:
   - cd {{package.name}}
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME {{'' if package.config.tool else '--with-deps'}} --clear
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}

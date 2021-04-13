@@ -37,8 +37,6 @@ tools:
   - if: '$CI_TARGET == "tool"'
     when: manual
 
-#
-#
 packages:
   stage: packages
   trigger:
@@ -50,5 +48,8 @@ packages:
   - if: '$CI_TARGET == "package"'
     when: manual
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+
+  - changes:
+    - zlib
 
 

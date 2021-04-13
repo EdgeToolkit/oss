@@ -8,11 +8,24 @@
   - conan
   - deployer
   - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
-
+{% if docker_registry_prefix %}
+  image: {{docker_registry_prefix}}edgetoolkit/gcc5
+{% endif %}
   dependencies:
 {%- for m in Matrix %}
   - {{package.name}}:{{m.group}}@build
 {%- endfor %}
+  script:
+{%- for m in Matrix -%}
+{%- for profile in m.profile -%}
+{%- for scheme in CTree | scheme_filter %}
+  - epm -p {{profile}} -s {{scheme}} upload --storage .conan/{{profile}}/{{scheme}}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+
+
+{#
   script: |
     set -e
     cd {{package.name}}
@@ -32,3 +45,4 @@
         epm upload --storage .conan/$profile/$scheme
       done
     done 
+#}

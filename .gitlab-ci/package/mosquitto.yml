@@ -18,34 +18,11 @@ mosquitto:MSVC@build:
     - mosquitto/.epm
   script:
   - cd mosquitto
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019', 'vs2019d']
-      EPM_SCHEME: ['static', 'shared']
-
-    # =========================================
-    # gcc5-armv8 armv8 build
-    # =========================================
-mosquitto:gcc5-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
-  artifacts:
-    paths:
-    - mosquitto/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - mosquitto/.epm
-  script:
-  - cd mosquitto
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
-      EPM_SCHEME: ['static', 'shared']
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['shared', 'static']
 
     # =========================================
     # gcc5 x86_64 build
@@ -64,11 +41,34 @@ mosquitto:gcc5@build:
     - mosquitto/.epm
   script:
   - cd mosquitto
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['static', 'shared']
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc5-armv8 armv8 build
+    # =========================================
+mosquitto:gcc5-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  artifacts:
+    paths:
+    - mosquitto/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - mosquitto/.epm
+  script:
+  - cd mosquitto
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+      EPM_SCHEME: ['shared', 'static']
 
     # =========================================
     # gcc5-armv7 armv7 build
@@ -87,11 +87,11 @@ mosquitto:gcc5-armv7@build:
     - mosquitto/.epm
   script:
   - cd mosquitto
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
-      EPM_SCHEME: ['static', 'shared']
+    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+      EPM_SCHEME: ['shared', 'static']
 
     # =================================
     # MSVC test
@@ -105,15 +105,13 @@ mosquitto:MSVC@test:
   dependencies:
   - mosquitto:MSVC@build
   script: |
-    cd mosquitto
-    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
+  - cd mosquitto
+  - $EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019', 'vs2019d']
-      EPM_SCHEME: ['static', 'shared']
-
-
+    - EPM_PROFILE: ['vs2019d', 'vs2019']
+      EPM_SCHEME: ['shared', 'static']
 
 
     # =========================================
@@ -130,14 +128,15 @@ mosquitto:gcc5@test:
   dependencies:
   - mosquitto:gcc5@build
   script:
-    cd mosquitto
-    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
-    
+  - cd mosquitto
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['static', 'shared']
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['shared', 'static']
+
+
 
 
 
@@ -151,28 +150,27 @@ mosquitto@deploy:
   - deployer
   - workbench:Z1
 
+  image: 172.16.0.119:8482/edgetoolkit/gcc5
+
   dependencies:
-  - mosquitto:gcc5-armv8@build
   - mosquitto:gcc5@build
+  - mosquitto:gcc5-armv8@build
   - mosquitto:gcc5-armv7@build
   - mosquitto:MSVC@build
-  script: |
-    set -e
-    cd mosquitto
-    PROFILES=(
-      gcc5-armv8 gcc5-armv8d
-      gcc5d gcc5
-      gcc5-armv7d gcc5-armv7
-      vs2019 vs2019d
-    )
-
-    for profile in ${PROFILES[*]}
-    do
-      for scheme in static shared
-      do
-        export EPM_PROFILE=$profile
-        export EPM_FPROFILE=$scheme
-        echo [mosquitto] - Upload...  $profile $shcme
-        epm upload --storage .conan/$profile/$scheme
-      done
-    done 
+  script:
+  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
+  - epm -p gcc5 -s static upload --storage .conan/gcc5/static
+  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
+  - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
+  - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
+  - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
+  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
+  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
+  - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
+  - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
+  - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
+  - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
+  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
+  - epm -p vs2019 -s static upload --storage .conan/vs2019/static

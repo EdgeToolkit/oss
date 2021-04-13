@@ -13,10 +13,10 @@
   dependencies:
   - {{package.name}}:MSVC@build
   script: |
-    cd {{package.name}}
-    $EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME" 
+  - cd {{package.name}}
+  - $EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
 {% for program in package.config.program['Windows'] %}        
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
+  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
 {% endfor %}    
   parallel:
     matrix:
@@ -44,12 +44,11 @@
   dependencies:
   - {{package.name}}:{{name}}@build
   script:
-    cd {{package.name}}
-    export EPM_SANDBOX_STORAGE = ".conan/$EPM_PROFILE/$EPM_SCHEME"    
+  - cd {{package.name}}
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
 {% for program in package.config.program['Linux'] %}        
-    .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
+  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/{{program}}
 {% endfor %}    
-    
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}

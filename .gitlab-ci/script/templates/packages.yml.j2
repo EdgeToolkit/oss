@@ -19,12 +19,14 @@ stages:
   trigger:
     include: .gitlab-ci/package/{{ package.name }}.yml
     strategy: depend
-#  rules:
-#    - changes:
-#      - {{ package.name }}
+  rules:
+  - if: '$CI_TARGET == {{"tool" if package.config.tool else "package"}}'
+    when: manual
+  - changes:
+    - {{ package.name }}/*
 {% endfor %}
 {% endfor  -%}
-
+{#
 done:
   stage: done
   tags:
@@ -35,3 +37,4 @@ done:
   image: alpine
   script:    
     - echo packages build complete
+#}

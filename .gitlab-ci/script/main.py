@@ -66,11 +66,11 @@ def gitlab_ci_generate(args):
     out_dir = abspath(args.out)
     synthesis = Synthesis()
     context = {'synthesis': synthesis}
-    docker_registry_url = os.getenv('DOCKER_REGISTRY_URL')
-    if docker_registry_url:
-        if not docker_registry_url.endswith('/'):
-            docker_registry_url = '/'
-        context['DOCKER_REGISTRY_URL'] = docker_registry_url
+    docker_registry_prefix = os.getenv('DOCKER_REGISTRY_PREFIX', '172.16.0.119:8482/')
+    if docker_registry_prefix:
+        if not docker_registry_prefix.endswith('/'):
+            docker_registry_prefix = '/'
+        context['docker_registry_prefix'] = docker_registry_prefix
 
     
     if args.trigger:

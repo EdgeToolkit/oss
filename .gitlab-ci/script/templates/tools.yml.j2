@@ -27,7 +27,7 @@ stages:
 #      - {{ package.name }}
 {% endfor %}
 {% endfor  -%}
-
+{#
 done:
   stage: done
   tags:
@@ -38,3 +38,4 @@ done:
   image: alpine
   script:    
     - echo tools build done
+#}
