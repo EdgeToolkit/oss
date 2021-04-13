@@ -61,8 +61,8 @@ meson@deploy:
   image: 172.16.0.119:8482/edgetoolkit/gcc5
 
   dependencies:
-  - meson:gcc5@build
   - meson:MSVC@build
+  - meson:gcc5@build
   script:
-  - epm -p gcc5 -s None upload --storage .conan/gcc5/None
   - epm -p vs2019 -s None upload --storage .conan/vs2019/None
+  - epm -p gcc5 -s None upload --storage .conan/gcc5/None

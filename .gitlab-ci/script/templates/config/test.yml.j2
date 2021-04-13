@@ -12,7 +12,7 @@
   - workbench:{{synthesis.config.workbench | default('oss-{}'.format(synthesis.version), true) }}
   dependencies:
   - {{package.name}}:MSVC@build
-  script: |
+  script:
   - cd {{package.name}}
   - $EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
 {% for program in package.config.program['Windows'] %}        
