@@ -24,7 +24,7 @@ init:
     when: manual
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
   - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
-  - changes:
+  - changes: &_PACKAGEs
     - zlib/*
 
 tools:
@@ -50,8 +50,8 @@ packages:
   - if: '$CI_TARGET == "package"'
     when: manual
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
-  - changes:
-    - zlib/*
+  - changes: *_PACKAGEs
+    
 
 
 
