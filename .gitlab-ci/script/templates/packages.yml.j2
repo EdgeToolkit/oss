@@ -20,7 +20,7 @@ stages:
     include: .gitlab-ci/package/{{ package.name }}.yml
     strategy: depend
   rules:
-  - if: '$CI_TARGET == {{"tool" if package.config.tool else "package"}}'
+  - if: '$CI_TARGET == "{{"tool" if package.config.tool else "package"}}"'
     when: manual
   - changes:
     - {{ package.name }}/*
