@@ -24,6 +24,8 @@ init:
     when: manual
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
   - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
+  - changes:
+    - zlib
 
 tools:
   stage: tools
