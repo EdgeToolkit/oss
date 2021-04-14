@@ -27,6 +27,7 @@ init:
   - changes: &_PACKAGEs
     - zlib/*
     - brotli/*
+    - expat/*
 
 tools:
   stage: tools

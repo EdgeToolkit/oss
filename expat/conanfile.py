@@ -16,7 +16,6 @@ class ExpatConan(ConanFile):
     default_options = {"shared": False, "fPIC": True}
     generators = "cmake"
     exports_sources = ["CMakeLists.txt", "patches/*"]
-
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
