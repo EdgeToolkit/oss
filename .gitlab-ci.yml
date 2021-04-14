@@ -26,6 +26,7 @@ init:
   - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
   - changes: &_PACKAGEs
     - zlib/*
+    - brotli/*
 
 tools:
   stage: tools
