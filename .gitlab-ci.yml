@@ -29,6 +29,7 @@ init:
     - brotli/*
     - openssl/*    
     - expat/*
+    - libcurl/*
 
 tools:
   stage: tools
