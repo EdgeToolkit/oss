@@ -27,6 +27,8 @@ init:
   - changes: &_PACKAGEs
     - zlib/*
     - brotli/*
+    - openssl/*
+    
 
 tools:
   stage: tools

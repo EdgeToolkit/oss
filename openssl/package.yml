@@ -27,3 +27,5 @@ program:
 - name: test_package
   location: test_package
   executable: bin/digest
+
+# CI: 0
