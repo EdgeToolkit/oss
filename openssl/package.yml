@@ -28,4 +28,4 @@ program:
   location: test_package
   executable: bin/digest
 
-# CI: 0
+# CI: 2
