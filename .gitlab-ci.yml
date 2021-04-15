@@ -30,6 +30,7 @@ init:
     - openssl/*    
     - expat/*
     - libcurl/*
+    - mosquitto/*
 
 tools:
   stage: tools
