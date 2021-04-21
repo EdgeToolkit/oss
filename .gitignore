@@ -1,4 +1,5 @@
 .epm
+.cache
 .conan
 tmp
 source_subfolder
