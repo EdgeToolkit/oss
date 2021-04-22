@@ -16,14 +16,14 @@
   - vs20{19}
   - vs20{19}d
   _profile.gcc: &profile_amd64
-  - gcc{5|7}
-  - gcc{5|7}d
+  - gcc{5|6|7|8}
+  - gcc{5|6|7|8}d
   _profile.arm: &profile_arm
-  - gcc{5|7}-armv7
-  - gcc{5|7}-armv7d
+  - gcc{5|6|7}-armv7
+  - gcc{5|6|7}-armv7d
   _profile.arm: &profile_arm64
-  - gcc{5|7}-armv8
-  - gcc{5|7}-armv8d
+  - gcc{5|6|7}-armv8
+  - gcc{5|6|7}-armv8d
 
   profile:
   - *profile_msvc
