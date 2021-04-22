@@ -1,5 +1,7 @@
 # oss
 
+| package| version | ref-ver | status |
+| :----: |
 
 Generate bundle workbench config files, if not sepcified bundle name, all bundle will be generated.
 You must insure ~/config/gitlab-ci/config.yml exist or use --config to set your path.
