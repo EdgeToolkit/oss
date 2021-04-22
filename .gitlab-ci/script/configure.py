@@ -104,7 +104,7 @@ class Package(object):
             
             if not program and self.program:
                 program = {'Windows': self.program[:1], 'Linux': self.program[:1]}
-            print(self.name, '->', program)    
+            #print(self.name, '->', program)    
             
             self._config = namedtuple("Config", "tool repack profile program")(
                 tool, repack, profile, program)

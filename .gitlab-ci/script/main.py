@@ -93,7 +93,7 @@ def gitlab_ci_generate(args):
         j2.Filters['scheme_filter'] = _ctree_matrix_scheme
         for name, package in synthesis.package.items():
             if 'all' in args.package or name in args.package:                
-                print(f"[{name}] ...")
+                print(f"[{name} {package.version}] ...")
                 j2.render('package.yml.j2', outfile=f'{out_dir}/{name}.yml',
                     context={'package': package})
                 if not package.config.tool and package.tool_user:
