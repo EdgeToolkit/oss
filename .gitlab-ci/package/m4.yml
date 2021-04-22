@@ -23,7 +23,7 @@ m4:MSVC@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['vs2019']
-      EPM_SCHEME: ['None']
+      EPM_SCHEME: ['none']
 
     # =========================================
     # gcc5 x86_64 build
@@ -35,7 +35,7 @@ m4:gcc5@build:
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  image: edgetoolkit/gcc5
   artifacts:
     paths:
     - m4/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -46,7 +46,7 @@ m4:gcc5@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5']
-      EPM_SCHEME: ['None']
+      EPM_SCHEME: ['none']
 
     # =================================
     # Deploy to conan repo
@@ -58,12 +58,10 @@ m4@deploy:
   - deployer
   - workbench:Z1
 
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-
   dependencies:
   - m4:MSVC@build
   - m4:gcc5@build
   script:
   - cd m4
-  - epm -p vs2019 -s None upload --storage .conan/vs2019/None
-  - epm -p gcc5 -s None upload --storage .conan/gcc5/None
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

@@ -161,6 +161,8 @@ class Package(object):
                             tree[name] = dict() 
                         if profile not in tree[name]:
                             tree[name][profile] = set()
+                        if scheme in ['None', 'none', 'default']:
+                            scheme='none'    
                         tree[name][profile].add(scheme)
             self._ctree = tree
             

@@ -27,6 +27,7 @@ def _make_matrix(group, config):
     P = set(config.keys())
     S = set()
     for s in config.values():
+        
         S.update(s)
 
     arch = 'x86_64'
@@ -61,6 +62,7 @@ def _ctree_matrix_scheme(ctree, compiler=None, arch=None):
         if arch and arch != m.arch:
             match = False
         if match:
+            
             schemes.update(m.scheme)
     return schemes
 
@@ -71,6 +73,7 @@ def gitlab_ci_generate(args):
     synthesis = Synthesis()
     context = {'synthesis': synthesis}
     docker_registry_prefix = os.getenv('DOCKER_REGISTRY_PREFIX', '172.16.0.119:8482/')
+    docker_registry_prefix = None
     if docker_registry_prefix:
         if not docker_registry_prefix.endswith('/'):
             docker_registry_prefix = '/'

@@ -39,7 +39,7 @@ pthreads4w:MSVC@test:
   - cd pthreads4w
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
         
-  - . .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package
+  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
     
   parallel:
     matrix:
@@ -55,8 +55,6 @@ pthreads4w@deploy:
   - conan
   - deployer
   - workbench:Z1
-
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
 
   dependencies:
   - pthreads4w:MSVC@build

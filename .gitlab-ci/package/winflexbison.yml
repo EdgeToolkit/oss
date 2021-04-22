@@ -23,7 +23,7 @@ winflexbison:MSVC@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['vs2019']
-      EPM_SCHEME: ['None']
+      EPM_SCHEME: ['none']
 
     # =================================
     # Deploy to conan repo
@@ -35,10 +35,8 @@ winflexbison@deploy:
   - deployer
   - workbench:Z1
 
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-
   dependencies:
   - winflexbison:MSVC@build
   script:
   - cd winflexbison
-  - epm -p vs2019 -s None upload --storage .conan/vs2019/None
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

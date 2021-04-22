@@ -15,7 +15,7 @@ flex:gcc5@build:
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
+  image: edgetoolkit/gcc5
   artifacts:
     paths:
     - flex/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -26,7 +26,7 @@ flex:gcc5@build:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc5']
-      EPM_SCHEME: ['None']
+      EPM_SCHEME: ['none']
 
     # =================================
     # Deploy to conan repo
@@ -38,10 +38,8 @@ flex@deploy:
   - deployer
   - workbench:Z1
 
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-
   dependencies:
   - flex:gcc5@build
   script:
   - cd flex
-  - epm -p gcc5 -s None upload --storage .conan/gcc5/None
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

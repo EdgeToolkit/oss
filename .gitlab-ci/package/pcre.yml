@@ -34,7 +34,7 @@ pcre:gcc7-armv8@build:
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv8
+  image: edgetoolkit/gcc7-armv8
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -44,53 +44,7 @@ pcre:gcc7-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
-      EPM_SCHEME: ['static', 'shared']
-
-    # =========================================
-    # gcc5 x86_64 build
-    # =========================================
-pcre:gcc5@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-  artifacts:
-    paths:
-    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre/.epm
-  script:
-  - cd pcre
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['static', 'shared']
-
-    # =========================================
-    # gcc7-armv7 armv7 build
-    # =========================================
-pcre:gcc7-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc7-armv7
-  artifacts:
-    paths:
-    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre/.epm
-  script:
-  - cd pcre
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv7', 'gcc7-armv7d']
+    - EPM_PROFILE: ['gcc7-armv8d', 'gcc7-armv8']
       EPM_SCHEME: ['static', 'shared']
 
     # =========================================
@@ -103,7 +57,7 @@ pcre:gcc5-armv8@build:
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv8
+  image: edgetoolkit/gcc5-armv8
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -113,7 +67,7 @@ pcre:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
       EPM_SCHEME: ['static', 'shared']
 
     # =========================================
@@ -126,7 +80,7 @@ pcre:gcc7@build:
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc7
+  image: edgetoolkit/gcc7
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -140,16 +94,16 @@ pcre:gcc7@build:
       EPM_SCHEME: ['static', 'shared']
 
     # =========================================
-    # gcc5-armv7 armv7 build
+    # gcc7-armv7 armv7 build
     # =========================================
-pcre:gcc5-armv7@build:
+pcre:gcc7-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: 172.16.0.119:8482/edgetoolkit/gcc5-armv7
+  image: edgetoolkit/gcc7-armv7
   artifacts:
     paths:
     - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -159,7 +113,53 @@ pcre:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+    - EPM_PROFILE: ['gcc7-armv7d', 'gcc7-armv7']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5 x86_64 build
+    # =========================================
+pcre:gcc5@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc5
+  artifacts:
+    paths:
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
+  script:
+  - cd pcre
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
+      EPM_SCHEME: ['static', 'shared']
+
+    # =========================================
+    # gcc5-armv7 armv7 build
+    # =========================================
+pcre:gcc5-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc5-armv7
+  artifacts:
+    paths:
+    - pcre/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre/.epm
+  script:
+  - cd pcre
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
       EPM_SCHEME: ['static', 'shared']
 
     # =================================
@@ -177,7 +177,7 @@ pcre:MSVC@test:
   - cd pcre
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
         
-  - . .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\w+ Bincrafters"
+  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package "\w+ Bincrafters"
     
   parallel:
     matrix:
@@ -203,41 +203,12 @@ pcre:gcc7-armv8@test:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
+    - EPM_PROFILE: ['gcc7-armv8d', 'gcc7-armv8']
       EPM_SCHEME: ['static', 'shared']
-
-
-
-    # =========================================
-    # gcc5 x86_64 test
-    # =========================================   
-pcre:gcc5@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:xenial
-  dependencies:
-  - pcre:gcc5@build
-  script:
-  - cd pcre
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
-        
-  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
-    
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
-      EPM_SCHEME: ['static', 'shared']
-
-
-
 
 
 
@@ -258,11 +229,11 @@ pcre:gcc5-armv8@test:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
+    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
       EPM_SCHEME: ['static', 'shared']
 
 
@@ -284,11 +255,40 @@ pcre:gcc7@test:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
         
-  - .epm/$EPM_PROFILE@$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
     
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc7', 'gcc7d']
+      EPM_SCHEME: ['static', 'shared']
+
+
+
+
+
+
+    # =========================================
+    # gcc5 x86_64 test
+    # =========================================   
+pcre:gcc5@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:xenial
+  dependencies:
+  - pcre:gcc5@build
+  script:
+  - cd pcre
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package "\\w+ Bincrafters"
+    
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc5', 'gcc5d']
       EPM_SCHEME: ['static', 'shared']
 
 
@@ -304,43 +304,41 @@ pcre@deploy:
   - deployer
   - workbench:Z1
 
-  image: 172.16.0.119:8482/edgetoolkit/gcc5
-
   dependencies:
-  - pcre:MSVC@build
   - pcre:gcc7-armv8@build
-  - pcre:gcc5@build
-  - pcre:gcc7-armv7@build
   - pcre:gcc5-armv8@build
   - pcre:gcc7@build
+  - pcre:MSVC@build
+  - pcre:gcc7-armv7@build
+  - pcre:gcc5@build
   - pcre:gcc5-armv7@build
   script:
   - cd pcre
-  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
-  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
-  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
-  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
-  - epm -p gcc7-armv8 -s static upload --storage .conan/gcc7-armv8/static
-  - epm -p gcc7-armv8 -s shared upload --storage .conan/gcc7-armv8/shared
   - epm -p gcc7-armv8d -s static upload --storage .conan/gcc7-armv8d/static
   - epm -p gcc7-armv8d -s shared upload --storage .conan/gcc7-armv8d/shared
-  - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
-  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
-  - epm -p gcc5 -s static upload --storage .conan/gcc5/static
-  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
-  - epm -p gcc7-armv7 -s static upload --storage .conan/gcc7-armv7/static
-  - epm -p gcc7-armv7 -s shared upload --storage .conan/gcc7-armv7/shared
-  - epm -p gcc7-armv7d -s static upload --storage .conan/gcc7-armv7d/static
-  - epm -p gcc7-armv7d -s shared upload --storage .conan/gcc7-armv7d/shared
-  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
-  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
+  - epm -p gcc7-armv8 -s static upload --storage .conan/gcc7-armv8/static
+  - epm -p gcc7-armv8 -s shared upload --storage .conan/gcc7-armv8/shared
   - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
   - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
+  - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
+  - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
   - epm -p gcc7 -s static upload --storage .conan/gcc7/static
   - epm -p gcc7 -s shared upload --storage .conan/gcc7/shared
   - epm -p gcc7d -s static upload --storage .conan/gcc7d/static
   - epm -p gcc7d -s shared upload --storage .conan/gcc7d/shared
-  - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
-  - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
+  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
+  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
+  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p gcc7-armv7d -s static upload --storage .conan/gcc7-armv7d/static
+  - epm -p gcc7-armv7d -s shared upload --storage .conan/gcc7-armv7d/shared
+  - epm -p gcc7-armv7 -s static upload --storage .conan/gcc7-armv7/static
+  - epm -p gcc7-armv7 -s shared upload --storage .conan/gcc7-armv7/shared
+  - epm -p gcc5 -s static upload --storage .conan/gcc5/static
+  - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
+  - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
+  - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
   - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
   - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
+  - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
+  - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
