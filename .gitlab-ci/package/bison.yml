@@ -19,7 +19,7 @@ bison:gcc5@build:
   artifacts:
     paths:
     - bison/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - bison/.epm
+    - bison/_out
   script:
   - cd bison
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear

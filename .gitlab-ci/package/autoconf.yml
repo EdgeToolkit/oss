@@ -16,7 +16,7 @@ autoconf:MSVC@build:
   artifacts:
     paths:
     - autoconf/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - autoconf/.epm
+    - autoconf/_out
   script:
   - cd autoconf
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ autoconf:gcc5@build:
   artifacts:
     paths:
     - autoconf/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - autoconf/.epm
+    - autoconf/_out
   script:
   - cd autoconf
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ autoconf@deploy:
   - workbench:Z1
 
   dependencies:
-  - autoconf:MSVC@build
   - autoconf:gcc5@build
+  - autoconf:MSVC@build
   script:
   - cd autoconf
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

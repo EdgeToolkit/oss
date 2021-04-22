@@ -16,7 +16,7 @@ nasm:MSVC@build:
   artifacts:
     paths:
     - nasm/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - nasm/.epm
+    - nasm/_out
   script:
   - cd nasm
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ nasm:gcc5@build:
   artifacts:
     paths:
     - nasm/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - nasm/.epm
+    - nasm/_out
   script:
   - cd nasm
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ nasm@deploy:
   - workbench:Z1
 
   dependencies:
-  - nasm:MSVC@build
   - nasm:gcc5@build
+  - nasm:MSVC@build
   script:
   - cd nasm
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

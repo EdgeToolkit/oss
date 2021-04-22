@@ -27,3 +27,4 @@ excludes.yml
 /bundle-meta-tree.yaml
 .tmp
 .mirror.yml
+_out

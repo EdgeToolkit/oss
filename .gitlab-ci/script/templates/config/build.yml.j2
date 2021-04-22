@@ -13,7 +13,7 @@
   artifacts:
     paths:
     - {{package.name}}/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - {{package.name}}/.epm
+    - {{package.name}}/_out
   script:
   - cd {{package.name}}
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  {{'' if package.config.tool else '--with-deps'}} --clear
@@ -40,7 +40,7 @@
   artifacts:
     paths:
     - {{package.name}}/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - {{package.name}}/.epm
+    - {{package.name}}/_out
   script:
   - cd {{package.name}}
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME {{'' if package.config.tool else '--with-deps'}} --clear

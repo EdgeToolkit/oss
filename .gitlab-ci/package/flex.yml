@@ -19,7 +19,7 @@ flex:gcc5@build:
   artifacts:
     paths:
     - flex/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - flex/.epm
+    - flex/_out
   script:
   - cd flex
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear

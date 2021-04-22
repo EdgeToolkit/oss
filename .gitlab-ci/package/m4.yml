@@ -16,7 +16,7 @@ m4:MSVC@build:
   artifacts:
     paths:
     - m4/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - m4/.epm
+    - m4/_out
   script:
   - cd m4
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ m4:gcc5@build:
   artifacts:
     paths:
     - m4/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - m4/.epm
+    - m4/_out
   script:
   - cd m4
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ m4@deploy:
   - workbench:Z1
 
   dependencies:
-  - m4:MSVC@build
   - m4:gcc5@build
+  - m4:MSVC@build
   script:
   - cd m4
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

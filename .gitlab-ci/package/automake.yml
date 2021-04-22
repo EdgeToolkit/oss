@@ -16,7 +16,7 @@ automake:MSVC@build:
   artifacts:
     paths:
     - automake/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - automake/.epm
+    - automake/_out
   script:
   - cd automake
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ automake:gcc5@build:
   artifacts:
     paths:
     - automake/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - automake/.epm
+    - automake/_out
   script:
   - cd automake
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ automake@deploy:
   - workbench:Z1
 
   dependencies:
-  - automake:MSVC@build
   - automake:gcc5@build
+  - automake:MSVC@build
   script:
   - cd automake
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

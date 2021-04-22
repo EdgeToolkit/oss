@@ -16,7 +16,7 @@ winflexbison:MSVC@build:
   artifacts:
     paths:
     - winflexbison/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - winflexbison/.epm
+    - winflexbison/_out
   script:
   - cd winflexbison
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear

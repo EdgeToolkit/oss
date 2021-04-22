@@ -16,7 +16,7 @@ ninja:MSVC@build:
   artifacts:
     paths:
     - ninja/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - ninja/.epm
+    - ninja/_out
   script:
   - cd ninja
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ ninja:gcc5@build:
   artifacts:
     paths:
     - ninja/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - ninja/.epm
+    - ninja/_out
   script:
   - cd ninja
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ ninja@deploy:
   - workbench:Z1
 
   dependencies:
-  - ninja:MSVC@build
   - ninja:gcc5@build
+  - ninja:MSVC@build
   script:
   - cd ninja
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

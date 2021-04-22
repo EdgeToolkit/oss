@@ -16,7 +16,7 @@ re2c:MSVC@build:
   artifacts:
     paths:
     - re2c/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - re2c/.epm
+    - re2c/_out
   script:
   - cd re2c
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME   --clear
@@ -39,7 +39,7 @@ re2c:gcc5@build:
   artifacts:
     paths:
     - re2c/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - re2c/.epm
+    - re2c/_out
   script:
   - cd re2c
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --clear
@@ -59,9 +59,9 @@ re2c@deploy:
   - workbench:Z1
 
   dependencies:
-  - re2c:MSVC@build
   - re2c:gcc5@build
+  - re2c:MSVC@build
   script:
   - cd re2c
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
