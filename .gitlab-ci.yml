@@ -25,12 +25,12 @@ init:
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
   - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
   - changes: &_PACKAGEs
-    - zlib/*
     - brotli/*
-    - openssl/*    
     - expat/*
     - libcurl/*
     - mosquitto/*
+    - zlib/*
+    - openssl/*    
 
 tools:
   stage: tools
