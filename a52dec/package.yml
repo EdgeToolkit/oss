@@ -10,8 +10,8 @@ scheme:
     options:
       shared: false
 
-#program:
-#- name: test_package
+program:
+- name: a52dec
 #  location: test_package
-#  executable: bin/test
+  executable: bin/a52dec
 
