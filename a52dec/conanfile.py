@@ -79,9 +79,6 @@ class A52decConan(ConanFile):
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
 
-    def package_id(self):
-        del self.info.options.minizip
-
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
         os.rename("{}-{}".format(self.name, self.version), self._source_subfolder)
@@ -89,9 +86,7 @@ class A52decConan(ConanFile):
 
     def _patch_sources(self):
         for patch in self.conan_data["patches"][self.version]:
-            print('--->', patch)
             tools.patch(**patch)
-        print("PWD", os.path.abspath('.'))
         shutil.copy("patches/CMakeLists.txt", self._source_subfolder)
         
     @property
@@ -100,31 +95,37 @@ class A52decConan(ConanFile):
             self._cmake = CMake(self)
         return self._cmake
 
-    def build(self):
-        with tools.chdir(self.source_subfolder):
+    def _autotools_build(self):
+        with tools.chdir(self._source_subfolder):
             with tools.environment_append({'LIBS' : "-lm"}):
                 self.run("autoreconf -f -i")
 
-                _args = ["--prefix=%s/builddir"%(os.getcwd()), "--with-pic", "--disable-silent-rules", "--enable-introspection"]
+                _args = ["--prefix=%s/builddir"%(os.getcwd()), "--disable-silent-rules", "--enable-introspection"]
                 if self.options.shared:
                     _args.extend(['--enable-shared=yes','--enable-static=no'])
                 else:
                     _args.extend(['--enable-shared=no','--enable-static=yes'])
 
                 autotools = AutoToolsBuildEnvironment(self)
-                autotools.fpic = True
+                # _args += ["--with-pic"]
+                # autotools.fpic = True
                 autotools.configure(args=_args)
                 autotools.make(args=["-j4"])
                 autotools.install()        
 
     def build(self):
-        self.cmake.configure(build_folder=self._build_subfolder)
-        self.cmake.build()
+        if tools.os_info.is_linux:
+            self._autotools_build()
+        else:
+            self.cmake.configure(build_folder=self._build_subfolder)
+            self.cmake.build()
         
     def package(self):
-        self.cmake.install()
-        
-
+        if tools.os_info.is_linux:
+            with tools.chdir(self._source_subfolder):
+                self.copy("*", src="%s/builddir"%(os.getcwd()))
+        else:
+            self.cmake.install()
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)

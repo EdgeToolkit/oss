@@ -99,10 +99,10 @@ target_link_libraries(extract_a52 liba52 libao winmm.lib)
 
 
 file(GLOB HDRs include/*.h)
-install(FILES ${HDRs} DESTINATION include)
+install(FILES ${HDRs} DESTINATION include/a52dec)
 
 # Install configuration
-install(TARGETS liba52 libao a52dec extract_a52 
+install(TARGETS liba52 a52dec extract_a52 
         EXPORT  a52dec
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
