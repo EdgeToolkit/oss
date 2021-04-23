@@ -79,6 +79,8 @@ class Package(object):
 
         return program
 
+
+
     @property
     def requirements(self):
         if self._requirements is None:
@@ -284,7 +286,19 @@ class Config(object):
             elif isinstance(program, list):
                 program = {'Windows': program, 'Linux': program}
             result['program'] = program
-
+        
+        test = config.get('test', None)
+        if test:
+            if isinstance(test, (str)):
+                test = {'Windows': [test], 'Linux': [test]}
+            elif isinstance(test, dict):
+                cmd = {}
+                for platform, value in test.items():
+                    cmd[platform] = [value] if isinstance(value, str) else value
+                test = cmd
+            elif isinstance(test, list):
+                program = {'Windows': test, 'Linux': test}
+            result['test'] = test
 
         return result
 

@@ -72,7 +72,17 @@
   <<: *tool_setting
 - name: nasm
   <<: *tool_setting
-   
+
+- name: a52dec
+#  program: a52dec package.yml -o float
+  test:
+    Windows:
+    - ni samples
+    - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
+    Linux:
+    - ni samples
+    - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
+
 - zlib
 - brotli
 - name: bzip2

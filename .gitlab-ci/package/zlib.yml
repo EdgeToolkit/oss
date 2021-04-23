@@ -273,8 +273,6 @@ zlib:MSVC@test:
   
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019']
-      EPM_SCHEME: ['shared']
 #    - EPM_PROFILE: ['vs2019d', 'vs2019']
 #      EPM_SCHEME: ['shared', 'static']
 #

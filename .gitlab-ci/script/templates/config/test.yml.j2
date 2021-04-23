@@ -17,7 +17,10 @@
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
 {% for program in package.config.program['Windows'] %}        
   - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/{{program}}
-{% endfor %}    
+{% endfor %}
+{% for cmdline in package.config.test['Linux'] %}
+  - {{cmdline}}
+{% endfor %}  
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}
@@ -49,7 +52,10 @@
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
 {% for program in package.config.program['Linux'] %}        
   - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/{{program}}
-{% endfor %}    
+{% endfor %}
+{% for cmdline in package.config.test['Linux'] %}
+  - {{cmdline}}
+{% endfor %}  
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}
