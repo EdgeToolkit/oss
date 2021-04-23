@@ -269,8 +269,8 @@ zlib:MSVC@test:
   - cd zlib
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME/Error" 
         
-  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package 
-  - if ($LASTEXITCODE) { throw "$LASTEXITCODE" }
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package 
+  - if ($LASTEXITCODE) { throw "$LASTEXITCODE" } else { echo X}
   
   parallel:
     matrix:
