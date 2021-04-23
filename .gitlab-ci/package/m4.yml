@@ -59,9 +59,9 @@ m4@deploy:
   - workbench:Z1
 
   dependencies:
-  - m4:MSVC@build
   - m4:gcc5@build
+  - m4:MSVC@build
   script:
   - cd m4
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

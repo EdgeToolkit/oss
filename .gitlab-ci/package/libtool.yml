@@ -59,9 +59,9 @@ libtool@deploy:
   - workbench:Z1
 
   dependencies:
-  - libtool:MSVC@build
   - libtool:gcc5@build
+  - libtool:MSVC@build
   script:
   - cd libtool
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none

@@ -15,12 +15,12 @@ P_GCC=re.compile(r'^(?P<name>gcc\d)(-(?P<arch>(x86|armv7|armv8)))?d?$')
 
 _IMAGES = {
     'gcc5': 'ubuntu:xenial', 
-    'gcc6': 'ubuntu:xenial', 
-    'gcc7': 'ubuntu:xenial', 
+    'gcc6': 'ubuntu:bionic', 
+    'gcc7': 'ubuntu:bionic', 
     'gcc8': 'ubuntu:bionic',
     'gcc5-armv8': 'arm64v8/ubuntu:xenial', 
-    'gcc6-armv8': 'arm64v8/ubuntu:xenial', 
-    'gcc7-armv8': 'arm64v8/ubuntu:xenial', 
+    'gcc6-armv8': 'arm64v8/ubuntu:bionic', 
+    'gcc7-armv8': 'arm64v8/ubuntu:bionic', 
     'gcc8-armv8': 'arm64v8/ubuntu:bionic',    
 }
 def _make_matrix(group, config):
