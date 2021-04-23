@@ -21,8 +21,8 @@ zlib:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
+    - EPM_PROFILE: ['vs2019']
+      EPM_SCHEME: ['shared']
 #
 #    # =========================================
 #    # gcc5 x86_64 build
@@ -270,11 +270,14 @@ zlib:MSVC@test:
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME/Error" 
         
   - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package 
-    
+  - if ($LASTEXITCODE) { throw "$LASTEXITCODE" }
+  
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
+    - EPM_PROFILE: ['vs2019']
+      EPM_SCHEME: ['shared']
+#    - EPM_PROFILE: ['vs2019d', 'vs2019']
+#      EPM_SCHEME: ['shared', 'static']
 #
 #
 #
