@@ -101,6 +101,23 @@ class A52decConan(ConanFile):
         return self._cmake
 
     def build(self):
+        with tools.chdir(self.source_subfolder):
+            with tools.environment_append({'LIBS' : "-lm"}):
+                self.run("autoreconf -f -i")
+
+                _args = ["--prefix=%s/builddir"%(os.getcwd()), "--with-pic", "--disable-silent-rules", "--enable-introspection"]
+                if self.options.shared:
+                    _args.extend(['--enable-shared=yes','--enable-static=no'])
+                else:
+                    _args.extend(['--enable-shared=no','--enable-static=yes'])
+
+                autotools = AutoToolsBuildEnvironment(self)
+                autotools.fpic = True
+                autotools.configure(args=_args)
+                autotools.make(args=["-j4"])
+                autotools.install()        
+
+    def build(self):
         self.cmake.configure(build_folder=self._build_subfolder)
         self.cmake.build()
         

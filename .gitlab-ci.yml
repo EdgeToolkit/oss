@@ -29,6 +29,7 @@ init:
     - expat/*
     - sqlite3/*
     - libcurl/*
+    - libwebsockets/*
     - mosquitto/*
     - zlib/*
     - openssl/*    
