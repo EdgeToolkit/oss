@@ -27,6 +27,7 @@ init:
   - changes: &_PACKAGEs
     - brotli/*
     - expat/*
+    - sqlite3/*
     - libcurl/*
     - mosquitto/*
     - zlib/*
