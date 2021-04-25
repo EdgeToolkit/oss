@@ -11,6 +11,11 @@ scheme:
     options:
       shared: false
 
+test:
+  test_package:
+    program: test
+    project: test_package
+
 program:
 - name: test_package
   location: test_package

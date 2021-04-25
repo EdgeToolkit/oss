@@ -1,8 +1,8 @@
 import os
 from conans import ConanFile, CMake, tools
 
-from epm.tools.conan import as_program
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test
+ConanFile = as_test(ConanFile)
 
 class TestZlibConan(ConanFile):
     settings = "os", "compiler", "arch", "build_type"
