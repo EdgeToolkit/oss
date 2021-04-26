@@ -37,10 +37,9 @@ pthreads4w:MSVC@test:
   - pthreads4w:MSVC@build
   script:
   - cd pthreads4w
-  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
-        
+  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
   - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-    
+
   parallel:
     matrix:
     - EPM_PROFILE: ['vs2019d', 'vs2019']

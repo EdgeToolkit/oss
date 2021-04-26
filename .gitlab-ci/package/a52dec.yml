@@ -6,7 +6,7 @@ stages:
     # =================================
     # MSVC build
     # =================================
-libcurl:MSVC@build:
+a52dec:MSVC@build:
   stage: build
   tags:
   - Windows
@@ -14,10 +14,10 @@ libcurl:MSVC@build:
   - workbench:Z1
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
@@ -27,7 +27,7 @@ libcurl:MSVC@build:
     # =========================================
     # gcc7-armv8 armv8 build
     # =========================================
-libcurl:gcc7-armv8@build:
+a52dec:gcc7-armv8@build:
   stage: build
   tags:
   - Linux
@@ -37,10 +37,10 @@ libcurl:gcc7-armv8@build:
   image: edgetoolkit/gcc7-armv8
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -50,7 +50,7 @@ libcurl:gcc7-armv8@build:
     # =========================================
     # gcc8 x86_64 build
     # =========================================
-libcurl:gcc8@build:
+a52dec:gcc8@build:
   stage: build
   tags:
   - Linux
@@ -60,10 +60,10 @@ libcurl:gcc8@build:
   image: edgetoolkit/gcc8
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -73,7 +73,7 @@ libcurl:gcc8@build:
     # =========================================
     # gcc7-armv7 armv7 build
     # =========================================
-libcurl:gcc7-armv7@build:
+a52dec:gcc7-armv7@build:
   stage: build
   tags:
   - Linux
@@ -83,10 +83,10 @@ libcurl:gcc7-armv7@build:
   image: edgetoolkit/gcc7-armv7
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -96,7 +96,7 @@ libcurl:gcc7-armv7@build:
     # =========================================
     # gcc6 x86_64 build
     # =========================================
-libcurl:gcc6@build:
+a52dec:gcc6@build:
   stage: build
   tags:
   - Linux
@@ -106,10 +106,10 @@ libcurl:gcc6@build:
   image: edgetoolkit/gcc6
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -119,7 +119,7 @@ libcurl:gcc6@build:
     # =========================================
     # gcc7 x86_64 build
     # =========================================
-libcurl:gcc7@build:
+a52dec:gcc7@build:
   stage: build
   tags:
   - Linux
@@ -129,10 +129,10 @@ libcurl:gcc7@build:
   image: edgetoolkit/gcc7
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -142,7 +142,7 @@ libcurl:gcc7@build:
     # =========================================
     # gcc5-armv7 armv7 build
     # =========================================
-libcurl:gcc5-armv7@build:
+a52dec:gcc5-armv7@build:
   stage: build
   tags:
   - Linux
@@ -152,10 +152,10 @@ libcurl:gcc5-armv7@build:
   image: edgetoolkit/gcc5-armv7
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -165,7 +165,7 @@ libcurl:gcc5-armv7@build:
     # =========================================
     # gcc6-armv7 armv7 build
     # =========================================
-libcurl:gcc6-armv7@build:
+a52dec:gcc6-armv7@build:
   stage: build
   tags:
   - Linux
@@ -175,10 +175,10 @@ libcurl:gcc6-armv7@build:
   image: edgetoolkit/gcc6-armv7
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -188,7 +188,7 @@ libcurl:gcc6-armv7@build:
     # =========================================
     # gcc6-armv8 armv8 build
     # =========================================
-libcurl:gcc6-armv8@build:
+a52dec:gcc6-armv8@build:
   stage: build
   tags:
   - Linux
@@ -198,10 +198,10 @@ libcurl:gcc6-armv8@build:
   image: edgetoolkit/gcc6-armv8
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -211,7 +211,7 @@ libcurl:gcc6-armv8@build:
     # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
-libcurl:gcc5-armv8@build:
+a52dec:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
@@ -221,10 +221,10 @@ libcurl:gcc5-armv8@build:
   image: edgetoolkit/gcc5-armv8
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -234,7 +234,7 @@ libcurl:gcc5-armv8@build:
     # =========================================
     # gcc5 x86_64 build
     # =========================================
-libcurl:gcc5@build:
+a52dec:gcc5@build:
   stage: build
   tags:
   - Linux
@@ -244,10 +244,10 @@ libcurl:gcc5@build:
   image: edgetoolkit/gcc5
   artifacts:
     paths:
-    - libcurl/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - libcurl/_out
+    - a52dec/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - a52dec/_out
   script:
-  - cd libcurl
+  - cd a52dec
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
@@ -257,18 +257,20 @@ libcurl:gcc5@build:
     # =================================
     # MSVC test
     # =================================
-libcurl:MSVC@test:
+a52dec:MSVC@test:
   stage: test
   tags:
   - Windows
   - runner
   - workbench:Z1
   dependencies:
-  - libcurl:MSVC@build
+  - a52dec:MSVC@build
   script:
-  - cd libcurl
+  - cd a52dec
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - ni samples
+        
+  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -277,7 +279,7 @@ libcurl:MSVC@test:
     # =========================================
     # gcc7-armv8 armv8 test
     # =========================================   
-libcurl:gcc7-armv8@test:
+a52dec:gcc7-armv8@test:
   stage: test
   tags:
   - Linux/aarch64
@@ -286,11 +288,13 @@ libcurl:gcc7-armv8@test:
   - workbench:Z1
   image: arm64v8/ubuntu:bionic
   dependencies:
-  - libcurl:gcc7-armv8@build
+  - a52dec:gcc7-armv8@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -299,7 +303,7 @@ libcurl:gcc7-armv8@test:
     # =========================================
     # gcc8 x86_64 test
     # =========================================   
-libcurl:gcc8@test:
+a52dec:gcc8@test:
   stage: test
   tags:
   - Linux
@@ -308,11 +312,13 @@ libcurl:gcc8@test:
   - workbench:Z1
   image: ubuntu:bionic
   dependencies:
-  - libcurl:gcc8@build
+  - a52dec:gcc8@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -321,7 +327,7 @@ libcurl:gcc8@test:
     # =========================================
     # gcc6 x86_64 test
     # =========================================   
-libcurl:gcc6@test:
+a52dec:gcc6@test:
   stage: test
   tags:
   - Linux
@@ -330,11 +336,13 @@ libcurl:gcc6@test:
   - workbench:Z1
   image: ubuntu:bionic
   dependencies:
-  - libcurl:gcc6@build
+  - a52dec:gcc6@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -343,7 +351,7 @@ libcurl:gcc6@test:
     # =========================================
     # gcc7 x86_64 test
     # =========================================   
-libcurl:gcc7@test:
+a52dec:gcc7@test:
   stage: test
   tags:
   - Linux
@@ -352,11 +360,13 @@ libcurl:gcc7@test:
   - workbench:Z1
   image: ubuntu:bionic
   dependencies:
-  - libcurl:gcc7@build
+  - a52dec:gcc7@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -365,7 +375,7 @@ libcurl:gcc7@test:
     # =========================================
     # gcc6-armv8 armv8 test
     # =========================================   
-libcurl:gcc6-armv8@test:
+a52dec:gcc6-armv8@test:
   stage: test
   tags:
   - Linux/aarch64
@@ -374,11 +384,13 @@ libcurl:gcc6-armv8@test:
   - workbench:Z1
   image: arm64v8/ubuntu:bionic
   dependencies:
-  - libcurl:gcc6-armv8@build
+  - a52dec:gcc6-armv8@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -387,7 +399,7 @@ libcurl:gcc6-armv8@test:
     # =========================================
     # gcc5-armv8 armv8 test
     # =========================================   
-libcurl:gcc5-armv8@test:
+a52dec:gcc5-armv8@test:
   stage: test
   tags:
   - Linux/aarch64
@@ -396,11 +408,13 @@ libcurl:gcc5-armv8@test:
   - workbench:Z1
   image: arm64v8/ubuntu:xenial
   dependencies:
-  - libcurl:gcc5-armv8@build
+  - a52dec:gcc5-armv8@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -409,7 +423,7 @@ libcurl:gcc5-armv8@test:
     # =========================================
     # gcc5 x86_64 test
     # =========================================   
-libcurl:gcc5@test:
+a52dec:gcc5@test:
   stage: test
   tags:
   - Linux
@@ -418,11 +432,13 @@ libcurl:gcc5@test:
   - workbench:Z1
   image: ubuntu:xenial
   dependencies:
-  - libcurl:gcc5@build
+  - a52dec:gcc5@build
   script:
-  - cd libcurl
+  - cd a52dec
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+  - touch samples
+        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
   parallel:
     matrix:
@@ -432,7 +448,7 @@ libcurl:gcc5@test:
     # =================================
     # Deploy to conan repo
     # =================================
-libcurl@deploy:
+a52dec@deploy:
   stage: deploy
   tags:
   - conan
@@ -440,19 +456,19 @@ libcurl@deploy:
   - workbench:Z1
 
   dependencies:
-  - libcurl:gcc7-armv8@build
-  - libcurl:gcc8@build
-  - libcurl:gcc7-armv7@build
-  - libcurl:gcc6@build
-  - libcurl:gcc7@build
-  - libcurl:gcc5-armv7@build
-  - libcurl:gcc6-armv7@build
-  - libcurl:gcc6-armv8@build
-  - libcurl:MSVC@build
-  - libcurl:gcc5-armv8@build
-  - libcurl:gcc5@build
+  - a52dec:gcc7-armv8@build
+  - a52dec:gcc8@build
+  - a52dec:gcc7-armv7@build
+  - a52dec:gcc6@build
+  - a52dec:gcc7@build
+  - a52dec:gcc5-armv7@build
+  - a52dec:gcc6-armv7@build
+  - a52dec:gcc6-armv8@build
+  - a52dec:MSVC@build
+  - a52dec:gcc5-armv8@build
+  - a52dec:gcc5@build
   script:
-  - cd libcurl
+  - cd a52dec
   - epm -p gcc7-armv8 -s shared upload --storage .conan/gcc7-armv8/shared
   - epm -p gcc7-armv8 -s static upload --storage .conan/gcc7-armv8/static
   - epm -p gcc7-armv8d -s shared upload --storage .conan/gcc7-armv8d/shared
