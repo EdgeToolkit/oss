@@ -45,6 +45,7 @@ class Package(object):
         self._tool_user = None
         self._script = None
         self.dir = abspath(f"{_DIR}/../../{name}")
+        self.project = Project(None, None, directory=self.dir)
 
 
     @property
@@ -56,11 +57,13 @@ class Package(object):
 
     @property
     def version(self):
-        return str(self.meta_info['version'])
+        return self.project.version
+#        return str(self.meta_info['version'])
 
     @property
     def name(self):
-        return self.meta_info['name']
+        return self.project.name
+#        return self.meta_info['name']
 
     @property
     def scheme(self):
@@ -78,6 +81,10 @@ class Package(object):
             program.append(e)
 
         return program
+
+    @property
+    def test(self):
+        return self.project.test
 
 
 
@@ -106,10 +113,26 @@ class Package(object):
             
             if not program and self.program:
                 program = {'Windows': self.program[:1], 'Linux': self.program[:1]}
-            #print(self.name, '->', program)    
+            #print(self.name, '->', program)
+            test = None
+            tscript = config.get('test')
+            if tscript:
+                if isinstance(tscript, str):
+                    test ={'Windows': [tscript], 'Linux': [tscript]}
+                elif isinstance(tscript, dict):
+                    test = {}
+                    for platform, value in tscript.items():
+                        if isinstance(value, str):
+                            test[platform] = [value]
+                        else:
+                            test[platform] = value
+            else:
+                if self.project.test and 'test_package' in self.project.test:
+                    test ={'Windows': ['. _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package'], 
+                           'Linux':   ['_out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package']}
             
-            self._config = namedtuple("Config", "tool repack profile program")(
-                tool, repack, profile, program)
+            self._config = namedtuple("Config", "tool repack profile program test")(
+                tool, repack, profile, program, test)
             
         return self._config
 

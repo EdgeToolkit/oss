@@ -18,10 +18,6 @@ dependencies:
     if: options.with_bzip2  
 
 test:
-  test_package:
-    project: test_package
-    args: \w+ Hello
-
   pcre:
     project: test_package
     program: test_package

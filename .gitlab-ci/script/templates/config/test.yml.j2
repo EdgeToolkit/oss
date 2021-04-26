@@ -1,5 +1,8 @@
 
 {%- if 'MSVC' in CTree -%}
+{%- if package.config.test and 'Windows' in package.config.test -%}
+{%- set script = package.config.test['Windows'] -%}
+{%- endif -%}
 {% set matrix = CTree | cmatrix('MSVC') %}
     # =================================
     # MSVC test
@@ -15,12 +18,9 @@
   script:
   - cd {{package.name}}
   - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
-{% for program in package.config.program['Windows'] %}        
-  - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/{{program}}
+{%- for i in script %}        
+  - {{i}}
 {% endfor %}
-{% for cmdline in package.config.test['Linux'] %}
-  - {{cmdline}}
-{% endfor %}  
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}
@@ -31,9 +31,11 @@
 
 {%- for name, config in CTree.items() -%}
 {%- if name !=  'MSVC' %}
-{% set matrix = CTree | cmatrix(name) %}
-
-{% if matrix.image %}
+{%- set matrix = CTree | cmatrix(name) -%}
+{%- if package.config.test and 'Linux' in package.config.test -%}
+{%- set script = package.config.test['Linux'] -%}
+{%- endif -%}
+{% if matrix.image and script %}
     # =========================================
     # {{name}} {{matrix.arch}} test
     # =========================================   
@@ -50,12 +52,9 @@
   script:
   - cd {{package.name}}
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"    
-{% for program in package.config.program['Linux'] %}        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/{{program}}
+{%- for i in script %}        
+  - {{i}}
 {% endfor %}
-{% for cmdline in package.config.test['Linux'] %}
-  - {{cmdline}}
-{% endfor %}  
   parallel:
     matrix:
     - EPM_PROFILE: {{ matrix.profile | list }}

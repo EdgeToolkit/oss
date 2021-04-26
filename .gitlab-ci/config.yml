@@ -74,7 +74,6 @@
   <<: *tool_setting
 
 - name: a52dec
-#  program: a52dec package.yml -o float
   test:
     Windows:
     - ni samples
@@ -86,13 +85,15 @@
 - zlib
 - brotli
 - name: bzip2
-  program: test_package --help
+  test: 
+    Linux: _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package --help
+    Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package --help
 - expat
 - openssl
 - name: pcre
-  program:
-    Windows: test_package "\w+ Bincrafters"
-    Linux: test_package "\\w+ Bincrafters"
+  test:
+    Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/pcre \w+ HelloWorld
+    Linux: _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/pcre \\\\w+ HelloWorld
 - name: pthreads4w
   profile: *profile_msvc
 - sqlite3
