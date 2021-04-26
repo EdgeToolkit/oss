@@ -16,14 +16,11 @@ build-tools:
 
     
 
-# =====================================
-# Package programs (for test only)
-# =====================================
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
-  build-tools:
-    bison: ${__version__}
-    msys2: *MSYS2
+test:
+  test_package:
+    project: test_package
+    program: test_package
+    build-tools:
+      bison: ${__version__}
+      msys2: *MSYS2
 

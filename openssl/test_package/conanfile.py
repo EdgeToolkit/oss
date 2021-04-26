@@ -1,8 +1,8 @@
 from conans import CMake, tools, ConanFile
 from conans.tools import Version
 import os
-from epm.tools.conan import as_program
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test
+ConanFile = as_test(ConanFile)
 
 class DefaultNameConan(ConanFile):
     settings = "os", "compiler", "arch", "build_type"

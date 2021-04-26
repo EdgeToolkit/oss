@@ -10,11 +10,11 @@ dependencies:
   m4: 1.4.18
 
 
-program:
-- name: test_package
-  location: test_package
-  executable: test_package
-  build-tools:
-    msys2: *MSYS2
-    autoconf: ${__version__}
+test:
+  test_package:
+    project: test_package
+    program: test_package
+    build-tools:
+      msys2: *MSYS2
+      autoconf: ${__version__}
 

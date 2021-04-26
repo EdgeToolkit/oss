@@ -1,8 +1,8 @@
 from conans import ConanFile, CMake, tools
 import os
 
-from epm.tools.conan import as_program, delete, append_test
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test, delete, append_test
+ConanFile = as_test(ConanFile)
 
 class TestPackageConan(ConanFile):
     

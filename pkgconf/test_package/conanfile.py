@@ -2,8 +2,8 @@ from conans import AutoToolsBuildEnvironment, CMake, ConanFile, tools, RunEnviro
 from conans.errors import ConanException
 import os
 import shutil
-from epm.tools.conan import as_program, delete, append_test
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test, delete, append_test
+ConanFile = as_test(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"

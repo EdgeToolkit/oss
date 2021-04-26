@@ -1,8 +1,8 @@
 from conans import ConanFile, tools
 from conans.errors import ConanException
 from io import StringIO
-from epm.tools.conan import as_program
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test
+ConanFile = as_test(ConanFile)
 
 
 class TestPackage(ConanFile):

@@ -2,8 +2,8 @@ from conans import AutoToolsBuildEnvironment, ConanFile, tools
 from contextlib import contextmanager
 import os
 import shutil
-from epm.tools.conan import as_program, delete, append_test
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test, delete, append_test
+ConanFile = as_test(ConanFile)
 
 class TestPackageConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"

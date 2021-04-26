@@ -10,7 +10,7 @@ scheme:
     options:
       shared: false
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/example
+test:
+  test_package:
+    project: test_package
+    program: example

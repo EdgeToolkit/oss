@@ -6,16 +6,15 @@ build-tools:
     version: 20200517
     if: os == Windows
 
+
 dependencies:
   autoconf:  2.69
 
 
-program:
-- name: test_package
-  location: test_package
-  executable: test_package
-  build-tools:
-    automake: ${__version__}
-    msys2: *MSYS2
-    
-    
+test:
+  test_package:
+    project: test_package
+    program: test_package
+    build-tools:
+      automake: ${__version__}
+      msys2: *MSYS2

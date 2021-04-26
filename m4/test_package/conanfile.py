@@ -2,8 +2,8 @@ from conans import ConanFile, tools
 from conans.errors import ConanException
 from io import StringIO
 import os
-from epm.tools.conan import as_program, delete, append_test
-ConanFile = as_program(ConanFile)
+from epm.tools.conan import as_test, delete, append_test
+ConanFile = as_test(ConanFile)
 
 M4_CONTENTS = """\
 m4_define(NAME1, `Harry, Jr.')

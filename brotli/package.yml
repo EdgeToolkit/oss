@@ -9,9 +9,8 @@ scheme:
     options:
       shared: false
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
+test:
+  test_package:
+    project: test_package
 
 # CI: 4
