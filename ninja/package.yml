@@ -1,15 +1,15 @@
 name: ninja
 version: 1.10.2
 
-program:
-- name: ninja
-  executable: bin/ninja
-
-- name: test
-  location: test_package
-  executable: false
-  build-tools:
-    ninja: ${__version__}
-
 build-tools:
   re2c: 1.3
+
+test:
+  test_package:
+    project: test_package
+    program: false
+    build-tools:
+      ninja: ${__version__}
+  ninja:
+    program: ninja
+

@@ -6,9 +6,8 @@ build-tools:
      version: 20200517
      if: compiler == 'Visual Studio'
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
-  build-tools:
-    re2c: ${__version__}
+test:
+  test_package:
+    project: test_package
+    build-tools:
+      re2c: ${__version__}

@@ -23,9 +23,9 @@ build-tools:
     version: 20200517
     if: compiler == 'Visual Studio'
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/digest
+test:
+  test_package:
+    project: test_package
+    program: digest
 
 # CI: 5

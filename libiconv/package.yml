@@ -9,15 +9,16 @@ scheme:
   static:
     options:
       shared: false
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test_package
+
 
 build-tools:
   msys2: 
     version: 20200517
     if: os == Windows
+
+test:
+  test_package:
+    project: test_package
 
 
 

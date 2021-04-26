@@ -6,10 +6,10 @@ build-tools:
     version: 20200517
     if: os == Windows
 
-program:
-  - name: test
-    location: test_package
-    executable: false
+test:
+  test:
+    project: test_package
+    program: false
     build-tools:
       msys2: *MSYS2
       m4: ${__version__}

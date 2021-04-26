@@ -1,12 +1,12 @@
 name: meson
 version: 0.57.1
 
-program:
-- name: test_package
-  location: test_package
-  executable: build/test_package
-  build-tools:
-    meson: ${__version__}
-
 dependencies:
   ninja: 1.10.2
+
+test:
+  test_package:
+    project: test_package
+    build-tools:
+      meson: ${__version__}
+

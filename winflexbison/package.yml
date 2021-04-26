@@ -1,8 +1,7 @@
 name: winflexbison
 version: 2.5.22
 
-program:
-- name: test_package
-  location: test_package
-  executable: bin/bison_test_package
-  
+test:
+  test_package:
+    project: test_package
+    program: bison_test_package

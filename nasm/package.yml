@@ -1,14 +1,15 @@
 name: nasm
 version: 2.14
 
-program:
-- name: test
-  location: test_package
-  executable: false
-  build-tools:
-    nasm: ${__version__}
-
 build-tools:
   strawberryperl: 
     version: 5.30.0.1
     if: compiler == 'Visual Studio'
+
+test:
+  test_package:
+    project: test_package
+    program: false
+    build-tools:
+      nasm: ${__version__}
+

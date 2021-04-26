@@ -13,12 +13,7 @@ scheme:
 
 test:
   test_package:
-    program: test
     project: test_package
-
-program:
-- name: test_package
-  location: test_package
-  executable: bin/test
+    program: test
 
 # CI: 23

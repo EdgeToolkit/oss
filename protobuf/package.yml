@@ -9,11 +9,6 @@ scheme:
     options:
       shared: false
 
-#program:
-#- name: test_package
-#  location: test_package
-#  executable: bin/test_package
-
 build-tools:
   protoc:
     version: ${__version__}
@@ -23,5 +18,13 @@ dependencies:
   zlib: 
     version: 1.2.11
     if: options.with_zlib
+
+
+
+test:
+  test_package:
+    project: test_package
+
+
 #####
 
