@@ -12,7 +12,7 @@ init:
     - workbench:Z1
   image: edgetoolkit/gcc5
   script:    
-    - Install pip install networkx --user
+    - Install sudo pip install networkx
     # python-gitlab --user
     - .gitlab-ci/script/generate --trigger
   artifacts:
