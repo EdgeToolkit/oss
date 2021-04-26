@@ -17,3 +17,4 @@ conan:
 
 environment:
   EPM_MIRROR_RULES: http://172.16.0.119/mirror/mirror.yml
+  MSYS2_VERSION_MIRROR: http://172.16.0.119/mirror/msys2
