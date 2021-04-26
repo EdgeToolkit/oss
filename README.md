@@ -14,7 +14,6 @@
 |  ca-certificates  |       | 2016-09-22  |  ||
 |  cairo  |       | 1.14.12  |  ||
 |  cdparanoia  |       | 10.2  |  ||
-|  cmake  |       | 3.16.4  |  ||
 |  docbook-xml  |       | 4.5  |  ||
 |  docbook-xsl  |       | 1.79.1  |  ||
 |  expat  | 2.3.0 | 2.2.7  |  ||
