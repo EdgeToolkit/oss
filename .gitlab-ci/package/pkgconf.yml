@@ -59,9 +59,9 @@ pkgconf@deploy:
   - workbench:Z1
 
   dependencies:
-  - pkgconf:gcc5@build
   - pkgconf:MSVC@build
+  - pkgconf:gcc5@build
   script:
   - cd pkgconf
-  - epm -p gcc5 -s none upload --storage .conan/gcc5/none
   - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

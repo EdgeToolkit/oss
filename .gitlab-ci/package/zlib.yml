@@ -21,122 +21,7 @@ zlib:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7-armv8 armv8 build
-    # =========================================
-zlib:gcc7-armv8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc7-armv8
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/_out
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc8 x86_64 build
-    # =========================================
-zlib:gcc8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc8
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/_out
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc8d', 'gcc8']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7-armv7 armv7 build
-    # =========================================
-zlib:gcc7-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc7-armv7
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/_out
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv7', 'gcc7-armv7d']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc6 x86_64 build
-    # =========================================
-zlib:gcc6@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc6
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/_out
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
-      EPM_SCHEME: ['shared', 'static']
-
-    # =========================================
-    # gcc7 x86_64 build
-    # =========================================
-zlib:gcc7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc7
-  artifacts:
-    paths:
-    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - zlib/_out
-  script:
-  - cd zlib
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7', 'gcc7d']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -163,16 +48,16 @@ zlib:gcc5-armv7@build:
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc6-armv7 armv7 build
+    # gcc5-armv8 armv8 build
     # =========================================
-zlib:gcc6-armv7@build:
+zlib:gcc5-armv8@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: edgetoolkit/gcc6-armv7
+  image: edgetoolkit/gcc5-armv8
   artifacts:
     paths:
     - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -182,7 +67,53 @@ zlib:gcc6-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv7', 'gcc6-armv7d']
+    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc7-armv7 armv7 build
+    # =========================================
+zlib:gcc7-armv7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc7-armv7
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/_out
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7-armv7d', 'gcc7-armv7']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc7 x86_64 build
+    # =========================================
+zlib:gcc7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc7
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/_out
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7d', 'gcc7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -205,20 +136,20 @@ zlib:gcc6-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc6-armv8', 'gcc6-armv8d']
+    - EPM_PROFILE: ['gcc6-armv8d', 'gcc6-armv8']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
-    # gcc5-armv8 armv8 build
+    # gcc6-armv7 armv7 build
     # =========================================
-zlib:gcc5-armv8@build:
+zlib:gcc6-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: edgetoolkit/gcc5-armv8
+  image: edgetoolkit/gcc6-armv7
   artifacts:
     paths:
     - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -228,7 +159,7 @@ zlib:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
+    - EPM_PROFILE: ['gcc6-armv7d', 'gcc6-armv7']
       EPM_SCHEME: ['shared', 'static']
 
     # =========================================
@@ -254,6 +185,75 @@ zlib:gcc5@build:
     - EPM_PROFILE: ['gcc5', 'gcc5d']
       EPM_SCHEME: ['shared', 'static']
 
+    # =========================================
+    # gcc8 x86_64 build
+    # =========================================
+zlib:gcc8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc8
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/_out
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc8', 'gcc8d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc6 x86_64 build
+    # =========================================
+zlib:gcc6@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc6
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/_out
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
+      EPM_SCHEME: ['shared', 'static']
+
+    # =========================================
+    # gcc7-armv8 armv8 build
+    # =========================================
+zlib:gcc7-armv8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc7-armv8
+  artifacts:
+    paths:
+    - zlib/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - zlib/_out
+  script:
+  - cd zlib
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7-armv8d', 'gcc7-armv8']
+      EPM_SCHEME: ['shared', 'static']
+
     # =================================
     # MSVC test
     # =================================
@@ -267,122 +267,12 @@ zlib:MSVC@test:
   - zlib:MSVC@build
   script:
   - cd zlib
-  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - $env:EPM_SANDBOX_STORAGE=".conan\$EPM_PROFILE\$EPM_SCHEME"        
   - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['shared', 'static']
-    # =========================================
-    # gcc7-armv8 armv8 test
-    # =========================================   
-zlib:gcc7-armv8@test:
-  stage: test
-  tags:
-  - Linux/aarch64
-  - runner
-  - docker
-  - workbench:Z1
-  image: arm64v8/ubuntu:bionic
-  dependencies:
-  - zlib:gcc7-armv8@build
-  script:
-  - cd zlib
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
-      EPM_SCHEME: ['shared', 'static']
-    # =========================================
-    # gcc8 x86_64 test
-    # =========================================   
-zlib:gcc8@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:bionic
-  dependencies:
-  - zlib:gcc8@build
-  script:
-  - cd zlib
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc8d', 'gcc8']
-      EPM_SCHEME: ['shared', 'static']
-    # =========================================
-    # gcc6 x86_64 test
-    # =========================================   
-zlib:gcc6@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:bionic
-  dependencies:
-  - zlib:gcc6@build
-  script:
-  - cd zlib
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
-      EPM_SCHEME: ['shared', 'static']
-    # =========================================
-    # gcc7 x86_64 test
-    # =========================================   
-zlib:gcc7@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:bionic
-  dependencies:
-  - zlib:gcc7@build
-  script:
-  - cd zlib
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc7', 'gcc7d']
-      EPM_SCHEME: ['shared', 'static']
-    # =========================================
-    # gcc6-armv8 armv8 test
-    # =========================================   
-zlib:gcc6-armv8@test:
-  stage: test
-  tags:
-  - Linux/aarch64
-  - runner
-  - docker
-  - workbench:Z1
-  image: arm64v8/ubuntu:bionic
-  dependencies:
-  - zlib:gcc6-armv8@build
-  script:
-  - cd zlib
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6-armv8', 'gcc6-armv8d']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['shared', 'static']
     # =========================================
     # gcc5-armv8 armv8 test
@@ -407,6 +297,50 @@ zlib:gcc5-armv8@test:
     - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
       EPM_SCHEME: ['shared', 'static']
     # =========================================
+    # gcc7 x86_64 test
+    # =========================================   
+zlib:gcc7@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:bionic
+  dependencies:
+  - zlib:gcc7@build
+  script:
+  - cd zlib
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7d', 'gcc7']
+      EPM_SCHEME: ['shared', 'static']
+    # =========================================
+    # gcc6-armv8 armv8 test
+    # =========================================   
+zlib:gcc6-armv8@test:
+  stage: test
+  tags:
+  - Linux/aarch64
+  - runner
+  - docker
+  - workbench:Z1
+  image: arm64v8/ubuntu:bionic
+  dependencies:
+  - zlib:gcc6-armv8@build
+  script:
+  - cd zlib
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc6-armv8d', 'gcc6-armv8']
+      EPM_SCHEME: ['shared', 'static']
+    # =========================================
     # gcc5 x86_64 test
     # =========================================   
 zlib:gcc5@test:
@@ -428,6 +362,72 @@ zlib:gcc5@test:
     matrix:
     - EPM_PROFILE: ['gcc5', 'gcc5d']
       EPM_SCHEME: ['shared', 'static']
+    # =========================================
+    # gcc8 x86_64 test
+    # =========================================   
+zlib:gcc8@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:bionic
+  dependencies:
+  - zlib:gcc8@build
+  script:
+  - cd zlib
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc8', 'gcc8d']
+      EPM_SCHEME: ['shared', 'static']
+    # =========================================
+    # gcc6 x86_64 test
+    # =========================================   
+zlib:gcc6@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:bionic
+  dependencies:
+  - zlib:gcc6@build
+  script:
+  - cd zlib
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
+      EPM_SCHEME: ['shared', 'static']
+    # =========================================
+    # gcc7-armv8 armv8 test
+    # =========================================   
+zlib:gcc7-armv8@test:
+  stage: test
+  tags:
+  - Linux/aarch64
+  - runner
+  - docker
+  - workbench:Z1
+  image: arm64v8/ubuntu:bionic
+  dependencies:
+  - zlib:gcc7-armv8@build
+  script:
+  - cd zlib
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7-armv8d', 'gcc7-armv8']
+      EPM_SCHEME: ['shared', 'static']
 
     # =================================
     # Deploy to conan repo
@@ -440,60 +440,60 @@ zlib@deploy:
   - workbench:Z1
 
   dependencies:
-  - zlib:gcc7-armv8@build
-  - zlib:gcc8@build
-  - zlib:gcc7-armv7@build
-  - zlib:gcc6@build
-  - zlib:gcc7@build
   - zlib:gcc5-armv7@build
-  - zlib:gcc6-armv7@build
-  - zlib:gcc6-armv8@build
-  - zlib:MSVC@build
   - zlib:gcc5-armv8@build
+  - zlib:gcc7-armv7@build
+  - zlib:gcc7@build
+  - zlib:gcc6-armv8@build
+  - zlib:gcc6-armv7@build
   - zlib:gcc5@build
+  - zlib:gcc8@build
+  - zlib:MSVC@build
+  - zlib:gcc6@build
+  - zlib:gcc7-armv8@build
   script:
   - cd zlib
-  - epm -p gcc7-armv8 -s shared upload --storage .conan/gcc7-armv8/shared
-  - epm -p gcc7-armv8 -s static upload --storage .conan/gcc7-armv8/static
-  - epm -p gcc7-armv8d -s shared upload --storage .conan/gcc7-armv8d/shared
-  - epm -p gcc7-armv8d -s static upload --storage .conan/gcc7-armv8d/static
-  - epm -p gcc8d -s shared upload --storage .conan/gcc8d/shared
-  - epm -p gcc8d -s static upload --storage .conan/gcc8d/static
-  - epm -p gcc8 -s shared upload --storage .conan/gcc8/shared
-  - epm -p gcc8 -s static upload --storage .conan/gcc8/static
-  - epm -p gcc7-armv7 -s shared upload --storage .conan/gcc7-armv7/shared
-  - epm -p gcc7-armv7 -s static upload --storage .conan/gcc7-armv7/static
-  - epm -p gcc7-armv7d -s shared upload --storage .conan/gcc7-armv7d/shared
-  - epm -p gcc7-armv7d -s static upload --storage .conan/gcc7-armv7d/static
-  - epm -p gcc6d -s shared upload --storage .conan/gcc6d/shared
-  - epm -p gcc6d -s static upload --storage .conan/gcc6d/static
-  - epm -p gcc6 -s shared upload --storage .conan/gcc6/shared
-  - epm -p gcc6 -s static upload --storage .conan/gcc6/static
-  - epm -p gcc7 -s shared upload --storage .conan/gcc7/shared
-  - epm -p gcc7 -s static upload --storage .conan/gcc7/static
-  - epm -p gcc7d -s shared upload --storage .conan/gcc7d/shared
-  - epm -p gcc7d -s static upload --storage .conan/gcc7d/static
   - epm -p gcc5-armv7d -s shared upload --storage .conan/gcc5-armv7d/shared
   - epm -p gcc5-armv7d -s static upload --storage .conan/gcc5-armv7d/static
   - epm -p gcc5-armv7 -s shared upload --storage .conan/gcc5-armv7/shared
   - epm -p gcc5-armv7 -s static upload --storage .conan/gcc5-armv7/static
-  - epm -p gcc6-armv7 -s shared upload --storage .conan/gcc6-armv7/shared
-  - epm -p gcc6-armv7 -s static upload --storage .conan/gcc6-armv7/static
-  - epm -p gcc6-armv7d -s shared upload --storage .conan/gcc6-armv7d/shared
-  - epm -p gcc6-armv7d -s static upload --storage .conan/gcc6-armv7d/static
-  - epm -p gcc6-armv8 -s shared upload --storage .conan/gcc6-armv8/shared
-  - epm -p gcc6-armv8 -s static upload --storage .conan/gcc6-armv8/static
-  - epm -p gcc6-armv8d -s shared upload --storage .conan/gcc6-armv8d/shared
-  - epm -p gcc6-armv8d -s static upload --storage .conan/gcc6-armv8d/static
-  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
-  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
-  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
-  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
   - epm -p gcc5-armv8d -s shared upload --storage .conan/gcc5-armv8d/shared
   - epm -p gcc5-armv8d -s static upload --storage .conan/gcc5-armv8d/static
   - epm -p gcc5-armv8 -s shared upload --storage .conan/gcc5-armv8/shared
   - epm -p gcc5-armv8 -s static upload --storage .conan/gcc5-armv8/static
+  - epm -p gcc7-armv7d -s shared upload --storage .conan/gcc7-armv7d/shared
+  - epm -p gcc7-armv7d -s static upload --storage .conan/gcc7-armv7d/static
+  - epm -p gcc7-armv7 -s shared upload --storage .conan/gcc7-armv7/shared
+  - epm -p gcc7-armv7 -s static upload --storage .conan/gcc7-armv7/static
+  - epm -p gcc7d -s shared upload --storage .conan/gcc7d/shared
+  - epm -p gcc7d -s static upload --storage .conan/gcc7d/static
+  - epm -p gcc7 -s shared upload --storage .conan/gcc7/shared
+  - epm -p gcc7 -s static upload --storage .conan/gcc7/static
+  - epm -p gcc6-armv8d -s shared upload --storage .conan/gcc6-armv8d/shared
+  - epm -p gcc6-armv8d -s static upload --storage .conan/gcc6-armv8d/static
+  - epm -p gcc6-armv8 -s shared upload --storage .conan/gcc6-armv8/shared
+  - epm -p gcc6-armv8 -s static upload --storage .conan/gcc6-armv8/static
+  - epm -p gcc6-armv7d -s shared upload --storage .conan/gcc6-armv7d/shared
+  - epm -p gcc6-armv7d -s static upload --storage .conan/gcc6-armv7d/static
+  - epm -p gcc6-armv7 -s shared upload --storage .conan/gcc6-armv7/shared
+  - epm -p gcc6-armv7 -s static upload --storage .conan/gcc6-armv7/static
   - epm -p gcc5 -s shared upload --storage .conan/gcc5/shared
   - epm -p gcc5 -s static upload --storage .conan/gcc5/static
   - epm -p gcc5d -s shared upload --storage .conan/gcc5d/shared
   - epm -p gcc5d -s static upload --storage .conan/gcc5d/static
+  - epm -p gcc8 -s shared upload --storage .conan/gcc8/shared
+  - epm -p gcc8 -s static upload --storage .conan/gcc8/static
+  - epm -p gcc8d -s shared upload --storage .conan/gcc8d/shared
+  - epm -p gcc8d -s static upload --storage .conan/gcc8d/static
+  - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
+  - epm -p vs2019 -s static upload --storage .conan/vs2019/static
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
+  - epm -p gcc6 -s shared upload --storage .conan/gcc6/shared
+  - epm -p gcc6 -s static upload --storage .conan/gcc6/static
+  - epm -p gcc6d -s shared upload --storage .conan/gcc6d/shared
+  - epm -p gcc6d -s static upload --storage .conan/gcc6d/static
+  - epm -p gcc7-armv8d -s shared upload --storage .conan/gcc7-armv8d/shared
+  - epm -p gcc7-armv8d -s static upload --storage .conan/gcc7-armv8d/static
+  - epm -p gcc7-armv8 -s shared upload --storage .conan/gcc7-armv8/shared
+  - epm -p gcc7-armv8 -s static upload --storage .conan/gcc7-armv8/static

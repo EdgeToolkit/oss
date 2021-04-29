@@ -17,7 +17,7 @@
   - {{package.name}}:MSVC@build
   script:
   - cd {{package.name}}
-  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME" 
+  - $env:EPM_SANDBOX_STORAGE=".conan\$EPM_PROFILE\$EPM_SCHEME" 
 {%- for i in script %}        
   - {{i}}
 {% endfor %}

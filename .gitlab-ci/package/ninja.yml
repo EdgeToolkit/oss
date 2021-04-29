@@ -59,9 +59,9 @@ ninja@deploy:
   - workbench:Z1
 
   dependencies:
-  - ninja:gcc5@build
   - ninja:MSVC@build
+  - ninja:gcc5@build
   script:
   - cd ninja
-  - epm -p gcc5 -s none upload --storage .conan/gcc5/none
   - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

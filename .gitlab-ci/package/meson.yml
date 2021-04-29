@@ -59,9 +59,9 @@ meson@deploy:
   - workbench:Z1
 
   dependencies:
-  - meson:gcc5@build
   - meson:MSVC@build
+  - meson:gcc5@build
   script:
   - cd meson
-  - epm -p gcc5 -s none upload --storage .conan/gcc5/none
   - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

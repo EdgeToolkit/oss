@@ -59,9 +59,9 @@ re2c@deploy:
   - workbench:Z1
 
   dependencies:
-  - re2c:gcc5@build
   - re2c:MSVC@build
+  - re2c:gcc5@build
   script:
   - cd re2c
-  - epm -p gcc5 -s none upload --storage .conan/gcc5/none
   - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p gcc5 -s none upload --storage .conan/gcc5/none

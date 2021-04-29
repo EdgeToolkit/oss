@@ -21,7 +21,7 @@ pthreads4w:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -37,12 +37,12 @@ pthreads4w:MSVC@test:
   - pthreads4w:MSVC@build
   script:
   - cd pthreads4w
-  - $env:EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - $env:EPM_SANDBOX_STORAGE=".conan\$EPM_PROFILE\$EPM_SCHEME"        
   - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['shared', 'static']
 
     # =================================
@@ -59,7 +59,7 @@ pthreads4w@deploy:
   - pthreads4w:MSVC@build
   script:
   - cd pthreads4w
-  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
-  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
   - epm -p vs2019 -s shared upload --storage .conan/vs2019/shared
   - epm -p vs2019 -s static upload --storage .conan/vs2019/static
+  - epm -p vs2019d -s shared upload --storage .conan/vs2019d/shared
+  - epm -p vs2019d -s static upload --storage .conan/vs2019d/static
