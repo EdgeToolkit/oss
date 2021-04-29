@@ -88,6 +88,7 @@ class A52decConan(ConanFile):
         for patch in self.conan_data["patches"][self.version]:
             tools.patch(**patch)
         shutil.copy("patches/CMakeLists.txt", self._source_subfolder)
+        shutil.copy("patches/liba52.def", self._source_subfolder)
         
     @property
     def cmake(self):

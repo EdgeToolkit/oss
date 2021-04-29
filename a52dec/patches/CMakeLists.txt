@@ -49,7 +49,9 @@ add_library(liba52 liba52/bit_allocate.c
                    liba52/bitstream.c
                    liba52/downmix.c
                    liba52/imdct.c
-                   liba52/parse.c)
+                   liba52/parse.c
+                   liba52.def
+                   )
 target_include_directories (liba52 PRIVATE liba52 vc++)
 
 ##############################################################
@@ -57,7 +59,7 @@ target_include_directories (liba52 PRIVATE liba52 vc++)
 # libao
 #
 ##############################################################
-add_library(libao libao/audio_out.c
+add_library(libao STATIC libao/audio_out.c
                   libao/audio_out_aif.c
                   libao/audio_out_al.c
                   libao/audio_out_float.c
@@ -71,6 +73,16 @@ add_library(libao libao/audio_out.c
                   
 target_include_directories(libao PRIVATE libao vc++)
 
+
+set(platform_libs)
+if (MSVC)
+  target_link_libraries(liba52 winmm.lib)
+  #if (BUILD_SHARED_LIBS)
+  #  target_link_libraries(liba52 winmm.lib )
+  #else()
+  #  set(extra_libs ${platform_libs} winmm.lib)
+  #endif() 
+endif()
 ##############################################################
 #
 # a52dec
@@ -81,7 +93,7 @@ add_executable(a52dec src/a52dec.c
                       src/gettimeofday.c)
 target_include_directories(a52dec PRIVATE src vc++)
 target_compile_definitions(a52dec PRIVATE HAVE_CONFIG_H)
-target_link_libraries(a52dec liba52 libao winmm.lib)
+target_link_libraries(a52dec liba52 libao ${platform_libs})
 
 
 ##############################################################
@@ -94,7 +106,7 @@ add_executable(extract_a52 src/extract_a52.c
                            src/gettimeofday.c)
 target_include_directories(extract_a52 PRIVATE src vc++)
 target_compile_definitions(extract_a52 PRIVATE HAVE_CONFIG_H)
-target_link_libraries(extract_a52 liba52 libao winmm.lib)
+target_link_libraries(extract_a52 liba52 libao ${platform_libs})
 
 
 

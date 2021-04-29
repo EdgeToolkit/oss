@@ -1,0 +1,16 @@
+Microsoft (R) COFF/PE Dumper Version 14.25.28614.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file T:\.epm\data\a52dec\0.7.4\_\_\build\127af201a4cdf8111e2e08540525c245c9b3b99e\build_subfolder\bin\libao.dll
+
+File Type: DLL
+
+  Summary
+
+        1000 .data
+        1000 .pdata
+        1000 .rdata
+        1000 .reloc
+        1000 .rsrc
+        3000 .text
