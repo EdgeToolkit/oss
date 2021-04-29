@@ -92,8 +92,8 @@
 - openssl
 - name: pcre
   test:
-    Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/pcrer \w+ HelloWorld
-    Linux: _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/pcrer \\\\w+ HelloWorld
+    Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \w+ HelloWorld
+    Linux: _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
 - name: pthreads4w
   profile: *profile_msvc
 - sqlite3
