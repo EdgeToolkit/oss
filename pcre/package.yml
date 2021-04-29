@@ -18,8 +18,9 @@ dependencies:
     if: options.with_bzip2  
 
 test:
-  pcre:
+  pcrer:
     project: test_package
     program: test_package
 
-# CI 3
+
+# CI 4
