@@ -28,12 +28,13 @@ init:
     - a52dec/*
     - brotli/*
     - expat/*
-    - sqlite3/*
     - libcurl/*
     - libwebsockets/*
     - mosquitto/*
-    - zlib/*
+    - pcre/*
     - openssl/*
+    - sqlite3/*
+    - zlib/*
 
 
 tools:
