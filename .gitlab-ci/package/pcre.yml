@@ -290,7 +290,7 @@ pcre:gcc6@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -312,7 +312,7 @@ pcre:gcc6-armv8@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -334,7 +334,7 @@ pcre:gcc5@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -356,7 +356,7 @@ pcre:gcc7-armv8@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -378,7 +378,7 @@ pcre:gcc7@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -400,7 +400,7 @@ pcre:gcc8@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -422,7 +422,7 @@ pcre:gcc5-armv8@test:
   script:
   - cd pcre
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
