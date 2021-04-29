@@ -8,3 +8,5 @@ patches:
       base_path: "source_subfolder"
     - patch_file: "patches/0003-Disable-AC_C_ALWAYS_INLINE.patch"
       base_path: "source_subfolder"
+    - patch_file: "patches/0004-configure-let-us-decide-if-we-really-want-PIC-or-not.patch"
+      base_path: "source_subfolder"

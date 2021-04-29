@@ -106,6 +106,7 @@ class A52decConan(ConanFile):
                     _args.extend(['--enable-shared=yes','--enable-static=no'])
                 else:
                     _args.extend(['--enable-shared=no','--enable-static=yes'])
+                    
 
                 autotools = AutoToolsBuildEnvironment(self)
                 # _args += ["--with-pic"]
