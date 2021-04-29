@@ -79,7 +79,7 @@
     - ni samples
     - . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
     Linux:
-    - ni samples
+    - touch samples
     - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/a52dec samples -o float
 
 - zlib
