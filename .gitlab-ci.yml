@@ -25,6 +25,7 @@ init:
   - if: '$CI_COMMIT_BRANCH =~ /^release\//'
   - if: '$CI_COMMIT_BRANCH =~ /^tool\//'
   - changes: &_PACKAGEs
+    - a52dec/*
     - brotli/*
     - expat/*
     - sqlite3/*
@@ -32,7 +33,8 @@ init:
     - libwebsockets/*
     - mosquitto/*
     - zlib/*
-    - openssl/*    
+    - openssl/*
+
 
 tools:
   stage: tools
