@@ -114,6 +114,7 @@
 #- name: protoc
 #  <<: *tool_setting
 - libcurl
+- libelf
 - libwebsockets
 - mosquitto
 #- c-ares

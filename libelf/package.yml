@@ -1,0 +1,24 @@
+name: libelf
+version: 0.8.13
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+build-tools:
+  autoconf: 
+    version: 2.69
+    if: os != Windows
+  gnu-config: 
+    version: cci.20201022
+    if: os != Windows
+
+test:
+  test_package:
+    project: test_package
+
+# CI 0
