@@ -1,6 +1,23 @@
 name: libselinux
 version: 3.2
 
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+
+dependencies:
+  pcre2: 10.36
+
+build-tools:
+  flex: 2.6.4
+
+
 test:
   test_package:
     project: test_package

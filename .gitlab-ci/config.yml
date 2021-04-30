@@ -126,6 +126,12 @@
   - *profile_amd64
   - *profile_arm
   - *profile_arm64
+  
+- name: libselinux
+  profile:
+  - *profile_amd64
+  - *profile_arm
+  - *profile_arm64
 
 - libwebsockets
 - mosquitto
