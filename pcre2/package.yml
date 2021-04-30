@@ -7,10 +7,10 @@ dependencies:
     if: options.with_zlib
   bzip2:
     version: 1.0.8
-    if options.with_bzip2
+    if: options.with_bzip2
 
 test:
   test_package:
     project: test_package
 
-# ci 0
+# ci 1

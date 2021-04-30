@@ -97,6 +97,7 @@
   test:
     Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \w+ HelloWorld
     Linux: _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+
 - name: pcre2
   test:
     Windows: . _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \w+ HelloWorld
