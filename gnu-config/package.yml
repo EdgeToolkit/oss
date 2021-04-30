@@ -1,0 +1,7 @@
+name: gnu-config
+version: cci.20201022
+
+test:
+  test_package:
+    project: test_package
+    program: false
