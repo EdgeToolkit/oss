@@ -115,6 +115,12 @@
 #  <<: *tool_setting
 - libcurl
 - libelf
+- name: libmount
+  profile:
+  - *profile_amd64
+  - *profile_arm
+  - *profile_arm64
+
 - libwebsockets
 - mosquitto
 #- c-ares
