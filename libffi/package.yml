@@ -1,0 +1,19 @@
+name: libffi
+version: 3.3
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+build-tools:
+  msys2: 
+    version: 20200517
+    if: compiler == 'Visual Studio'
+    
+test:
+  test_package:
+    project: test_package
