@@ -1,0 +1,6 @@
+name: libselinux
+version: 3.2
+
+test:
+  test_package:
+    project: test_package

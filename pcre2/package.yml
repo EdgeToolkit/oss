@@ -1,0 +1,14 @@
+name: pcre2
+version: 10.36
+
+dependencies:
+  zlib:
+    version: 1.2.11
+    if: options.with_zlib
+  bzip2:
+    version: 1.0.8
+    if options.with_bzip2
+
+test:
+  test_package:
+    project: test_package
