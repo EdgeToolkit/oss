@@ -35,6 +35,7 @@ init:
     - libwebsockets/*
     - mosquitto/*
     - pcre/*
+    - pcre2/*
     - openssl/*
     - sqlite3/*
     - zlib/*
