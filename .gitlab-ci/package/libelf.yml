@@ -295,7 +295,7 @@ libelf:gcc6-armv8@test:
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc6-armv8d', 'gcc6-armv8']
-      EPM_SCHEME: ['static', 'shared']
+      EPM_SCHEME: ['static']
     # =========================================
     # gcc6 x86_64 test
     # =========================================   
