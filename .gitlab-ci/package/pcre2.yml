@@ -21,53 +21,7 @@ pcre2:MSVC@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME  --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['none']
-
-    # =========================================
-    # gcc8 x86_64 build
-    # =========================================
-pcre2:gcc8@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc8
-  artifacts:
-    paths:
-    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre2/_out
-  script:
-  - cd pcre2
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc8d', 'gcc8']
-      EPM_SCHEME: ['none']
-
-    # =========================================
-    # gcc6 x86_64 build
-    # =========================================
-pcre2:gcc6@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc6
-  artifacts:
-    paths:
-    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre2/_out
-  script:
-  - cd pcre2
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['none']
 
     # =========================================
@@ -90,7 +44,7 @@ pcre2:gcc5-armv7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv7', 'gcc5-armv7d']
+    - EPM_PROFILE: ['gcc5-armv7d', 'gcc5-armv7']
       EPM_SCHEME: ['none']
 
     # =========================================
@@ -140,16 +94,16 @@ pcre2:gcc7-armv7@build:
       EPM_SCHEME: ['none']
 
     # =========================================
-    # gcc7 x86_64 build
+    # gcc5 x86_64 build
     # =========================================
-pcre2:gcc7@build:
+pcre2:gcc5@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: edgetoolkit/gcc7
+  image: edgetoolkit/gcc5
   artifacts:
     paths:
     - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -159,7 +113,7 @@ pcre2:gcc7@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7d', 'gcc7']
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['none']
 
     # =========================================
@@ -186,29 +140,6 @@ pcre2:gcc6-armv8@build:
       EPM_SCHEME: ['none']
 
     # =========================================
-    # gcc6-armv7 armv7 build
-    # =========================================
-pcre2:gcc6-armv7@build:
-  stage: build
-  tags:
-  - Linux
-  - builder
-  - docker
-  - workbench:Z1
-  image: edgetoolkit/gcc6-armv7
-  artifacts:
-    paths:
-    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
-    - pcre2/_out
-  script:
-  - cd pcre2
-  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6-armv7d', 'gcc6-armv7']
-      EPM_SCHEME: ['none']
-
-    # =========================================
     # gcc5-armv8 armv8 build
     # =========================================
 pcre2:gcc5-armv8@build:
@@ -228,20 +159,20 @@ pcre2:gcc5-armv8@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
       EPM_SCHEME: ['none']
 
     # =========================================
-    # gcc5 x86_64 build
+    # gcc6-armv7 armv7 build
     # =========================================
-pcre2:gcc5@build:
+pcre2:gcc6-armv7@build:
   stage: build
   tags:
   - Linux
   - builder
   - docker
   - workbench:Z1
-  image: edgetoolkit/gcc5
+  image: edgetoolkit/gcc6-armv7
   artifacts:
     paths:
     - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
@@ -251,7 +182,76 @@ pcre2:gcc5@build:
   - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc6-armv7', 'gcc6-armv7d']
+      EPM_SCHEME: ['none']
+
+    # =========================================
+    # gcc6 x86_64 build
+    # =========================================
+pcre2:gcc6@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc6
+  artifacts:
+    paths:
+    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre2/_out
+  script:
+  - cd pcre2
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
+      EPM_SCHEME: ['none']
+
+    # =========================================
+    # gcc7 x86_64 build
+    # =========================================
+pcre2:gcc7@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc7
+  artifacts:
+    paths:
+    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre2/_out
+  script:
+  - cd pcre2
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7d', 'gcc7']
+      EPM_SCHEME: ['none']
+
+    # =========================================
+    # gcc8 x86_64 build
+    # =========================================
+pcre2:gcc8@build:
+  stage: build
+  tags:
+  - Linux
+  - builder
+  - docker
+  - workbench:Z1
+  image: edgetoolkit/gcc8
+  artifacts:
+    paths:
+    - pcre2/.conan/$EPM_PROFILE/$EPM_SCHEME
+    - pcre2/_out
+  script:
+  - cd pcre2
+  - epm create --archive .conan/$EPM_PROFILE/$EPM_SCHEME --with-deps --clear
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc8', 'gcc8d']
       EPM_SCHEME: ['none']
 
     # =================================
@@ -272,51 +272,7 @@ pcre2:MSVC@test:
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['vs2019d', 'vs2019']
-      EPM_SCHEME: ['none']
-    # =========================================
-    # gcc8 x86_64 test
-    # =========================================   
-pcre2:gcc8@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:bionic
-  dependencies:
-  - pcre2:gcc8@build
-  script:
-  - cd pcre2
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc8d', 'gcc8']
-      EPM_SCHEME: ['none']
-    # =========================================
-    # gcc6 x86_64 test
-    # =========================================   
-pcre2:gcc6@test:
-  stage: test
-  tags:
-  - Linux
-  - runner
-  - docker
-  - workbench:Z1
-  image: ubuntu:bionic
-  dependencies:
-  - pcre2:gcc6@build
-  script:
-  - cd pcre2
-  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
-
-  parallel:
-    matrix:
-    - EPM_PROFILE: ['gcc6d', 'gcc6']
+    - EPM_PROFILE: ['vs2019', 'vs2019d']
       EPM_SCHEME: ['none']
     # =========================================
     # gcc7-armv8 armv8 test
@@ -334,33 +290,33 @@ pcre2:gcc7-armv8@test:
   script:
   - cd pcre2
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
     - EPM_PROFILE: ['gcc7-armv8', 'gcc7-armv8d']
       EPM_SCHEME: ['none']
     # =========================================
-    # gcc7 x86_64 test
+    # gcc5 x86_64 test
     # =========================================   
-pcre2:gcc7@test:
+pcre2:gcc5@test:
   stage: test
   tags:
   - Linux
   - runner
   - docker
   - workbench:Z1
-  image: ubuntu:bionic
+  image: ubuntu:xenial
   dependencies:
-  - pcre2:gcc7@build
+  - pcre2:gcc5@build
   script:
   - cd pcre2
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc7d', 'gcc7']
+    - EPM_PROFILE: ['gcc5d', 'gcc5']
       EPM_SCHEME: ['none']
     # =========================================
     # gcc6-armv8 armv8 test
@@ -378,7 +334,7 @@ pcre2:gcc6-armv8@test:
   script:
   - cd pcre2
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
@@ -400,33 +356,77 @@ pcre2:gcc5-armv8@test:
   script:
   - cd pcre2
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5-armv8', 'gcc5-armv8d']
+    - EPM_PROFILE: ['gcc5-armv8d', 'gcc5-armv8']
       EPM_SCHEME: ['none']
     # =========================================
-    # gcc5 x86_64 test
+    # gcc6 x86_64 test
     # =========================================   
-pcre2:gcc5@test:
+pcre2:gcc6@test:
   stage: test
   tags:
   - Linux
   - runner
   - docker
   - workbench:Z1
-  image: ubuntu:xenial
+  image: ubuntu:bionic
   dependencies:
-  - pcre2:gcc5@build
+  - pcre2:gcc6@build
   script:
   - cd pcre2
   - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
-  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\\\w+ HelloWorld
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
 
   parallel:
     matrix:
-    - EPM_PROFILE: ['gcc5d', 'gcc5']
+    - EPM_PROFILE: ['gcc6', 'gcc6d']
+      EPM_SCHEME: ['none']
+    # =========================================
+    # gcc7 x86_64 test
+    # =========================================   
+pcre2:gcc7@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:bionic
+  dependencies:
+  - pcre2:gcc7@build
+  script:
+  - cd pcre2
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc7d', 'gcc7']
+      EPM_SCHEME: ['none']
+    # =========================================
+    # gcc8 x86_64 test
+    # =========================================   
+pcre2:gcc8@test:
+  stage: test
+  tags:
+  - Linux
+  - runner
+  - docker
+  - workbench:Z1
+  image: ubuntu:bionic
+  dependencies:
+  - pcre2:gcc8@build
+  script:
+  - cd pcre2
+  - export EPM_SANDBOX_STORAGE=".conan/$EPM_PROFILE/$EPM_SCHEME"        
+  - _out/$EPM_PROFILE/$EPM_SCHEME/sandbox/test_package \\w+ HelloWorld
+
+  parallel:
+    matrix:
+    - EPM_PROFILE: ['gcc8', 'gcc8d']
       EPM_SCHEME: ['none']
 
     # =================================
@@ -440,38 +440,38 @@ pcre2@deploy:
   - workbench:Z1
 
   dependencies:
-  - pcre2:gcc8@build
-  - pcre2:gcc6@build
-  - pcre2:MSVC@build
   - pcre2:gcc5-armv7@build
   - pcre2:gcc7-armv8@build
   - pcre2:gcc7-armv7@build
-  - pcre2:gcc7@build
-  - pcre2:gcc6-armv8@build
-  - pcre2:gcc6-armv7@build
-  - pcre2:gcc5-armv8@build
   - pcre2:gcc5@build
+  - pcre2:gcc6-armv8@build
+  - pcre2:gcc5-armv8@build
+  - pcre2:gcc6-armv7@build
+  - pcre2:gcc6@build
+  - pcre2:gcc7@build
+  - pcre2:gcc8@build
+  - pcre2:MSVC@build
   script:
   - cd pcre2
-  - epm -p gcc8d -s none upload --storage .conan/gcc8d/none
-  - epm -p gcc8 -s none upload --storage .conan/gcc8/none
-  - epm -p gcc6d -s none upload --storage .conan/gcc6d/none
-  - epm -p gcc6 -s none upload --storage .conan/gcc6/none
-  - epm -p vs2019d -s none upload --storage .conan/vs2019d/none
-  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
-  - epm -p gcc5-armv7 -s none upload --storage .conan/gcc5-armv7/none
   - epm -p gcc5-armv7d -s none upload --storage .conan/gcc5-armv7d/none
+  - epm -p gcc5-armv7 -s none upload --storage .conan/gcc5-armv7/none
   - epm -p gcc7-armv8 -s none upload --storage .conan/gcc7-armv8/none
   - epm -p gcc7-armv8d -s none upload --storage .conan/gcc7-armv8d/none
   - epm -p gcc7-armv7 -s none upload --storage .conan/gcc7-armv7/none
   - epm -p gcc7-armv7d -s none upload --storage .conan/gcc7-armv7d/none
-  - epm -p gcc7d -s none upload --storage .conan/gcc7d/none
-  - epm -p gcc7 -s none upload --storage .conan/gcc7/none
-  - epm -p gcc6-armv8 -s none upload --storage .conan/gcc6-armv8/none
-  - epm -p gcc6-armv8d -s none upload --storage .conan/gcc6-armv8d/none
-  - epm -p gcc6-armv7d -s none upload --storage .conan/gcc6-armv7d/none
-  - epm -p gcc6-armv7 -s none upload --storage .conan/gcc6-armv7/none
-  - epm -p gcc5-armv8 -s none upload --storage .conan/gcc5-armv8/none
-  - epm -p gcc5-armv8d -s none upload --storage .conan/gcc5-armv8d/none
   - epm -p gcc5d -s none upload --storage .conan/gcc5d/none
   - epm -p gcc5 -s none upload --storage .conan/gcc5/none
+  - epm -p gcc6-armv8 -s none upload --storage .conan/gcc6-armv8/none
+  - epm -p gcc6-armv8d -s none upload --storage .conan/gcc6-armv8d/none
+  - epm -p gcc5-armv8d -s none upload --storage .conan/gcc5-armv8d/none
+  - epm -p gcc5-armv8 -s none upload --storage .conan/gcc5-armv8/none
+  - epm -p gcc6-armv7 -s none upload --storage .conan/gcc6-armv7/none
+  - epm -p gcc6-armv7d -s none upload --storage .conan/gcc6-armv7d/none
+  - epm -p gcc6 -s none upload --storage .conan/gcc6/none
+  - epm -p gcc6d -s none upload --storage .conan/gcc6d/none
+  - epm -p gcc7d -s none upload --storage .conan/gcc7d/none
+  - epm -p gcc7 -s none upload --storage .conan/gcc7/none
+  - epm -p gcc8 -s none upload --storage .conan/gcc8/none
+  - epm -p gcc8d -s none upload --storage .conan/gcc8d/none
+  - epm -p vs2019 -s none upload --storage .conan/vs2019/none
+  - epm -p vs2019d -s none upload --storage .conan/vs2019d/none
