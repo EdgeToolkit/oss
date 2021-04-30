@@ -72,7 +72,10 @@
   <<: *tool_setting
 - name: nasm
   <<: *tool_setting
-
+- name: gnu-config
+  profile: gcc5
+  tool: true
+  
 - name: a52dec
   test:
     Windows:
