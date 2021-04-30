@@ -99,6 +99,13 @@
 - sqlite3
 #- gtest
 - libiconv
+- name: libffi
+  profile:
+  - vs20{19}
+  - *profile_amd64
+  - *profile_arm
+  - *profile_arm64
+  
 - xz_utils
 #- protobuf
 #- name: protoc

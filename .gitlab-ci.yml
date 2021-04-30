@@ -29,6 +29,7 @@ init:
     - brotli/*
     - expat/*
     - libcurl/*
+    - libffi/*
     - libwebsockets/*
     - mosquitto/*
     - pcre/*
