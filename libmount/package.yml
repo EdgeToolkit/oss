@@ -1,6 +1,15 @@
 name: libmount
 version: 2.36.2
 
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
 test:
   test_package:
     project: test_package
+
