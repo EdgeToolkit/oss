@@ -1,0 +1,44 @@
+name: glib
+version: 2.68.1
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+build-tools:
+  meson: 0.57.1
+  pkgconf: 1.7.3
+
+dependencies:
+  zlib: 1.2.11
+  libffi: 3.3
+
+  pcre:
+    version: 8.44
+    if: options.with_pcre 
+
+  libelf:
+    version: 0.8.13
+    if: options.with_elf
+
+  libmount:
+    version: 2.36
+    if: options.with_mount
+
+  libselinux:
+    version: 3.1
+    if: options.with_selinux
+  
+  libgettext:
+    version: 0.20.1
+    if: os != Linux
+    
+test:
+  test_package:
+    project: test_package
+
+# CI 2
