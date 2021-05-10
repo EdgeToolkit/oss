@@ -28,7 +28,7 @@
 |  gdk-pixbuf  |       | 2.40.0  |  ||
 |  gettext-m4  |       | 0.20.1  |  ||
 |  gettext-tools  |       | 0.20.1  |  ||
-|  glib  | 准备 | 2.62.6  |  ||
+|  glib  | 准备 2.68.1 | 2.62.6  |  ||
 |  glib-networking  |       | 2.62.3  |  ||
 |  glib-tools  |       | 2.62.5  |  ||
 |  gobject-introspection  |       | 1.56.1  |  ||
@@ -65,7 +65,7 @@
 |  libdv  |       | 1.0.0  |  ||
 |  libdvdnav  |       | 5.0.1  |  ||
 |  libdvdread  |       | 5.0.0  |  ||
-|  libffi  | 3.3 | 3.2.9999  | Ongoing ||
+|  libffi  | 3.3 | 3.2.9999  | Ongoing build OK, CI NOT PASS ||
 |  libiconv  | 1.16 | 1.15  |  ||
 |  libjpeg-turbo  |       | 1.5.3  |  ||
 |  libkate  |       | 0.4.1  |  ||

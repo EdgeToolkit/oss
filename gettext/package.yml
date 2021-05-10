@@ -1,0 +1,30 @@
+name: gettext
+version: 0.20.1
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+build-tools:
+  msys2: 
+    version: 20200517
+    if: compiler == 'Visual Studio'
+  automake:
+    version: 1.16.2
+    if: compiler == 'Visual Studio'
+
+dependencies:
+  # private
+  libiconv: 
+    version: 1.16
+#    private: true
+
+#test:
+#  test_package:
+#    project: test_package
+
+# CI 1

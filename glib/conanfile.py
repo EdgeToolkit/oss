@@ -4,6 +4,8 @@ import os
 import shutil
 import glob
 
+from epm.tools.conan import as_package, delete
+ConanFile = as_package(ConanFile)
 
 class GLibConan(ConanFile):
     name = "glib"
@@ -31,7 +33,7 @@ class GLibConan(ConanFile):
     }
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
-    short_paths = True
+#    short_paths = True
     generators = "pkg_config"
 
     @property
@@ -58,11 +60,11 @@ class GLibConan(ConanFile):
         if self.settings.os != "Linux":
             del self.options.with_mount
             del self.options.with_selinux
-
+    @delete
     def build_requirements(self):
         self.build_requires("meson/0.56.2")
         self.build_requires("pkgconf/1.7.3")
-
+    @delete
     def requirements(self):
         self.requires("zlib/1.2.11")
         self.requires("libffi/3.3")
