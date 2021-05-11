@@ -33,8 +33,11 @@ test:
   test_package:
     project: test_package
     environment:
-      GST_PLUGIN_PATH: 
-        Windows: "{{__dir__['gst-plugins-base']}}\\lib\\gstreamer-1.0"
-        Linux: "{{__dir__['gst-plugins-base']}}/lib/gstreamer-1.0"
+      GST_PLUGIN_PATH:
+        Windows: "{{__dir__['gst-plugins-base']}}\\lib\\gstreamer-1.0;{{__dir__['gstreamer']}}\\lib\\gstreamer-1.0"
+        Linux: "{{__dir__['gst-plugins-base']}}/lib/gstreamer-1.0:{{__dir__['gstreamer']}}/lib/gstreamer-1.0"
+      GST_PLUGIN_SCANNER:  
+        Windows: "{{__dir__['gstreamer']}}\\bin\\gstreamer-1.0\\bin\\gst-plugin-scanner"
+        Linux: "{{__dir__['gstreamer']}}/bin/gstreamer-1.0/bin/gst-plugin-scanner"
 
 # CI 2

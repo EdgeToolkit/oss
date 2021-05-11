@@ -156,6 +156,7 @@ class GLibConan(ConanFile):
             )
 
     def build(self):
+        assert False
         self._patch_sources()
         with tools.environment_append(
             VisualStudioBuildEnvironment(self).vars

@@ -32,5 +32,8 @@ dependencies:
 test:
   test_package:
     project: test_package
-
+    environment:    
+      GST_PLUGIN_PATH: 
+        Windows: "{{__dir__['gstreamer']}}\\lib\\gstreamer-1.0"
+        Linux: "{{__dir__['gstreamer']}}/lib/gstreamer-1.0"
 # CI 2
