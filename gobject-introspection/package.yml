@@ -1,14 +1,6 @@
 name: gstreamer
 version: 1.18.4
 
-scheme:
-  shared:
-    options:
-      shared: true
-  static:
-    options:
-      shared: false
-
 build-tools:
   meson: 0.57.1
   pkgconf: 1.7.3
@@ -23,7 +15,7 @@ build-tools:
   flex:
     version: 2.6.4
     if: compiler != 'Visual Studio'
-  glib: 2.68.1
+#  glib: 2.68.1
 
 
 dependencies:
