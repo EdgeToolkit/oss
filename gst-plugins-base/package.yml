@@ -1,0 +1,40 @@
+name: gst-plugins-base
+version: 1.18.4
+
+scheme:
+  shared:
+    options:
+      shared: true
+  static:
+    options:
+      shared: false
+
+build-tools:
+  meson: 0.57.1
+  pkgconf: 1.7.3
+
+  winflexbison:
+    version: 2.5.22
+    if: compiler == 'Visual Studio'
+
+  bison:
+    version: 3.7.1
+    if: compiler != 'Visual Studio'
+  flex:
+    version: 2.6.4
+    if: compiler != 'Visual Studio'
+  glib: 2.68.1  
+
+
+dependencies:
+  gstreamer: 1.18.4
+
+test:
+  test_package:
+    project: test_package
+    environment:
+      GST_PLUGIN_PATH: 
+        Windows: "{{__dir__['gst-plugins-base']}}\\lib\\gstreamer-1.0"
+        Linux: "{{__dir__['gst-plugins-base']}}/lib/gstreamer-1.0"
+
+# CI 2
