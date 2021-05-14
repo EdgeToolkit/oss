@@ -5,9 +5,17 @@ scheme:
   shared:
     options:
       shared: true
+    package:
+    - libelf: static
+    - if: arch == armv7 or arch == armv8
+      libelf: static
+      
+
+      
   static:
     options:
       shared: false
+
 
 build-tools:
   meson: 0.57.1

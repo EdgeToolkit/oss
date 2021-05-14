@@ -8,6 +8,7 @@ scheme:
   static:
     options:
       shared: false
+    when: arm not in [armv7 armv8]
 
 build-tools:
   autoconf: 
@@ -16,6 +17,11 @@ build-tools:
   gnu-config: 
     version: cci.20201022
     if: os != Windows
+
+build.tools:
+- autoconf: 2.69
+  gnu-config: cci.20201022  
+  when: build.os != Windows 
 
 test:
   test_package:
